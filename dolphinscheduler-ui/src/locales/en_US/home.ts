@@ -16,6 +16,15 @@
  */
 
 export default {
+  operations_overview: 'Operations Overview',
+  operations_overview_description:
+    "Today's task, workflow, and definition statistics",
+  project_overview_description: "Today's statistics for the current project",
+  total_tasks: 'Total Tasks',
+  successful_tasks: 'Successful Tasks',
+  failed_tasks: 'Failed Tasks',
+  running_tasks: 'Running Tasks',
+  workflow_definitions: 'Workflow Definitions',
   task_state_statistics: 'Task State Statistics',
   workflow_state_statistics: 'Workflow State Statistics',
   workflow_definition_statistics: 'Workflow Definition Statistics',

@@ -17,6 +17,7 @@
 
 export default {
   datasource: '数据源',
+  datasource_count: '共 {count} 个数据源',
   create_datasource: '创建源',
   choose_datasource_type: '选择源类型',
   select: '更改',

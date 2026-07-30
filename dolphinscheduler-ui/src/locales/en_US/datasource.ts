@@ -17,6 +17,7 @@
 
 export default {
   datasource: 'DataSource',
+  datasource_count: '{count} data sources',
   create_datasource: 'Create DataSource',
   choose_datasource_type: 'Choose DataSource Type',
   select: 'Select',

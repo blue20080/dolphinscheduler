@@ -20,6 +20,7 @@ export default {
     create_project: '创建项目',
     edit_project: '编辑项目',
     project_list: '项目列表',
+    project_count: '共 {count} 个项目',
     project_tips: '请输入项目名称',
     description_tips: '请输入项目描述',
     username_tips: '请输入所属用户',

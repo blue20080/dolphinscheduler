@@ -58,7 +58,16 @@ const dark = {
     thColorHover: '#29353c',
     tdColorHover: '#222c32',
     borderColor: '#354148',
-    thTextColor: '#d9e5ec'
+    thTextColor: '#d9e5ec',
+    thHeightSmall: '42px',
+    tdHeightSmall: '42px',
+    thHeightMedium: '44px',
+    tdHeightMedium: '44px'
+  },
+  Form: {
+    labelFontWeight: '600',
+    feedbackHeightSmall: '22px',
+    feedbackHeightMedium: '24px'
   }
 }
 

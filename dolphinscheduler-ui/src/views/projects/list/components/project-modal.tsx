@@ -115,7 +115,13 @@ const ProjectModal = defineComponent({
         cancelClassName='btn-cancel'
         confirmLoading={this.saving}
       >
-        <NForm rules={this.rules} ref='projectFormRef'>
+        <NForm
+          class='etl-standard-form'
+          model={this.model}
+          rules={this.rules}
+          ref='projectFormRef'
+          labelPlacement='top'
+        >
           <NFormItem label={t('project.list.project_name')} path='projectName'>
             <NInput
               allowInput={this.trim}
@@ -139,6 +145,7 @@ const ProjectModal = defineComponent({
             <NInput
               v-model={[this.model.description, 'value']}
               type='textarea'
+              rows={4}
               placeholder={t('project.list.description_tips')}
             />
           </NFormItem>

@@ -59,7 +59,11 @@ const light = {
     thColorHover: '#e7eef4',
     tdColorHover: '#f4f7fa',
     borderColor: '#dfe6ed',
-    thTextColor: '#31495c'
+    thTextColor: '#31495c',
+    thHeightSmall: '42px',
+    tdHeightSmall: '42px',
+    thHeightMedium: '44px',
+    tdHeightMedium: '44px'
   },
   Input: {
     borderRadius: '5px',
@@ -78,6 +82,14 @@ const light = {
         boxShadowActive: '0 0 0 2px rgba(31, 111, 159, 0.14)'
       }
     }
+  },
+  Form: {
+    labelFontWeight: '600',
+    feedbackHeightSmall: '22px',
+    feedbackHeightMedium: '24px'
+  },
+  Modal: {
+    borderRadius: '6px'
   }
 }
 

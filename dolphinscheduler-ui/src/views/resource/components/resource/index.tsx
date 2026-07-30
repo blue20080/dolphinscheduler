@@ -28,7 +28,6 @@ import {
 } from 'vue'
 import {
   NIcon,
-  NSpace,
   NDataTable,
   NButtonGroup,
   NButton,
@@ -37,17 +36,21 @@ import {
   NBreadcrumbItem
 } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
-import { SearchOutlined } from '@vicons/antd'
+import {
+  FileAddOutlined,
+  FolderAddOutlined,
+  UploadOutlined
+} from '@vicons/antd'
 import { useTable, useDetailPageStore } from './table/use-table'
 import { useIsDetailPageStore, isEmpty } from './edit/use-edit'
 import { useFileStore } from '@/store/file/file'
-import Card from '@/components/card'
 import ResourceFolderModal from './folder'
 import ResourceUploadModal from './upload'
 import ResourceRenameModal from './rename'
 import styles from './index.module.scss'
 import type { Router } from 'vue-router'
 import Search from '@/components/input-search'
+import { DataPanel, FilterBar, Page, PageHeader } from '@/components/workspace'
 import { ResourceType } from '@/views/resource/components/resource/types'
 import { useUserStore } from '@/store/user/user'
 
@@ -201,87 +204,107 @@ export default defineComponent({
     const manageTitle = t('resource.file.file_manage')
 
     return (
-      <NSpace vertical>
-        <Card>
-          <NSpace justify='space-between'>
-            <NButtonGroup size='small'>
-              <NButton
-                type='primary'
-                onClick={handleCreateFolder}
-                class='btn-create-directory'
-              >
-                {t('resource.file.create_folder')}
-              </NButton>
-              {
-                <NButton onClick={handleCreateFile} class='btn-create-file'>
-                  {t('resource.file.create_file')}
-                </NButton>
-              }
-              <NButton onClick={handleUploadFile} class='btn-upload-resource'>
-                {t('resource.file.upload_files')}
-              </NButton>
-            </NButtonGroup>
-            <NSpace>
-              <Search
-                placeholder={t('resource.file.enter_keyword_tips')}
-                v-model:value={this.searchRef}
-                onSearch={handleConditions}
-              />
-              <NButton size='small' type='primary' onClick={handleConditions}>
-                <NIcon>
-                  <SearchOutlined />
-                </NIcon>
-              </NButton>
-            </NSpace>
-          </NSpace>
-        </Card>
-        <Card title={manageTitle}>
-          {{
-            header: () => (
-              <NBreadcrumb separator='>'>
-                {this.breadListRef?.map((item, index) => (
-                  <NBreadcrumbItem>
-                    <NButton
-                      text
-                      disabled={
-                        index > 0 && index === this.breadListRef!.length - 1
-                      }
-                      onClick={() => this.handleBread(index)}
-                    >
-                      {index === 0 ? manageTitle : item}
-                    </NButton>
-                  </NBreadcrumbItem>
-                ))}
-              </NBreadcrumb>
-            ),
-            default: () => (
-              <NSpace vertical>
+      <>
+        <Page>
+          <PageHeader title={manageTitle}>
+            {{
+              actions: () => (
+                <NButtonGroup size='small'>
+                  <NButton
+                    type='primary'
+                    onClick={handleCreateFolder}
+                    class='btn-create-directory'
+                  >
+                    {{
+                      icon: () => (
+                        <NIcon>
+                          <FolderAddOutlined />
+                        </NIcon>
+                      ),
+                      default: () => t('resource.file.create_folder')
+                    }}
+                  </NButton>
+                  <NButton onClick={handleCreateFile} class='btn-create-file'>
+                    {{
+                      icon: () => (
+                        <NIcon>
+                          <FileAddOutlined />
+                        </NIcon>
+                      ),
+                      default: () => t('resource.file.create_file')
+                    }}
+                  </NButton>
+                  <NButton
+                    onClick={handleUploadFile}
+                    class='btn-upload-resource'
+                  >
+                    {{
+                      icon: () => (
+                        <NIcon>
+                          <UploadOutlined />
+                        </NIcon>
+                      ),
+                      default: () => t('resource.file.upload_files')
+                    }}
+                  </NButton>
+                </NButtonGroup>
+              )
+            }}
+          </PageHeader>
+          <FilterBar>
+            <Search
+              placeholder={t('resource.file.enter_keyword_tips')}
+              v-model:value={this.searchRef}
+              onSearch={handleConditions}
+              onClear={handleConditions}
+            />
+          </FilterBar>
+          <DataPanel title={manageTitle}>
+            {{
+              extra: () => (
+                <NBreadcrumb separator='>'>
+                  {this.breadListRef?.map((item, index) => (
+                    <NBreadcrumbItem>
+                      <NButton
+                        text
+                        disabled={
+                          index > 0 && index === this.breadListRef!.length - 1
+                        }
+                        onClick={() => this.handleBread(index)}
+                      >
+                        {index === 0 ? manageTitle : item}
+                      </NButton>
+                    </NBreadcrumbItem>
+                  ))}
+                </NBreadcrumb>
+              ),
+              default: () => (
                 <NDataTable
                   remote
                   columns={this.columns}
                   data={this.resourceList?.table}
                   striped
-                  size={'small'}
+                  size='small'
                   class={styles['table-box']}
                   row-class-name='items'
                   scrollX={tableWidth}
                 />
-                <NSpace justify='center'>
-                  <NPagination
-                    v-model:page={this.pagination.page}
-                    v-model:pageSize={this.pagination.pageSize}
-                    pageSizes={this.pagination.pageSizes}
-                    item-count={this.pagination.itemCount}
-                    onUpdatePage={this.handleUpdatePage}
-                    onUpdatePageSize={this.handleUpdatePageSize}
-                    show-quick-jumper
-                    show-size-picker
-                  />
-                </NSpace>
-              </NSpace>
-            )
-          }}
-        </Card>
+              ),
+              footer: () => (
+                <NPagination
+                  v-model:page={this.pagination.page}
+                  v-model:pageSize={this.pagination.pageSize}
+                  pageSizes={this.pagination.pageSizes}
+                  item-count={this.pagination.itemCount}
+                  onUpdatePage={this.handleUpdatePage}
+                  onUpdatePageSize={this.handleUpdatePageSize}
+                  show-quick-jumper
+                  show-size-picker
+                />
+              )
+            }}
+          </DataPanel>
+        </Page>
         <ResourceFolderModal
           v-model:show={this.folderShowRef}
           resourceType={this.resourceType}
@@ -306,7 +329,7 @@ export default defineComponent({
           userName={this.renameInfo.user_name}
           onUpdateList={this.updateList}
         />
-      </NSpace>
+      </>
     )
   }
 })

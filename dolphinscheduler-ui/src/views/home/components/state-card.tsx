@@ -2,98 +2,65 @@
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The ASF licenses this file to You under the Apache License, Version 2.0.
  */
 
 import { defineComponent, PropType } from 'vue'
+import { NDataTable, NEmpty, NGrid, NGi } from 'naive-ui'
 import { useTable } from '../use-table'
-import { NDataTable, NDatePicker, NGrid, NGi } from 'naive-ui'
 import PieChart from '@/components/chart/modules/Pie'
-import Card from '@/components/card'
+import { DataPanel } from '@/components/workspace'
 import type { StateTableData, StateChartData } from '../types'
-
-const props = {
-  title: {
-    type: String as PropType<string>
-  },
-  date: {
-    type: Array as PropType<Array<any>>
-  },
-  tableData: {
-    type: Array as PropType<Array<StateTableData>>,
-    default: () => []
-  },
-  chartData: {
-    type: Array as PropType<Array<StateChartData>>,
-    default: () => []
-  },
-  loadingRef: {
-    type: Boolean as PropType<boolean>,
-    default: false
-  }
-}
 
 const StateCard = defineComponent({
   name: 'StateCard',
-  props,
-  emits: ['updateDatePickerValue'],
-  setup(props, ctx) {
-    const onUpdateDatePickerValue = (val: any) => {
-      ctx.emit('updateDatePickerValue', val)
+  props: {
+    title: String as PropType<string>,
+    tableData: {
+      type: Array as PropType<Array<StateTableData>>,
+      default: () => []
+    },
+    chartData: {
+      type: Array as PropType<Array<StateChartData>>,
+      default: () => []
+    },
+    loadingRef: {
+      type: Boolean as PropType<boolean>,
+      default: false
     }
-
-    return { onUpdateDatePickerValue }
   },
   render() {
-    const {
-      title,
-      date,
-      tableData,
-      chartData,
-      onUpdateDatePickerValue,
-      loadingRef
-    } = this
+    const { title, tableData, chartData, loadingRef } = this
     const { columnsRef } = useTable()
+    const hasChartData = chartData.some((item) => item.value > 0)
+
     return (
-      <Card class='etl-state-card' title={title} style={{ minHeight: '820px' }}>
-        {{
-          default: () => (
-            <NGrid x-gap={12} y-gap={12} cols='1 700:2'>
-              <NGi>{chartData.length > 0 && <PieChart data={chartData} />}</NGi>
-              <NGi>
-                {tableData && (
-                  <NDataTable
-                    loading={loadingRef}
-                    columns={columnsRef}
-                    data={tableData}
-                    striped
-                    size={'small'}
-                  />
-                )}
-              </NGi>
-            </NGrid>
-          ),
-          'header-extra': () => (
-            <NDatePicker
-              default-value={date}
-              onUpdateValue={onUpdateDatePickerValue}
-              size='small'
-              type='datetimerange'
-              clearable
-            />
-          )
-        }}
-      </Card>
+      <DataPanel title={title} loading={loadingRef}>
+        {chartData.length > 0 || tableData.length > 0 ? (
+          <NGrid x-gap={12} y-gap={12} cols='1 620:2'>
+            <NGi>
+              {hasChartData ? (
+                <PieChart data={chartData} height={280} />
+              ) : (
+                <NEmpty style={{ padding: '96px 0' }} />
+              )}
+            </NGi>
+            <NGi>
+              {tableData.length > 0 && (
+                <NDataTable
+                  columns={columnsRef}
+                  data={tableData}
+                  striped
+                  size='small'
+                  maxHeight={280}
+                />
+              )}
+            </NGi>
+          </NGrid>
+        ) : (
+          <NEmpty style={{ padding: '72px 0' }} />
+        )}
+      </DataPanel>
     )
   }
 })

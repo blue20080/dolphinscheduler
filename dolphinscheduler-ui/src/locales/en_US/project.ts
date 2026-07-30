@@ -20,6 +20,7 @@ export default {
     create_project: 'Create Project',
     edit_project: 'Edit Project',
     project_list: 'Project List',
+    project_count: '{count} projects',
     project_tips: 'Please enter your project',
     description_tips: 'Please enter your description',
     username_tips: 'Please enter your username',

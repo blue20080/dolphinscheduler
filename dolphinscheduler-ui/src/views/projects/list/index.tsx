@@ -2,21 +2,11 @@
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The ASF licenses this file to You under the Apache License, Version 2.0.
  */
 
-import { SearchOutlined } from '@vicons/antd'
-import { NButton, NDataTable, NIcon, NPagination, NSpace } from 'naive-ui'
+import { PlusOutlined } from '@vicons/antd'
+import { NButton, NDataTable, NIcon, NPagination } from 'naive-ui'
 import {
   defineComponent,
   getCurrentInstance,
@@ -26,10 +16,10 @@ import {
 } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTable } from './use-table'
-import Card from '@/components/card'
 import Search from '@/components/input-search'
+import { DataPanel, FilterBar, Page, PageHeader } from '@/components/workspace'
 import ProjectModal from './components/project-modal'
-import WorkerGroupModal from '@/views/projects/list/components/worker-group-modal'
+import WorkerGroupModal from './components/worker-group-modal'
 import totalCount from '@/utils/tableTotalCount'
 
 const list = defineComponent({
@@ -64,24 +54,17 @@ const list = defineComponent({
       })
     }
 
-    const onCancelModal = () => {
-      variables.showModalRef = false
-    }
-
+    const onCancelModal = () => void (variables.showModalRef = false)
     const onConfirmModal = () => {
       variables.showModalRef = false
       requestData()
     }
-
-    const onCancelWorkerGroupModal = () => {
-      variables.showWorkerGroupModalRef = false
-    }
-
+    const onCancelWorkerGroupModal = () =>
+      void (variables.showWorkerGroupModalRef = false)
     const onConfirmWorkerGroupModal = () => {
       variables.showWorkerGroupModalRef = false
       requestData()
     }
-
     const handleChangePageSize = () => {
       variables.page = 1
       requestData()
@@ -94,9 +77,7 @@ const list = defineComponent({
       requestData()
     })
 
-    watch(useI18n().locale, () => {
-      createColumns(variables)
-    })
+    watch(useI18n().locale, () => createColumns(variables))
 
     return {
       t,
@@ -115,58 +96,73 @@ const list = defineComponent({
   },
   render() {
     const { t, loadingRef } = this
-    return (
-      <NSpace vertical>
-        <Card>
-          <NSpace justify='space-between'>
-            <NButton
-              size='small'
-              onClick={this.handleModalChange}
-              type='primary'
-              class='btn-create-project'
-            >
-              {t('project.list.create_project')}
-            </NButton>
-            <NSpace>
-              <Search
-                v-model:value={this.searchVal}
-                placeholder={t('project.list.project_tips')}
-                onSearch={this.handleSearch}
-                onClear={this.onClearSearch}
-              />
 
-              <NButton size='small' type='primary' onClick={this.handleSearch}>
-                <NIcon>
-                  <SearchOutlined />
-                </NIcon>
-              </NButton>
-            </NSpace>
-          </NSpace>
-        </Card>
-        <Card title={t('project.list.project_list')}>
-          <NSpace vertical>
-            <NDataTable
-              loading={loadingRef}
-              columns={this.columns}
-              data={this.tableData}
-              scrollX={this.tableWidth}
-              row-class-name='items'
+    return (
+      <>
+        <Page>
+          <PageHeader title={t('project.list.project_list')}>
+            {{
+              actions: () => (
+                <NButton
+                  size='small'
+                  onClick={this.handleModalChange}
+                  type='primary'
+                  class='btn-create-project'
+                >
+                  {{
+                    icon: () => (
+                      <NIcon>
+                        <PlusOutlined />
+                      </NIcon>
+                    ),
+                    default: () => t('project.list.create_project')
+                  }}
+                </NButton>
+              )
+            }}
+          </PageHeader>
+          <FilterBar>
+            <Search
+              v-model:value={this.searchVal}
+              placeholder={t('project.list.project_tips')}
+              onSearch={this.handleSearch}
+              onClear={this.onClearSearch}
             />
-            <NSpace justify='center'>
-              <NPagination
-                v-model:page={this.page}
-                v-model:page-size={this.pageSize}
-                show-size-picker
-                page-sizes={[10, 30, 50]}
-                show-quick-jumper
-                onUpdatePage={this.requestData}
-                onUpdatePageSize={this.handleChangePageSize}
-                itemCount={this.totalCount}
-                prefix={totalCount}
-              />
-            </NSpace>
-          </NSpace>
-        </Card>
+          </FilterBar>
+          <DataPanel
+            title={t('project.list.project_list')}
+            description={t('project.list.project_count', {
+              count: this.totalCount
+            })}
+          >
+            {{
+              default: () => (
+                <NDataTable
+                  loading={loadingRef}
+                  columns={this.columns}
+                  data={this.tableData}
+                  scrollX={this.tableWidth}
+                  row-class-name='items'
+                  striped
+                  size='small'
+                />
+              ),
+              footer: () => (
+                <NPagination
+                  v-model:page={this.page}
+                  v-model:page-size={this.pageSize}
+                  show-size-picker
+                  page-sizes={[10, 30, 50]}
+                  show-quick-jumper
+                  onUpdatePage={this.requestData}
+                  onUpdatePageSize={this.handleChangePageSize}
+                  itemCount={this.totalCount}
+                  prefix={totalCount}
+                />
+              )
+            }}
+          </DataPanel>
+        </Page>
         <ProjectModal
           showModalRef={this.showModalRef}
           statusRef={this.statusRef}
@@ -180,7 +176,7 @@ const list = defineComponent({
           onCancelModal={this.onCancelWorkerGroupModal}
           onConfirmModal={this.onConfirmWorkerGroupModal}
         />
-      </NSpace>
+      </>
     )
   }
 })

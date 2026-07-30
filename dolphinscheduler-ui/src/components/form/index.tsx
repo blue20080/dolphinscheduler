@@ -50,7 +50,12 @@ const Form = defineComponent({
     const { elements = [], ...restFormProps } = meta
     return (
       <NSpin show={loading}>
-        <NForm {...restFormProps} rules={meta.rules as FormRules} ref='formRef'>
+        <NForm
+          {...restFormProps}
+          class='etl-standard-form'
+          rules={meta.rules as FormRules}
+          ref='formRef'
+        >
           <NGrid {...layout}>
             {elements.map((element) => {
               const { span = 24, path, widget, ...formItemProps } = element

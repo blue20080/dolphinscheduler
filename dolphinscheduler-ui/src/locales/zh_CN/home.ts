@@ -16,6 +16,14 @@
  */
 
 export default {
+  operations_overview: '运行概览',
+  operations_overview_description: '今日任务、工作流与定义运行统计',
+  project_overview_description: '当前项目今日运行统计',
+  total_tasks: '任务总量',
+  successful_tasks: '成功任务',
+  failed_tasks: '失败任务',
+  running_tasks: '运行中任务',
+  workflow_definitions: '工作流定义',
   task_state_statistics: '任务实例状态统计',
   workflow_state_statistics: '工作流实例状态统计',
   workflow_definition_statistics: '工作流定义统计',
