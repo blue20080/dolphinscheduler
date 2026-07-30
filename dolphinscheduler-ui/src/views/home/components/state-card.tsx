@@ -65,10 +65,10 @@ const StateCard = defineComponent({
     } = this
     const { columnsRef } = useTable()
     return (
-      <Card title={title} style={{ minHeight: '820px' }}>
+      <Card class='etl-state-card' title={title} style={{ minHeight: '820px' }}>
         {{
           default: () => (
-            <NGrid x-gap={12} cols={2}>
+            <NGrid x-gap={12} y-gap={12} cols='1 700:2'>
               <NGi>{chartData.length > 0 && <PieChart data={chartData} />}</NGi>
               <NGi>
                 {tableData && (

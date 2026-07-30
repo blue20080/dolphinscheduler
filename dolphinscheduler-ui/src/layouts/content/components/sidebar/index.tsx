@@ -18,6 +18,7 @@
 import { defineComponent, ref, PropType } from 'vue'
 import { NLayoutSider, NMenu } from 'naive-ui'
 import { useMenuClick } from './use-menuClick'
+import styles from './index.module.scss'
 
 const Sidebar = defineComponent({
   name: 'Sidebar',
@@ -48,16 +49,19 @@ const Sidebar = defineComponent({
   render() {
     return (
       <NLayoutSider
+        class={styles.sidebar}
         bordered
         nativeScrollbar={false}
         show-trigger='bar'
         collapse-mode='width'
+        width={224}
+        collapsedWidth={60}
         collapsed={this.collapsedRef}
         onCollapse={() => (this.collapsedRef = true)}
         onExpand={() => (this.collapsedRef = false)}
       >
         <NMenu
-          class='tab-vertical'
+          class={styles.menu}
           value={this.sideKey}
           options={this.sideMenuOptions}
           defaultExpandedKeys={this.defaultExpandedKeys}

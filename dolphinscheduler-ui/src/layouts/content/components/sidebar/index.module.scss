@@ -1,0 +1,26 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0.
+ */
+
+.sidebar {
+  height: calc(100vh - 60px);
+  background: var(--etl-surface) !important;
+  border-right: 1px solid var(--etl-border) !important;
+}
+
+.menu {
+  padding: 18px 10px;
+
+  :global(.n-menu-item-content) {
+    border-radius: 4px;
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    display: none !important;
+  }
+}

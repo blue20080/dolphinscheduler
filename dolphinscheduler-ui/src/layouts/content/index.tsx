@@ -19,11 +19,13 @@ import { defineComponent, onMounted, watch, toRefs, ref } from 'vue'
 import { NLayout, NLayoutContent, NLayoutHeader, useMessage } from 'naive-ui'
 import NavBar from './components/navbar'
 import SideBar from './components/sidebar'
+import Navigation from './components/navigation'
 import { useDataList } from './use-dataList'
 import { useLocalesStore } from '@/store/locales/locales'
 import { useRouteStore } from '@/store/route/route'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import styles from './index.module.scss'
 
 const Content = defineComponent({
   name: 'DSContent',
@@ -102,30 +104,31 @@ const Content = defineComponent({
   },
   render() {
     return (
-      <NLayout style='height: 100%'>
-        <NLayoutHeader style='height: 65px'>
-          <NavBar
-            class='tab-horizontal'
-            headerMenuOptions={this.headerMenuOptions}
-            localesOptions={this.localesOptions}
-            timezoneOptions={this.timezoneOptions}
-            userDropdownOptions={this.userDropdownOptions}
-          />
-        </NLayoutHeader>
-        <NLayout has-sider position='absolute' style='top: 65px'>
-          {this.isShowSide && (
-            <SideBar
-              sideMenuOptions={this.sideMenuOptions}
-              sideKey={this.sideKeyRef}
+      <NLayout has-sider class={styles.shell}>
+        <Navigation menuOptions={this.headerMenuOptions} />
+        <NLayout class={styles.workspace}>
+          <NLayoutHeader class={styles.header}>
+            <NavBar
+              localesOptions={this.localesOptions}
+              timezoneOptions={this.timezoneOptions}
+              userDropdownOptions={this.userDropdownOptions}
             />
-          )}
-          <NLayoutContent
-            native-scrollbar={false}
-            style='padding: 16px 22px'
-            contentStyle={'height: 100%'}
-          >
-            <router-view key={this.currentRoute.fullPath} />
-          </NLayoutContent>
+          </NLayoutHeader>
+          <NLayout has-sider class={styles.body}>
+            {this.isShowSide && (
+              <SideBar
+                sideMenuOptions={this.sideMenuOptions}
+                sideKey={this.sideKeyRef}
+              />
+            )}
+            <NLayoutContent
+              native-scrollbar={false}
+              class={styles.content}
+              contentStyle={'height: 100%'}
+            >
+              <router-view key={this.currentRoute.fullPath} />
+            </NLayoutContent>
+          </NLayout>
         </NLayout>
       </NLayout>
     )

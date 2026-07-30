@@ -16,15 +16,22 @@
  */
 
 .logo {
+  display: block;
   width: 180px;
-  height: 100%;
-  margin-left: 12px;
+  height: 46px;
+  margin-left: 22px;
+  overflow: hidden;
+  transition: width 0.2s ease, margin 0.2s ease;
+
+  img {
+    display: block;
+    width: 180px;
+    height: 46px;
+    max-width: none;
+  }
 }
 
-.logo-dark {
-  background: url('../../../../assets/images/logo-dark.svg') 100% no-repeat;
-}
-
-.logo-light {
-  background: url('../../../../assets/images/logo-light.svg') 100% no-repeat;
+.logo.compact {
+  width: 42px;
+  margin-left: 15px;
 }

@@ -18,7 +18,7 @@
 import { defineComponent, ref, PropType } from 'vue'
 import { NDropdown, NIcon, NButton } from 'naive-ui'
 import styles from './index.module.scss'
-import { DownOutlined } from '@vicons/antd'
+import { DownOutlined, GlobalOutlined } from '@vicons/antd'
 import { useDropDown } from './use-dropdown'
 import { useLocalesStore } from '@/store/locales/locales'
 
@@ -44,14 +44,17 @@ const Locales = defineComponent({
   render() {
     return (
       <NDropdown
-        trigger='hover'
+        trigger='click'
         show-arrow
         options={this.localesOptions}
         on-select={this.handleSelect}
       >
-        <NButton text>
-          {this.chooseVal}
-          <NIcon class={styles.icon}>
+        <NButton quaternary class={styles.button}>
+          <NIcon size='17'>
+            <GlobalOutlined />
+          </NIcon>
+          <span class={styles.label}>{this.chooseVal}</span>
+          <NIcon class={styles.icon} size='12'>
             <DownOutlined />
           </NIcon>
         </NButton>

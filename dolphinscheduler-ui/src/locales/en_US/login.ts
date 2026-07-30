@@ -22,6 +22,7 @@ export default {
   userPassword: 'Password',
   userPassword_tips: 'Please enter your password',
   login: 'Login',
+  welcome: 'Sign in to your workspace',
   loginWithOAuth2: 'Login with OAuth2',
   ssoLogin: 'SSO Login'
 }

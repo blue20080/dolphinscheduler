@@ -16,10 +16,11 @@
  */
 
 import { defineComponent } from 'vue'
-import { NButton } from 'naive-ui'
+import { NButton, NIcon, NTooltip } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
 import { useThemeStore } from '@/store/theme/theme'
 import styles from './index.module.scss'
+import { BulbFilled, BulbOutlined } from '@vicons/antd'
 
 const Theme = defineComponent({
   name: 'Theme',
@@ -31,13 +32,29 @@ const Theme = defineComponent({
   },
   render() {
     return (
-      <NButton
-        class={styles.theme}
-        quaternary
-        onClick={() => (this.themeStore.darkTheme = !this.themeStore.darkTheme)}
-      >
-        {this.t(this.themeStore.darkTheme ? 'theme.light' : 'theme.dark')}
-      </NButton>
+      <NTooltip>
+        {{
+          trigger: () => (
+            <NButton
+              class={styles.theme}
+              circle
+              quaternary
+              aria-label={this.t(
+                this.themeStore.darkTheme ? 'theme.light' : 'theme.dark'
+              )}
+              onClick={() =>
+                (this.themeStore.darkTheme = !this.themeStore.darkTheme)
+              }
+            >
+              <NIcon size='18'>
+                {this.themeStore.darkTheme ? <BulbFilled /> : <BulbOutlined />}
+              </NIcon>
+            </NButton>
+          ),
+          default: () =>
+            this.t(this.themeStore.darkTheme ? 'theme.light' : 'theme.dark')
+        }}
+      </NTooltip>
     )
   }
 })

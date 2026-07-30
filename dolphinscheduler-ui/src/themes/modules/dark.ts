@@ -17,20 +17,48 @@
 
 const dark = {
   common: {
-    bodyColor: '#141414',
-    baseColor: '#f8f8fc',
+    fontFamily:
+      "Inter, 'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif",
+    bodyColor: '#11171b',
+    baseColor: '#eef4f8',
+    cardColor: '#1a2227',
+    modalColor: '#1a2227',
+    popoverColor: '#202a30',
+    textColorBase: '#edf4f8',
+    borderColor: '#354148',
+    dividerColor: '#303b42',
+    borderRadius: '6px',
+    borderRadiusSmall: '4px',
 
     /**************** Brand color */
-    primaryColor: '#177ddc',
-    primaryColorHover: '#1765ad',
-    primaryColorPressed: '#3c9ae8',
-    primaryColorSuppl: '#177ddc',
+    primaryColor: '#4b9bc4',
+    primaryColorHover: '#69afd1',
+    primaryColorPressed: '#317da5',
+    primaryColorSuppl: '#4b9bc4',
 
     /**************** Function of color */
-    infoColor: '#177ddc',
-    successColor: '#49aa19',
-    warningColor: '#d89614',
-    errorColor: '#a61d24'
+    infoColor: '#58a7cc',
+    successColor: '#50a878',
+    warningColor: '#d7a344',
+    errorColor: '#d86a65'
+  },
+  Button: {
+    borderRadiusTiny: '4px',
+    borderRadiusSmall: '4px',
+    borderRadiusMedium: '5px',
+    borderRadiusLarge: '5px',
+    fontWeight: '600'
+  },
+  Card: {
+    borderRadius: '6px',
+    borderColor: '#354148'
+  },
+  DataTable: {
+    thColor: '#232d33',
+    thColorHover: '#29353c',
+    tdColorHover: '#222c32',
+    borderColor: '#354148',
+    thTextColor: '#d9e5ec'
   }
 }
 

@@ -81,7 +81,7 @@ export default defineComponent({
 
     return (
       <div>
-        <NGrid x-gap={12} cols={2}>
+        <NGrid x-gap={12} y-gap={12} cols='1 960:2'>
           <NGi>
             <StateCard
               title={t('home.task_state_statistics')}

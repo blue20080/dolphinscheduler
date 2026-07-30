@@ -15,8 +15,29 @@
  * limitations under the License.
  */
 
+.button {
+  display: flex;
+  max-width: 190px;
+  height: 36px;
+  gap: 7px;
+}
+
+.label {
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .icon {
-  margin: 0 12px;
+  color: var(--etl-text-secondary);
+}
+
+@media (max-width: 1260px) {
+  .label,
+  .icon {
+    display: none;
+  }
 }
 
 .custom-select {

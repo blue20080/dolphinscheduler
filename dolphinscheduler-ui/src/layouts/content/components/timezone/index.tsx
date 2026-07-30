@@ -19,7 +19,7 @@ import { useI18n } from 'vue-i18n'
 import { defineComponent, ref, PropType, computed, h, inject } from 'vue'
 import { NIcon, NButton, NSelect, NDropdown, NTag } from 'naive-ui'
 import styles from './index.module.scss'
-import { DownOutlined } from '@vicons/antd'
+import { ClockCircleOutlined, DownOutlined } from '@vicons/antd'
 import { useDropDown } from './use-dropdown'
 import { useTimezoneStore } from '@/store/timezone/timezone'
 
@@ -97,15 +97,18 @@ const Timezone = defineComponent({
   render() {
     return (
       <NDropdown
-        trigger='hover'
+        trigger='click'
         show-arrow
         options={this.optionsVal}
         on-select={this.handleSelect}
         renderLabel={this.renderDropdownLabel}
       >
-        <NButton text>
-          {this.chooseVal}
-          <NIcon class={styles.icon}>
+        <NButton quaternary class={styles.button}>
+          <NIcon size='17'>
+            <ClockCircleOutlined />
+          </NIcon>
+          <span class={styles.label}>{this.chooseVal}</span>
+          <NIcon class={styles.icon} size='12'>
             <DownOutlined />
           </NIcon>
         </NButton>

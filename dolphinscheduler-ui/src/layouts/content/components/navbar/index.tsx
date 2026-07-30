@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { SettingOutlined } from '@vicons/antd'
 import { useI18n } from 'vue-i18n'
-import { NMenu, NButton, NIcon } from 'naive-ui'
+import { NButton, NIcon, NTooltip } from 'naive-ui'
 import styles from './index.module.scss'
-import Logo from '../logo'
 import Locales from '../locales'
 import Timezone from '../timezone'
 import User from '../user'
@@ -30,10 +29,6 @@ import Theme from '../theme'
 const Navbar = defineComponent({
   name: 'Navbar',
   props: {
-    headerMenuOptions: {
-      type: Array as PropType<any>,
-      default: []
-    },
     localesOptions: {
       type: Array as PropType<any>,
       default: []
@@ -51,51 +46,64 @@ const Navbar = defineComponent({
     const route = useRoute()
     const router = useRouter()
     const { t } = useI18n()
-    const menuKey = ref(route.meta.activeMenu as string)
-
-    const handleMenuClick = (key: string) => {
-      router.push({ path: `/${key}` })
-    }
 
     const handleUISettingClick = () => {
       router.push({ path: '/ui-setting' })
     }
 
-    watch(
-      () => route.path,
-      () => {
-        menuKey.value = route.meta.activeMenu as string
+    const sectionTitle = computed(() => {
+      const sectionMap: Record<string, string> = {
+        home: 'home',
+        projects: 'project',
+        resource: 'resources',
+        datasource: 'datasource',
+        monitor: 'monitor',
+        security: 'security'
       }
+      const section = sectionMap[String(route.meta.activeMenu)]
+      return section ? t(`menu.${section}`) : 'ETL'
+    })
+
+    const projectName = computed(() => String(route.query.projectName || ''))
+    const pageTitle = computed(() => projectName.value || sectionTitle.value)
+    const pageContext = computed(() =>
+      projectName.value ? sectionTitle.value : 'ETL PLATFORM'
     )
 
-    return { handleMenuClick, handleUISettingClick, menuKey, t }
+    return { handleUISettingClick, pageTitle, pageContext, t }
   },
   render() {
     return (
       <div class={styles.container}>
-        <Logo />
-        <div class={styles.nav}>
-          <NMenu
-            value={this.menuKey}
-            mode='horizontal'
-            options={this.headerMenuOptions}
-            onUpdateValue={this.handleMenuClick}
-          />
+        <div class={styles.identity}>
+          <span class={styles.marker} />
+          <div>
+            <div class={styles.context}>{this.pageContext}</div>
+            <div class={styles.title}>{this.pageTitle}</div>
+          </div>
         </div>
         <div class={styles.settings}>
-          <NButton quaternary onClick={this.handleUISettingClick}>
+          <NTooltip>
             {{
-              icon: () => (
-                <NIcon size='16'>
-                  <SettingOutlined />
-                </NIcon>
+              trigger: () => (
+                <NButton
+                  circle
+                  quaternary
+                  aria-label={this.t('menu.ui_setting')}
+                  onClick={this.handleUISettingClick}
+                >
+                  <NIcon size='18'>
+                    <SettingOutlined />
+                  </NIcon>
+                </NButton>
               ),
-              default: this.t('menu.ui_setting')
+              default: () => this.t('menu.ui_setting')
             }}
-          </NButton>
+          </NTooltip>
           <Theme />
           <Locales localesOptions={this.localesOptions} />
           <Timezone timezoneOptions={this.timezoneOptions} />
+          <span class={styles.divider} />
           <User userDropdownOptions={this.userDropdownOptions} />
         </div>
       </div>

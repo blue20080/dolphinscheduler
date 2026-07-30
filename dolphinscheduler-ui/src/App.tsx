@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { defineComponent, computed, ref, nextTick, provide } from 'vue'
+import { defineComponent, computed, ref, nextTick, provide, watch } from 'vue'
 import {
   zhCN,
   enUS,
@@ -39,6 +39,13 @@ const App = defineComponent({
       themeStore.darkTheme ? darkTheme : undefined
     )
     const localesStore = useLocalesStore()
+    watch(
+      () => themeStore.darkTheme,
+      (isDark) => {
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light'
+      },
+      { immediate: true }
+    )
     /*refresh page when router params change*/
     const reload = () => {
       isRouterAlive.value = false

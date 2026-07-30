@@ -16,8 +16,8 @@
  */
 
 import { defineComponent, PropType } from 'vue'
-import { NDropdown, NIcon, NButton } from 'naive-ui'
-import { DownOutlined, UserOutlined } from '@vicons/antd'
+import { NAvatar, NDropdown, NIcon, NButton } from 'naive-ui'
+import { DownOutlined } from '@vicons/antd'
 import { useDropDown } from './use-dropdown'
 import { useUserStore } from '@/store/user/user'
 import styles from './index.module.scss'
@@ -40,17 +40,21 @@ const User = defineComponent({
   render() {
     return (
       <NDropdown
-        trigger='hover'
+        trigger='click'
         show-arrow
         options={this.userDropdownOptions}
         on-select={this.handleSelect}
       >
-        <NButton text>
-          <NIcon class={styles.icon}>
-            <UserOutlined />
-          </NIcon>
-          {(this.userStore.getUserInfo as UserInfoRes).userName}
-          <NIcon class={styles.icon}>
+        <NButton quaternary class={styles.button}>
+          <NAvatar round size={30} class={styles.avatar}>
+            {String((this.userStore.getUserInfo as UserInfoRes).userName || 'E')
+              .slice(0, 1)
+              .toUpperCase()}
+          </NAvatar>
+          <span class={styles.name}>
+            {(this.userStore.getUserInfo as UserInfoRes).userName}
+          </span>
+          <NIcon class={styles.icon} size='12'>
             <DownOutlined />
           </NIcon>
         </NButton>

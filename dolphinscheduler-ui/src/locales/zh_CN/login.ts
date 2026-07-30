@@ -22,6 +22,7 @@ export default {
   userPassword: '密码',
   userPassword_tips: '请输入密码',
   login: '登录',
+  welcome: '登录数据工作台',
   loginWithOAuth2: '通过OAuth2登录',
   ssoLogin: '单点登录'
 }

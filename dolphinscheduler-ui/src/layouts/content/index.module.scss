@@ -1,0 +1,43 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0.
+ */
+
+.shell {
+  width: 100%;
+  height: 100vh;
+  background: var(--etl-canvas);
+}
+
+.workspace {
+  min-width: 0;
+  height: 100vh;
+  background: var(--etl-canvas);
+}
+
+.header {
+  z-index: 15;
+  height: 60px;
+  background: var(--etl-surface);
+  box-shadow: var(--etl-shadow-sm);
+}
+
+.body {
+  height: calc(100vh - 60px);
+  min-width: 0;
+  background: var(--etl-canvas);
+}
+
+.content {
+  min-width: 0;
+  padding: 22px 24px 28px;
+  background: var(--etl-canvas);
+}
+
+@media (max-width: 900px) {
+  .content {
+    padding: 16px;
+  }
+}

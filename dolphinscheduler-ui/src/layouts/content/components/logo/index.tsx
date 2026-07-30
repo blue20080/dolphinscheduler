@@ -16,24 +16,22 @@
  */
 
 import { defineComponent } from 'vue'
-import { useThemeStore } from '@/store/theme/theme'
 import styles from './index.module.scss'
+import logoDark from '@/assets/images/logo-dark.svg'
 
 const Logo = defineComponent({
   name: 'Logo',
-  setup() {
-    const themeStore = useThemeStore()
-
-    return { themeStore }
+  props: {
+    compact: {
+      type: Boolean,
+      default: false
+    }
   },
   render() {
     return (
-      <div
-        class={[
-          styles.logo,
-          styles[`logo-${this.themeStore.darkTheme ? 'dark' : 'light'}`]
-        ]}
-      />
+      <span class={[styles.logo, this.compact && styles.compact]}>
+        <img src={logoDark} alt='ETL' />
+      </span>
     )
   }
 })
