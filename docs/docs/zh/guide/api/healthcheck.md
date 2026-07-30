@@ -9,7 +9,7 @@
 ### API-Server
 
 ```shell
-curl --request GET 'http://localhost:12345/dolphinscheduler/actuator/health'
+curl --request GET 'http://localhost:12345/etl/actuator/health'
 
 {"status":"UP","components":{"db":{"status":"UP","details":{"database":"H2","validationQuery":"isValid()"}}}}
 ```
@@ -39,4 +39,3 @@ curl --request GET 'http://localhost:50053/actuator/health'
 ```
 
 > 注意: 如果你修改过默认的服务端口和地址，那么你需要修改 IP+Port 为你修改后的值。
-

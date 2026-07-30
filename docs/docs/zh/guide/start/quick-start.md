@@ -1,6 +1,6 @@
 # 快速上手
 
-在本节中，我们将使用 DolphinScheduler 逐步创建和运行一个简单的工作流。在这段旅程中，你将学习 DolphinScheduler 的基本概念，并了解运行工作流的最基本配置。我们在本教程中提供了视频和文字两种方式，你可以选择喜欢的方式。
+在本节中，我们将使用 ETL 逐步创建和运行一个简单的工作流，并了解运行工作流所需的基本配置。
 
 ## 视频教程
 
@@ -8,29 +8,28 @@
 
 ## 图文教程
 
-### 设置 Dolphinscheduler
+### 设置 ETL
 
-在继续之前，你必须先安装并启动 DolphinScheduler。对于初学者，我们建议使用官方 Docker 镜像或 Standalone 服务器来部署 DolphinScheduler。
+在继续之前，必须先安装并启动 ETL。初次验证建议使用 Standalone 方式。
 
 * [standalone server](../installation/standalone.md)
-* [docker](./docker.md)
 
 ### 构建您的第一个工作流程
 
-你可以使用默认用户名和密码 `admin/dolphinscheduler123` 登录 DolphinScheduler，访问地址为 http://localhost:12345/dolphinscheduler/ui 。
+你可以使用默认用户名和密码 `admin/dolphinscheduler123` 登录 ETL，访问地址为 http://localhost:12345/etl/ui/ 。
 
 #### 创建租户
 
-租户（Tenant）是使用 DolphinScheduler 时绕不开的一个概念，所以先简单介绍一下租户的概念。
+租户（Tenant）是使用 ETL 时的重要概念，下面先做简单介绍。
 
-在 DolphinScheduler 中，登录使用的 admin 账户称为用户（User）。为了更好地控制系统资源，DolphinScheduler 引入了租户（Tenant）的概念，用于实际执行任务。
+在 ETL 中，登录使用的 admin 账号称为用户（User）。为了更好地控制系统资源，ETL 使用租户（Tenant）表示任务的实际执行者。
 
 简述如下：
 
 - **用户**：登录 Web UI，在 Web UI 中进行所有操作，包括工作流管理和租户创建。
-- **租户**：任务的实际执行者，是 DolphinScheduler Worker 运行任务时使用的 Linux 用户。
+- **租户**：任务的实际执行者，是 ETL Worker 运行任务时使用的 Linux 用户。
 
-我们可以在 DolphinScheduler 的`安全中心 -> 租户管理`页面创建租户。
+我们可以在 ETL 的`安全中心 -> 租户管理`页面创建租户。
 
 ![create-tenant](../../../../img/start/create-tenant.gif)
 
@@ -40,17 +39,17 @@
 
 正如我们在上面`创建租户`部分谈到的，用户只有被分配了租户后才能运行任务。
 
-我们可以在 DolphinScheduler 的`安全中心 -> 用户管理`页面中将租户分配给特定用户。
+我们可以在 ETL 的`安全中心 -> 用户管理`页面中将租户分配给特定用户。
 
 ![assign-tenant](../../../../img/start/assign-tenant.gif)
 
-创建租户并将其分配给用户后，我们就可以开始在 DolphinScheduler 中创建一个简单的工作流了。
+创建租户并将其分配给用户后，我们就可以开始在 ETL 中创建一个简单的工作流了。
 
 #### 创建项目
 
-但是在 DolphinScheduler 中，所有的工作流都必须属于一个项目，所以我们需要首先创建一个项目。
+在 ETL 中，所有工作流都必须属于一个项目，所以需要先创建项目。
 
-我们可以在 DolphinScheduler 的`项目管理`页面，点击`创建项目`按钮来创建项目。
+我们可以在 ETL 的`项目管理`页面，点击`创建项目`按钮来创建项目。
 
 ![create-project](../../../../img/start/create-project.gif)
 
@@ -82,8 +81,8 @@
 
 如需查看任务日志，请点击工作流实例列表中的工作流实例，然后找到要查看日志的任务，右键点击选择`查看日志`，你可以看到任务的详细日志。
 
-你可以在日志中看到打印的 `Hello DolphinScheduler` 和 `Ending...`，这与我们在创建任务时定义的内容一致。
+你可以在日志中看到任务脚本定义的输出内容。
 
 ![view-log](../../../../img/start/view-log.gif)
 
-恭喜你！你刚刚完成了 DolphinScheduler 的第一个教程，现在可以在 DolphinScheduler 中运行一些简单的工作流了！
+至此，你已经完成 ETL 的第一个工作流，可以继续配置更多任务类型和调度策略。

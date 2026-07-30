@@ -1,7 +1,7 @@
 # Quick Start
 
-In this section, we will use DolphinScheduler to create and run a simple workflow step by step. During this journey,
-you will learn the basic concepts of DolphinScheduler and know the most basic configuration to run the workflow. We
+In this section, we will use ETL to create and run a simple workflow step by step. During this journey,
+you will learn the basic concepts of ETL and the basic configuration required to run a workflow. We
 provide both video and text in this tutorial, you can choose the way you prefer
 
 ## Video Tutorial
@@ -12,36 +12,34 @@ provide both video and text in this tutorial, you can choose the way you prefer
 
 ## Text Tutorial
 
-### Setup Dolphinscheduler
+### Set Up ETL
 
-You have to install and start dolphinscheduler first before go ahead. For beginners, we recommend setting up
-DolphinScheduler with the official Docker image or with the standalone server.
+Install and start ETL before continuing. For a first-time evaluation, use the standalone server.
 
 * [standalone server](../installation/standalone.md)
-* [docker](./docker.md)
 
 ### Build Your First Workflow
 
-You can log in DolphinScheduler through http://localhost:12345/dolphinscheduler/ui and the default username/password
+You can log in to ETL through http://localhost:12345/etl/ui/ and the default username/password
 is `admin/dolphinscheduler123`.
 
 ![login](../../../../img/start/login.gif)
 
 #### Create Tenant
 
-Tenant is an important concept while using DolphinScheduler, so
+Tenant is an important concept while using ETL, so
 let's briefly introduce the concept of tenant first.
 
-DolphinScheduler maps the `admin` account you use to log into DolphinScheduler to `user`.
-To better control system resources, DolphinScheduler introduces the concept of
+ETL maps the `admin` account you use to log in to a user.
+To better control system resources, ETL uses the concept of
 tenants, which are used to execute tasks.
 
 The brief is as follows:
 
 * User: login web UI, do all operations in the web UI, including workflow management and tenant creation.
-* Tenant: the actual executor of the task, A Linux user for DolphinScheduler worker.
+* Tenant: the actual executor of the task, represented by a Linux user for the ETL worker.
 
-We can create a tenant in DolphinScheduler `Security -> Tenant Manage` page.
+We can create a tenant on the ETL `Security -> Tenant Manage` page.
 
 > NOTE: The user will bind to a default tenant when it is created, if you use the default tenant, the task will be executed by worker's bootstrap user.
 
@@ -51,19 +49,19 @@ We can create a tenant in DolphinScheduler `Security -> Tenant Manage` page.
 
 As we have shown above in `Create Tenant` section, the`user` can not run tasks until we assign it with a `tenant`.
 
-We can assign a tenant to a specific user in DolphinScheduler `Security -> User Manage` page.
+We can assign a tenant to a specific user on the ETL `Security -> User Manage` page.
 
 ![assign-tenant](../../../../img/start/assign-tenant.gif)
 
 After we create a tenant and assign it to a user, we can start creating a
-simple workflow in DolphinScheduler.
+simple workflow in ETL.
 
 #### Create Project
 
-But in DolphinScheduler, all workflows must belong to a project, so we need
+In ETL, all workflows must belong to a project, so we need
 to create a project first.
 
-We can create a project in DolphinScheduler `Project` page by clicking
+We can create a project on the ETL `Project` page by clicking the
 `Create Project` button.
 
 ![create-project](../../../../img/start/create-project.gif)
@@ -111,10 +109,8 @@ If you want to view the task log, please click the workflow instance from the wo
 list, then find the task you want to view the log, right-click the mouse and select `View Log`
 from the context dialog, and you can see the detailed log of the task.
 
-You can see the task printing `Hello DolphinScheduler` and `Ending...` which is the same as we
-defined when creating the tasks.
+You can see the output defined in the task script.
 
 ![view-log](../../../../img/start/view-log.gif)
 
-You just finished the first tutorial of DolphinScheduler, you can now run some simple workflows
-in DolphinScheduler, congratulations!
+You have completed the first ETL workflow and can now configure additional task types and schedules.

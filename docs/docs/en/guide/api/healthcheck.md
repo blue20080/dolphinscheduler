@@ -9,7 +9,7 @@ Health check are designed to provide a unique way to check the health of the dol
 ### API-Server
 
 ```shell
-curl --request GET 'http://localhost:12345/dolphinscheduler/actuator/health'
+curl --request GET 'http://localhost:12345/etl/actuator/health'
 
 {"status":"UP","components":{"db":{"status":"UP","details":{"database":"H2","validationQuery":"isValid()"}}}}
 ```
@@ -39,4 +39,3 @@ curl --request GET 'http://localhost:50053/actuator/health'
 ```
 
 > Notice: If you modify the default service port and address, you need to modify the IP+Port to the modified value.
-

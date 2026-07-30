@@ -10,7 +10,7 @@ If you want to set the registry center as zookeeper,you need to set the registry
 registry:
   type: zookeeper
   zookeeper:
-    namespace: dolphinscheduler
+    namespace: etl
     connect-string: localhost:2181
     retry-policy:
       base-sleep-time: 60ms
@@ -23,5 +23,5 @@ registry:
     digest: ~
 ```
 
-After do this config, you can start your DolphinScheduler cluster, your cluster will use zookeeper as registry center to
+After applying this configuration, start the ETL cluster. The cluster will use ZooKeeper as its registry center to
 store server metadata.

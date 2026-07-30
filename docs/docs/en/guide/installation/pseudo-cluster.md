@@ -1,15 +1,15 @@
 # Pseudo-Cluster Deployment
 
-The purpose of the pseudo-cluster deployment is to deploy the DolphinScheduler service on a single machine. In this mode, DolphinScheduler's master, worker, API server, are all on the same machine.
+The pseudo-cluster deployment runs the ETL master, worker, and API server on one machine.
 
-If you are a new hand and want to experience DolphinScheduler functions, we recommend you install follow [Standalone deployment](standalone.md). If you want to experience more complete functions and schedule massive tasks, we recommend you install follow pseudo-cluster deployment. If you want to deploy DolphinScheduler in production, we recommend you follow [cluster deployment](cluster.md) or [Kubernetes deployment](kubernetes.md).
+For a quick evaluation, start with [Standalone deployment](standalone.md). Use pseudo-cluster deployment for a complete single-machine environment and [cluster deployment](cluster.md) for production.
 
 ## Preparation
 
-Pseudo-cluster deployment of DolphinScheduler requires external software support:
+Pseudo-cluster deployment of ETL requires the following software:
 
 - JDK：download [JDK][jdk] (1.8 or 11), install and configure environment variable `JAVA_HOME` and append `bin` dir (included in `JAVA_HOME`) to `PATH` variable. You can skip this step if it already exists in your environment.
-- Binary package: Download the DolphinScheduler binary package at [download page](https://dolphinscheduler.apache.org/en-us/download)
+- Binary package: use the delivered `etl-*-bin.tar.gz` package.
 - Database: [PostgreSQL](https://www.postgresql.org/download/) (8.2.15+) or [MySQL](https://dev.mysql.com/downloads/mysql/) (5.7+), you can choose one of the two, such as MySQL requires JDBC Driver 8.0.33
 - Registry Center: [ZooKeeper](https://zookeeper.apache.org/releases.html) (3.8.0+), [MYSQL](https://www.mysql.com/)(8.0.33), [ETCD](https://etcd.io/)
 - Process tree analysis
@@ -35,33 +35,34 @@ dolphinscheduler-task-shell
 
 > **_Note:_** The plugin dependency package is usually not included in the binary package. If you encounter a `ClassNotFoundException` error when starting the service, please refer to the documentation of the relevant plugin type to check if the plugin dependency package is missing. For example, `dolphinscheduler-datasource-mysql` does not include `mysql-connector-java.jar`.
 
-## DolphinScheduler Startup Environment
+## ETL Startup Environment
 
-> **_Note:_** DolphinScheduler itself does not depend on Hadoop, Hive, Spark, but if you need to run tasks that depend on them, you need to have the corresponding environment support.
+> **_Note:_** ETL itself does not depend on Hadoop, Hive, or Spark, but tasks that use them require the corresponding environment.
 
 ### Configure User Exemption and Permissions
 
-Create a deployment user, and make sure to configure `sudo` without password. Here make an example to create user `dolphinscheduler`:
+Create an `etl` deployment user and configure `sudo` privileges if multi-tenant tasks require them:
 
 ```shell
 # To create a user, login as root
-useradd dolphinscheduler
+useradd -m -s /bin/bash etl
 
 # Add password
-echo "dolphinscheduler" | passwd --stdin dolphinscheduler
+passwd etl
 
 # Configure sudo without password
-sed -i '$dolphinscheduler  ALL=(ALL)  NOPASSWD: ALL' /etc/sudoers
+echo 'etl ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/etl
+chmod 440 /etc/sudoers.d/etl
 sed -i 's/Defaults    requiretty/#Defaults    requiretty/g' /etc/sudoers
 
 # Modify directory permissions and grant permissions for user you created above
-chown -R dolphinscheduler:dolphinscheduler apache-dolphinscheduler-*-bin
-chmod -R 755 apache-dolphinscheduler-*-bin
+chown -R etl:etl etl-*-bin
+chmod -R 755 etl-*-bin
 ```
 
 > **_NOTICE:_**
 >
-> - Due to DolphinScheduler's multi-tenant task switch user using command `sudo -u {linux-user} -i`, the deployment user needs to have `sudo` privileges and be password-free. If novice learners don’t understand, you can ignore this point for now.
+> - ETL switches the Linux user for multi-tenant tasks with `sudo -u {linux-user} -i`, so the deployment user needs password-free `sudo` privileges when this feature is used.
 > - If you find the line "Defaults requiretty" in the `/etc/sudoers` file, please comment the content.
 
 ### Prepare Zookeeper
@@ -78,7 +79,7 @@ environment you used. Change the environment configurations via `export <ENV_NAM
 File `./bin/env/dolphinscheduler_env.sh`,`api-server/conf/application.yaml`，
 `master-server/conf/application.yaml`，`worker-server/conf/application.yaml`，`alert-server/conf/application.yaml` describes the following configurations:
 
-- Database configuration of DolphinScheduler, see [Initialize the Database](#initialize-the-database) for detailed instructions.
+- ETL database configuration, see [Initialize the Database](#initialize-the-database) for detailed instructions.
 - Some tasks which need external dependencies or libraries such as `JAVA_HOME` and `SPARK_HOME`.
 - Default registry center is mysql.
 - Server related configuration, such as cache type, timezone, etc.
@@ -87,17 +88,17 @@ You could ignore the task external dependencies if you do not use those tasks, b
 related configurations based on your environment.
 
 ```shell
-# JAVA_HOME, will use it to start DolphinScheduler server
+# JAVA_HOME, used to start the ETL server
 export JAVA_HOME=${JAVA_HOME:-/opt/soft/java}
 
 # Database related configuration, set database type, username and password
 export DATABASE=${DATABASE:-postgresql}
 export SPRING_PROFILES_ACTIVE=${DATABASE}
-export SPRING_DATASOURCE_URL="jdbc:postgresql://127.0.0.1:5432/dolphinscheduler"
+export SPRING_DATASOURCE_URL="jdbc:postgresql://127.0.0.1:5432/etl"
 export SPRING_DATASOURCE_USERNAME={user}
 export SPRING_DATASOURCE_PASSWORD={password}
 
-# DolphinScheduler server related configuration
+# ETL server related configuration
 export SPRING_CACHE_TYPE=${SPRING_CACHE_TYPE:-none}
 export SPRING_JACKSON_TIME_ZONE=${SPRING_JACKSON_TIME_ZONE:-UTC}
 
@@ -127,7 +128,7 @@ export PATH=$HADOOP_HOME/bin:$SPARK_HOME/bin:$PYTHON_LAUNCHER:$JAVA_HOME/bin:$HI
 
 Follow the instructions in [datasource-setting](datasource-setting.md) `Pseudo-Cluster/Cluster Initialize the Database` section to create and initialize database
 
-## Start DolphinScheduler
+## Start ETL
 
 The server log will be stored in the `xxx-server/logs` folder.
 
@@ -147,25 +148,25 @@ bash ./bin/dolphinscheduler-daemon.sh start alert-server
 
 > **_Note:_** For the first time deployment, you can check the status of server through bash ./bin/dolphinscheduler-daemon.sh status xxx-server
 
-## Login DolphinScheduler
+## Login to ETL
 
-Access address `http://localhost:12345/dolphinscheduler/ui` and login DolphinScheduler UI. The default username and password are **admin/dolphinscheduler123**
+Access `http://localhost:12345/etl/ui/` to log in to ETL. The default username and password are **admin/dolphinscheduler123**.
 
 ## Start or Stop Server
 
 ```shell
-# Check the status of DolphinScheduler server
+# Check the status of the ETL server
 bash ./bin/dolphinscheduler-daemon.sh status xxx-server
 
-# Start or stop DolphinScheduler Master
+# Start or stop ETL Master
 bash ./bin/dolphinscheduler-daemon.sh stop master-server
 bash ./bin/dolphinscheduler-daemon.sh start master-server
 
-# Start or stop DolphinScheduler Worker
+# Start or stop ETL Worker
 bash ./bin/dolphinscheduler-daemon.sh start worker-server
 bash ./bin/dolphinscheduler-daemon.sh stop worker-server
 
-# Start or stop DolphinScheduler Api
+# Start or stop ETL API
 bash ./bin/dolphinscheduler-daemon.sh start api-server
 bash ./bin/dolphinscheduler-daemon.sh stop api-server
 
@@ -182,9 +183,8 @@ bash ./bin/dolphinscheduler-daemon.sh stop alert-server
 > **_Note2:_**: Please refer to the section of "System Architecture Design" for service usage. Python gateway service is
 > started along with the api-server, and if you do not want to start Python gateway service please disabled it by changing
 > the yaml config `python-gateway.enabled : false` in api-server's configuration path `api-server/conf/application.yaml`
-> **_Note3:_**: DS uses the /tmp/dolphinscheduler directory as the resource center by default. If you need to change the directory of the resource center, change the resource items in the conf/common.properties file
+> **_Note3:_**: ETL currently uses the internal compatibility path `/tmp/dolphinscheduler` as the default resource directory. Change the resource settings in `conf/common.properties` when another location is required.
 
 [jdk]: https://www.oracle.com/technetwork/java/javase/downloads/index.html
 [zookeeper]: https://zookeeper.apache.org/releases.html
 [issue]: https://github.com/apache/dolphinscheduler/issues/6597
-

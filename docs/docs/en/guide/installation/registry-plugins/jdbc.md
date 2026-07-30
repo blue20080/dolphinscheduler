@@ -1,7 +1,7 @@
 # Introduction
 
 This plugin will use jdbc as the registry center. Will use the database
-configuration same as DolphinScheduler in api'yaml default.
+configuration from the ETL api-server YAML file.
 
 # How to use
 
@@ -20,7 +20,7 @@ registry:
   type: jdbc
 ```
 
-After do this two steps, you can start your DolphinScheduler cluster, your cluster will use mysql as registry center to
+After these two steps, start the ETL cluster. The cluster will use MySQL as its registry center to
 store server metadata.
 
 NOTE: You need to add `mysql-connector-java.jar` into DS classpath if you use mysql database, since this plugin will not
@@ -54,7 +54,7 @@ registry:
   heartbeat-refresh-interval: 3s
   session-timeout: 60s
   hikari-config:
-    jdbc-url: jdbc:mysql://127.0.0.1:3306/dolphinscheduler
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/etl
     username: root
     password: root
     maximum-pool-size: 5
@@ -70,11 +70,10 @@ registry:
   heartbeat-refresh-interval: 3s
   session-timeout: 60s
   hikari-config:
-    jdbc-url: jdbc:postgresql://localhost:5432/dolphinscheduler
+    jdbc-url: jdbc:postgresql://localhost:5432/etl
     username: root
     password: root
     maximum-pool-size: 5
     connection-timeout: 9000
     idle-timeout: 600000
 ```
-

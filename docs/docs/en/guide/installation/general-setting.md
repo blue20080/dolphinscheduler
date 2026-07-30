@@ -2,19 +2,19 @@
 
 ## Language
 
-DolphinScheduler supports two types of built-in language which include `English` and `Chinese`. You could click the button
+ETL supports two built-in languages: `English` and `Chinese`. Click the language button
 on the top control bar named `English` and `Chinese` and change it to another one when you want to switch the language.
-The entire DolphinScheduler page language will shift when you switch the language selection.
+All ETL pages will use the selected language.
 
 ## Theme
 
-DolphinScheduler supports two types of built-in theme which include `Dark` and `Light`. When you want to change the theme
-of DolphinScheduler, all you have to do is click the button named `Dark`(or `Light`) on the top control bar and on the left
+ETL supports two built-in themes: `Dark` and `Light`. To change the ETL theme,
+click the button named `Dark` (or `Light`) on the top control bar and on the left
 of to [language](#language) control button.
 
 ## Time Zone
 
-DolphinScheduler support time zone setting.
+ETL supports time zone settings.
 
 Server Time Zone
 
@@ -23,6 +23,6 @@ If you start server in IDEA, the default time zone is your local time zone, you 
 
 User Time zone
 
-The user's default time zone is based on the time zone which you run the DolphinScheduler service.You could
+The user's default time zone is based on the ETL service time zone. You can
 click the button on the right of the [language](#language) button and then click `Choose timeZone` to choose the time zone
 you want to switch. All time related components will adjust their time zone according to the time zone setting you select.

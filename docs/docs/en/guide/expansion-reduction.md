@@ -21,18 +21,18 @@ Attention: DolphinScheduler itself does not depend on Hadoop, Hive, Spark, but w
 ### Get Installation Package
 
 - Check the version of DolphinScheduler used in your existing environment, and get the installation package of the corresponding version, if the versions are different, there may be compatibility problems.
-- Confirm the unified installation directory of other nodes, this article assumes that DolphinScheduler is installed in `/opt/` directory, and the full path is `/opt/dolphinscheduler`.
-- Please download the corresponding version of the installation package to the server installation directory, uncompress it and rename it to `dolphinscheduler` and store it in the `/opt` directory.
-- Add database dependency package, this document uses Mysql database, add `mysql-connector-java` driver package to `/opt/dolphinscheduler/lib` directory.
+- Confirm the installation directory used by the other nodes. This guide uses `/opt/etl`.
+- Upload the matching package to the server, extract it, and rename the directory to `etl` under `/opt`.
+- This example uses MySQL. Add the `mysql-connector-java` driver to `/opt/etl/lib`.
 
 ```shell
 # create the installation directory, please do not create the installation directory in /root, /home and other high privilege directories 
 mkdir -p /opt
 cd /opt
 # decompress
-tar -zxvf apache-dolphinscheduler-<version>-bin.tar.gz -C /opt 
+tar -zxvf etl-<version>-bin.tar.gz -C /opt
 cd /opt
-mv apache-dolphinscheduler-<version>-bin  dolphinscheduler
+mv etl-<version>-bin etl
 ```
 
 ```markdown
@@ -240,4 +240,3 @@ masters="existing master01,existing master02,ds1,ds2"
 workers="existing worker01:default,existing worker02:default,ds3:default,ds4:default"
 
 ```
-

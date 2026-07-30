@@ -1,13 +1,13 @@
 # 指标（Metrics）使用指南
 
-Apache DolphinScheduler通过向外透出指标来提高系统的监控告警能力。 我们使用[Micrometer](https://micrometer.io/)作为指标采集和透出框架。
+ETL 通过向外透出指标来提高系统的监控告警能力。我们使用 [Micrometer](https://micrometer.io/) 作为指标采集和透出框架。
 目前，我们只支持`Prometheus Exporter`，但是多样化的Exporter将会持续贡献给用户。
 
 ## 快速上手
 
-- 我们提供Apache DolphinScheduler `standalone` 模式下采集并透出指标的能力，提供用户轻松快速的体验。
-- 当您在`standalone`模式下触发任务后，您可通过链接 `http://localhost:12345/dolphinscheduler/actuator/metrics` 访问生成的metrics列表。
-- 当您在`standalone`模式下触发任务后，您可通过链接 `http://localhost:12345/dolphinscheduler/actuator/prometheus` 访问`prometheus格式`指标。
+- ETL 的 `standalone` 模式支持采集并透出指标，便于快速验证监控能力。
+- 当您在 `standalone` 模式下触发任务后，可通过 `http://localhost:12345/etl/actuator/metrics` 访问指标列表。
+- 当您在 `standalone` 模式下触发任务后，可通过 `http://localhost:12345/etl/actuator/prometheus` 访问 Prometheus 格式指标。
 - 为了给您提供一个一站式的`Prometheus` + `Grafana`体验, 我们已经为您准备好了开箱即用的 `Grafana` 配置。您可在`dolphinscheduler-meter/resources/grafana`找到`Grafana`面板配置。
   您可直接将这些配置导入您的`Grafana`实例中。
 - 如果您想通过`docker`方式体验，可使用如下命令启动我们为您准备好的开箱即用的`Prometheus`和`Grafana`:
@@ -61,13 +61,13 @@ export MANAGEMENT_SECURITY_EXCLUDE="health,metrics"
 - 添加安全认证之后，您可通过链接如下访问`prometheus格式`指标。
 
 ```sh
-curl -u username:password 'http://localhost:12345/dolphinscheduler/actuator/prometheus'
-curl -H 'Authorization: Basic xxxxx' 'http://localhost:12345/dolphinscheduler/actuator/prometheus' 
+curl -u username:password 'http://localhost:12345/etl/actuator/prometheus'
+curl -H 'Authorization: Basic xxxxx' 'http://localhost:12345/etl/actuator/prometheus'
 ```
 
 ## 命名规则 & 命名映射
 
-- Apache DolphinScheduler指标命名遵循[Micrometer](https://github.com/micrometer-metrics/micrometer-docs/blob/main/src/docs/concepts/naming.adoc)
+- ETL 指标命名遵循 [Micrometer](https://github.com/micrometer-metrics/micrometer-docs/blob/main/src/docs/concepts/naming.adoc)
   官方推荐的命名方式。
 - `Micrometer` 会根据您配置的外部指标系统自动将指标名称转化成适合您指标系统的格式。目前，我们只支持`Prometheus Exporter`，但是多样化的指标格式将会持续贡献给用户。
 
@@ -214,4 +214,3 @@ curl -H 'Authorization: Basic xxxxx' 'http://localhost:12345/dolphinscheduler/ac
 - system.load.average.1m: 系统的平均负荷（1分钟）
 - logback.events: 日志时间数量，以标签`level`聚类
 - http.server.requests: http请求总数
-

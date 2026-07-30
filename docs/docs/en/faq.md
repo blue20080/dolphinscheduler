@@ -81,7 +81,7 @@ A: 1, if it is node startup, check whether the .env API_BASE configuration under
 
 ​ 3, if the above configuration is correct, then please check if the Api Server service is normal,
 
-​ curl http://localhost:12345/dolphinscheduler/users/get-user-info, check the Api Server log,
+​ curl http://localhost:12345/etl/users/get-user-info, check the Api Server log,
 
 ​ if Prompt cn.dolphinscheduler.api.interceptor.LoginHandlerInterceptor:[76] - session info is null, which proves that the Api Server service is normal.
 
@@ -533,8 +533,7 @@ A: 1, We can successfully create scheduled task and add one record into t_schedu
 
 ## Q : What is the address of swagger ui
 
-A: 1, For version 3.1.0+ is [http://apiServerIp:apiServerPort/dolphinscheduler/swagger-ui/index.html],
-for version 1.2+ is [http://apiServerIp:apiServerPort/dolphinscheduler/doc.html] others is [http://apiServerIp:apiServerPort/escheduler/doc.html].
+A: The ETL address is [http://apiServerIp:apiServerPort/etl/swagger-ui/index.html].
 
 ---
 
@@ -583,7 +582,7 @@ A: 1, It is currently judged according to natural days, at the end of last month
 
 ## Q : DS Backend Interface Document
 
-A: 1, http://localhost:8888/dolphinscheduler/swagger-ui/index.html?language=en.
+A: 1, http://localhost:8888/etl/swagger-ui/index.html?language=en.
 
 ## During the operation of dolphinscheduler, the ip address is obtained incorrectly
 

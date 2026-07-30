@@ -11,7 +11,7 @@ registry:
   type: etcd
   endpoints: "http://etcd0:2379, http://etcd1:2379, http://etcd2:2379"
   # The options below have default values
-  namespace: dolphinscheduler
+  namespace: etl
   connection-timeout: 9s
   # The unit is milliseconds
   retry-delay: 60ms
@@ -38,5 +38,5 @@ If your etcd server has configured with ssl, about certification files you can s
 >
 > https://github.com/grpc/grpc-java/issues/5369#issuecomment-751885384
 
-After do this config, you can start your DolphinScheduler cluster, your cluster will use etcd as registry center to
+After applying this configuration, start the ETL cluster. The cluster will use etcd as its registry center to
 store server metadata.

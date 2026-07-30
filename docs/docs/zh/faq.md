@@ -81,7 +81,7 @@ A： 1，如果是 node 启动的查看 dolphinscheduler-ui 下的 .env 文件�
 
 ​ 3，如果以上配置都是正确的，那么请查看 Api Server 服务是否是正常的，
 
-​ curl http://localhost:12345/dolphinscheduler/users/get-user-info 查看 Api Server 日志，
+​ curl http://localhost:12345/etl/users/get-user-info 查看 Api Server 日志，
 
 ​ 如果提示 cn.dolphinscheduler.api.interceptor.LoginHandlerInterceptor:[76] - session info is null，则证明 Api Server 服务是正常的
 
@@ -504,7 +504,7 @@ A：1，我们可以成功创建调度任务，并且表 t_scheduler_schedules �
 
 ## Q：请问 swagger ui 的地址是什么
 
-A：1， 3.1.0+ 版本地址是 [http://apiServerIp:apiServerPort/dolphinscheduler/swagger-ui/index.html], 1.2+ 版本地址是：[http://apiServerIp:apiServerPort/dolphinscheduler/swagger-ui/index.html?language=zh_CN&lang=cn]，其它版本是 [http://apiServerIp:apiServerPort/escheduler/swagger-ui/index.html?language=zh_CN&lang=cn]。
+A：ETL 地址是 [http://apiServerIp:apiServerPort/etl/swagger-ui/index.html]。
 
 ---
 
@@ -551,7 +551,7 @@ A：1，目前是按照自然天来判断，上月末：判断时间是工作流
 
 ## Q：DS 后端接口文档
 
-A：1，http://localhost:8888/dolphinscheduler/swagger-ui/index.html?language=zh_CN&lang=zh。
+A：1，http://localhost:8888/etl/swagger-ui/index.html?language=zh_CN&lang=zh。
 
 ## dolphinscheduler 在运行过程中，ip 地址获取错误的问题
 

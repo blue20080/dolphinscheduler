@@ -10,7 +10,7 @@
 registry:
   type: zookeeper
   zookeeper:
-    namespace: dolphinscheduler
+    namespace: etl
     connect-string: localhost:2181
     retry-policy:
       base-sleep-time: 60ms
@@ -23,4 +23,4 @@ registry:
     digest: ~
 ```
 
-完成这个配置后，你可以启动你的 DolphinScheduler 集群，你的集群将使用 Zookeeper 作为注册中心存储服务器元数据。
+完成这个配置后，可以启动 ETL 集群，集群将使用 ZooKeeper 作为注册中心存储服务器元数据。

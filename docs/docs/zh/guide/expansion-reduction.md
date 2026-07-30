@@ -21,18 +21,18 @@
 ### 1.2. 获取安装包
 
 - 确认现有环境使用的DolphinScheduler是哪个版本,获取对应版本的安装包,如果版本不同,可能存在兼容性的问题.
-- 确认其他节点的统一安装目录,本文假设DolphinScheduler统一安装在 /opt/ 目录中,安装全路径为/opt/dolphinscheduler.
-- 请下载对应版本的安装包至服务器安装目录,解压并重名为dolphinscheduler存放在/opt目录中.
-- 添加数据库依赖包,本文使用Mysql数据库,添加mysql-connector-java驱动包到/opt/dolphinscheduler/lib目录中
+- 确认其他节点的统一安装目录，本文假设 ETL 统一安装在 `/opt/etl` 目录中。
+- 请将对应版本的安装包上传到服务器安装目录，解压并重命名为 `etl`，存放在 `/opt` 目录中。
+- 添加数据库依赖包。本文使用 MySQL 数据库，将 mysql-connector-java 驱动包放到 `/opt/etl/lib` 目录中。
 
 ```shell
 # 创建安装目录,安装目录请不要创建在/root、/home等高权限目录 
 mkdir -p /opt
 cd /opt
 # 解压缩
-tar -zxvf apache-dolphinscheduler-<version>-bin.tar.gz -C /opt 
+tar -zxvf etl-<version>-bin.tar.gz -C /opt
 cd /opt
-mv apache-dolphinscheduler-<version>-bin  dolphinscheduler
+mv etl-<version>-bin etl
 ```
 
 ```markdown
@@ -241,4 +241,3 @@ masters="现有master01,现有master02,ds1,ds2"
 workers="现有worker01:default,现有worker02:default,ds3:default,ds4:default"
 
 ```
-
