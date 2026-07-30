@@ -57,7 +57,7 @@ bash ./bin/dolphinscheduler-daemon.sh start standalone-server
 
 ### 登录 ETL
 
-浏览器访问地址 http://localhost:12345/etl/ui/ 即可登录系统 UI。默认用户名和密码是 **admin/dolphinscheduler123**。
+浏览器访问地址 http://localhost:8080/etl/ui/ 即可登录系统 UI。默认用户名和密码是 **etl/123456**。
 
 ![登录页面](../../../../img/new_ui/dev/quick-start/login.png)
 

@@ -144,7 +144,7 @@ security:
         github:
           # 设置provider的授权地址，例如https://github.com/login/oauth/authorize
           authorizationUri: ""
-          # ETL 后端重定向接口地址，例如 http://127.0.0.1:12345/etl/redirect/login/oauth2
+          # ETL 后端重定向接口地址，例如 http://127.0.0.1:8080/etl/redirect/login/oauth2
           redirectUri: ""
           # oauth2的 clientId
           clientId: ""
@@ -171,7 +171,7 @@ security:
           provider: google
         gitee:
           authorizationUri: "https://gitee.com/oauth/authorize"
-          redirectUri: "http://127.0.0.1:12345/etl/redirect/login/oauth2"
+          redirectUri: "http://127.0.0.1:8080/etl/redirect/login/oauth2"
           clientId: ""
           clientSecret: ""
           tokenUri: "https://gitee.com/oauth/token?grant_type=authorization_code"

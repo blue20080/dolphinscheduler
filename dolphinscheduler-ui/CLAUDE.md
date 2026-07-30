@@ -29,7 +29,7 @@ pnpm run lint        # ESLint with --fix over .ts, .tsx, .vue
 pnpm run prettier    # Prettier format over src/
 ```
 
-The backend URL used by `pnpm run dev` is `VITE_APP_DEV_WEB_URL` in `.env.development`. Default expects `dolphinscheduler-api` on port 12345.
+The backend URL used by `pnpm run dev` is `VITE_APP_DEV_WEB_URL` in `.env.development`. Default expects the API server on port 8080.
 
 ## Top-level src layout
 

@@ -149,7 +149,7 @@ security:
         github:
           # Set the provider authorization address, for example:https://github.com/login/oauth/authorize
           authorizationUri: ""
-          # ETL backend redirection endpoint, for example: http://127.0.0.1:12345/etl/redirect/login/oauth2
+          # ETL backend redirection endpoint, for example: http://127.0.0.1:8080/etl/redirect/login/oauth2
           redirectUri: ""
           #  clientId
           clientId: ""
@@ -176,7 +176,7 @@ security:
           provider: google
         gitee:
           authorizationUri: "https://gitee.com/oauth/authorize"
-          redirectUri: "http://127.0.0.1:12345/etl/redirect/login/oauth2"
+          redirectUri: "http://127.0.0.1:8080/etl/redirect/login/oauth2"
           clientId: ""
           clientSecret: ""
           tokenUri: "https://gitee.com/oauth/token?grant_type=authorization_code"
@@ -221,7 +221,7 @@ api:
   # The public-facing base URL of the DolphinScheduler API server.
   # This is used to build the `redirect_uri` for the OIDC provider.
   # It must be reachable by the user's browser.
-  base-url: http://localhost:12345/etl
+  base-url: http://localhost:8080/etl
   # The public-facing URL of the DolphinScheduler UI.
   # Users will be redirected here after a successful login.
   ui-url: http://localhost:5173
@@ -311,7 +311,7 @@ You need to register DolphinScheduler as a client in your OIDC provider. Here’
 
 4. Update the **Valid redirect URIs** in the `dolphinscheduler-client` client to match your local setup:
 
-   * `http://localhost:12345/etl/login/oauth2/code/keycloak`
+   * `http://localhost:8080/etl/login/oauth2/code/keycloak`
 5. Update **Web origins** to include `http://localhost:5173` to prevent CORS issues.
 6. Save your changes.
 7. Obtain the **Client ID** and **Client Secret** from the `dolphinscheduler-client` client in Keycloak.
@@ -343,7 +343,7 @@ _**or,**_
    * Ensure **Client authentication** is **On**.
    * On the next screen, set **Valid redirect URIs**. This is critical and must match the URL constructed from your `api.base-url`:
      * `http://{your-etl-host:port}/etl/login/oauth2/code/{registrationId}`
-     * For our example: `http://localhost:12345/etl/login/oauth2/code/keycloak`
+     * For our example: `http://localhost:8080/etl/login/oauth2/code/keycloak`
    * Set **Web origins** to allow the UI to communicate with Keycloak (e.g., `http://localhost:5173`).
    * **Configure Client Scopes for Email and Profile**:
      * In the Keycloak Admin Console, go to **Client scopes**.

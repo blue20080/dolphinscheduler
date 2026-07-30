@@ -41,17 +41,18 @@ Attention: You can copy the installation package directly from an existing envir
 
 ### Create Deployment Users
 
-- Create deployment user on **all** expansion machines, and make sure to configure sudo-free. If we plan to deploy scheduling on four expansion machines, ds1, ds2, ds3, and ds4, create deployment users on each machine is prerequisite.
+- Create the `etl` deployment user on **all** expansion machines and configure password-free sudo when required.
 
 ```shell
-# to create a user, you need to log in with root and set the deployment user name, modify it by yourself, the following take `dolphinscheduler` as an example:
-useradd dolphinscheduler;
+# Log in as root to create the deployment user
+useradd -m -s /bin/bash etl
 
-# set the user password, please change it by yourself, the following take `dolphinscheduler123` as an example
-echo "dolphinscheduler123" | passwd --stdin dolphinscheduler
+# Set the deployment user password
+passwd etl
 
-# configure sudo password-free
-echo 'dolphinscheduler  ALL=(ALL)  NOPASSWD: NOPASSWD: ALL' >> /etc/sudoers
+# Configure password-free sudo
+echo 'etl ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/etl
+chmod 440 /etc/sudoers.d/etl
 sed -i 's/Defaults    requirett/#Defaults    requirett/g' /etc/sudoers
 
 ```

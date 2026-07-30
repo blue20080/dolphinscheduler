@@ -27,7 +27,7 @@ limitations under the License.
 - JDK 8 或 JDK 11，并正确配置 `JAVA_HOME`。
 - Standalone 验证环境建议至少 8 GB 内存。
 - 生产部署需要 PostgreSQL 8.2.15+ 和 ZooKeeper 3.8.x。
-- 确保服务器的 `12345` 端口可被需要访问 ETL 的客户端连接。
+- 确保服务器的 `8080` 端口可被需要访问 ETL 的客户端连接。
 
 检查 Java：
 
@@ -68,23 +68,23 @@ bash ./bin/dolphinscheduler-daemon.sh status standalone-server
 tail -f standalone-server/logs/standalone-server-*.out
 ```
 
-看到服务监听 `12345` 端口后，在浏览器访问：
+看到服务监听 `8080` 端口后，在浏览器访问：
 
 ```text
-http://服务器IP:12345/etl/ui/
+http://服务器IP:8080/etl/ui/
 ```
 
 页面会进入：
 
 ```text
-http://服务器IP:12345/etl/ui/login
+http://服务器IP:8080/etl/ui/login
 ```
 
 默认账号：
 
 ```text
-用户名：admin
-密码：dolphinscheduler123
+用户名：etl
+密码：123456
 ```
 
 首次登录后应立即修改默认密码。
@@ -197,7 +197,7 @@ tail -f api-server/logs/api-server-*.out
 ### 7. 登录 ETL
 
 ```text
-http://服务器IP:12345/etl/ui/
+http://服务器IP:8080/etl/ui/
 ```
 
 ETL 已直接使用 `/etl` 作为后端上下文路径，不需要为了转换旧路径而安装 Nginx。使用 HTTPS、统一域名或负载均衡时，仍可按公司的基础设施规范配置网关。
@@ -216,11 +216,11 @@ bash ./bin/dolphinscheduler-daemon.sh stop master-server
 ### 页面无法打开
 
 ```shell
-curl -I http://127.0.0.1:12345/etl/
+curl -I http://127.0.0.1:8080/etl/
 tail -n 200 api-server/logs/api-server-*.out
 ```
 
-正常情况下 `/etl/` 返回 302，并跳转到 `/etl/ui/`。请同时检查防火墙和 `12345` 端口占用情况。
+正常情况下 `/etl/` 返回 302，并跳转到 `/etl/ui/`。请同时检查防火墙和 `8080` 端口占用情况。
 
 ### Java 启动失败
 

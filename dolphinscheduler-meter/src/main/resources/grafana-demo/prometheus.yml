@@ -33,4 +33,4 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets:
-          - 'host.docker.internal:12345' # Change the address to the DolphinScheduler standalone server
+          - 'host.docker.internal:8080' # Change the address to the ETL standalone server

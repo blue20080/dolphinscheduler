@@ -2,14 +2,14 @@
 
 Only the administrator account in the security center has permission to operate, which includes queue management, tenant management, user management, alarm group management, worker group management, token management and other functions. In the user management module, you can authorize resources, data sources, projects, etc.
 
-Administrator login, default username/password: admin/dolphinscheduler123
+Administrator login, default username/password: etl/123456
 
 ## Create Queue
 
 - The queue is used when executing programs such as spark and mapreduce, and the "queue" parameter needs to be used.
 - The administrator enters the `Security Center->Queue Management` page and clicks the "Create Queue" button to create a new queue.
 
-> Note: Currently, only admin users can modify queues.
+> Note: Currently, only administrator users can modify queues.
 
 ![create-queue](../../../../img/new_ui/dev/security/create-queue.png)
 
@@ -20,7 +20,7 @@ Administrator login, default username/password: admin/dolphinscheduler123
 - The administrator enters the `Security Center->Tenant Management` page, and clicks the `Create Tenant` button to create a tenant.
 
 > Note:
-> 1. Currently, only admin users can modify tenant.
+> 1. Currently, only administrator users can modify tenants.
 > 2. If you create a tenant manually in the Linux, you need to add the manually created tenant to the dolphinscheduler bootstrap user's group, so that the tenant will have enough working directory permissions.
 
 ![create-tenant](../../../../img/new_ui/dev/security/create-tenant.png)
@@ -77,7 +77,7 @@ public  void doPOSTParam()throws Exception{
     // create HttpClient
     CloseableHttpClient httpclient = HttpClients.createDefault();
     // create http post request
-    HttpPost httpPost = new HttpPost("http://127.0.0.1:12345/escheduler/projects/create");
+    HttpPost httpPost = new HttpPost("http://127.0.0.1:8080/etl/projects/create");
     httpPost.setHeader("token", "123");
     // set parameters
     List<NameValuePair> parameters = new ArrayList<NameValuePair>();
@@ -188,4 +188,3 @@ Create a task node in the workflow definition, select the worker group and the e
 - After creation and authorization, you can select it from the namespace drop down list when edit k8s task, If the k8s cluster name is `ds_null_k8s` means test mode which will not operate the cluster actually.
 
 ![create-environment](../../../../img/new_ui/dev/security/create-namespace.png)
-

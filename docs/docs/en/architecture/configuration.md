@@ -230,7 +230,7 @@ Location: `api-server/conf/application.yaml`
 
 |                      Parameters                       |            Default value             |                                          Description                                           |
 |-------------------------------------------------------|--------------------------------------|------------------------------------------------------------------------------------------------|
-| server.port                                           | 12345                                | api service communication port                                                                 |
+| server.port                                           | 8080                                 | api service communication port                                                                 |
 | server.servlet.session.timeout                        | 120m                                 | session timeout                                                                                |
 | server.servlet.context-path                           | /dolphinscheduler/                   | request path                                                                                   |
 | spring.servlet.multipart.max-file-size                | 1024MB                               | maximum file size                                                                              |
@@ -402,4 +402,3 @@ export FLINK_ENV_JAVA_OPTS="-javaagent:${DOLPHINSCHEDULER_HOME}/tools/libs/aspec
 | Api Server    | `api-server/conf/logback-spring.xml`    |
 | Worker Server | `worker-server/conf/logback-spring.xml` |
 | Alert Server  | `alert-server/conf/logback-spring.xml`  |
-

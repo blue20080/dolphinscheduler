@@ -22,7 +22,7 @@ Generally, projects and processes are created through pages, but considering the
 
 1. Open the API documentation
 
-> Address：http://{API server ip}:12345/etl/swagger-ui/index.html?language=en_US&lang=en
+> Address：http://{API server ip}:8080/etl/swagger-ui/index.html?language=en_US&lang=en
 
 ![api-doc](../../../../img/new_ui/dev/open-api/api_doc.png)
 

@@ -191,7 +191,7 @@ pnpm install
 pnpm run dev
 ```
 
-The browser access address [http://localhost:5173](http://localhost:5173) can login DolphinScheduler UI. The default username and password are **admin/dolphinscheduler123**
+The browser access address [http://localhost:5173](http://localhost:5173) can log in to ETL. The default username and password are **etl/123456**.
 
 ## DolphinScheduler Normal Mode
 
@@ -250,7 +250,7 @@ There are three services that need to be started, including MasterServer, Worker
 - MasterServer：Execute function `main` in the class `org.apache.dolphinscheduler.server.master.MasterServer` by IntelliJ IDEA, with the configuration _VM Options_ `-DDOCKER=true -Dspring.profiles.active=mysql`
 - WorkerServer：Execute function `main` in the class `org.apache.dolphinscheduler.server.worker.WorkerServer` by IntelliJ IDEA, with the configuration _VM Options_ `-DDOCKER=true`
 - AlertServer：Execute function `main` in the class `org.apache.dolphinscheduler.alert.AlertServer` by IntelliJ IDEA, with the configuration _VM Options_ `-DDOCKER=true -Dspring.profiles.active=mysql`
-- ApiApplicationServer：Execute function `main` in the class `org.apache.dolphinscheduler.api.ApiApplicationServer` by IntelliJ IDEA, with the configuration _VM Options_ `-DDOCKER=true -Dspring.profiles.active=mysql`. After it started, you could find Open API documentation at http://localhost:12345/etl/swagger-ui/index.html
+- ApiApplicationServer：Execute function `main` in the class `org.apache.dolphinscheduler.api.ApiApplicationServer` by IntelliJ IDEA, with the configuration _VM Options_ `-DDOCKER=true -Dspring.profiles.active=mysql`. After it started, you could find Open API documentation at http://localhost:8080/etl/swagger-ui/index.html
 
 > The `mysql` in the VM Options `-Dspring.profiles.active=mysql` means specified configuration file
 
@@ -264,4 +264,4 @@ pnpm install
 pnpm run dev
 ```
 
-The browser access address [http://localhost:5173](http://localhost:5173) can login DolphinScheduler UI. The default username and password are **admin/dolphinscheduler123**
+The browser access address [http://localhost:5173](http://localhost:5173) can log in to ETL. The default username and password are **etl/123456**.

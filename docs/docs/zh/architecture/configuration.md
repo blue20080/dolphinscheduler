@@ -230,7 +230,7 @@ common.properties配置文件目前主要是配置hadoop/s3/yarn/applicationId�
 
 |                          参数                           |                 默认值                  |                       描述                        |
 |-------------------------------------------------------|--------------------------------------|-------------------------------------------------|
-| server.port                                           | 12345                                | api服务通讯端口                                       |
+| server.port                                           | 8080                                 | api服务通讯端口                                       |
 | server.servlet.session.timeout                        | 120m                                 | session超时时间                                     |
 | server.servlet.context-path                           | /dolphinscheduler/                   | 请求路径                                            |
 | spring.servlet.multipart.max-file-size                | 1024MB                               | 最大上传文件大小                                        |
@@ -407,4 +407,3 @@ export FLINK_ENV_JAVA_OPTS="-javaagent:${DOLPHINSCHEDULER_HOME}/tools/libs/aspec
 | Api Server    | `api-server/conf/logback-spring.xml`    |
 | Worker Server | `worker-server/conf/logback-spring.xml` |
 | Alert Server  | `alert-server/conf/logback-spring.xml`  |
-

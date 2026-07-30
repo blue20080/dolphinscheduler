@@ -126,7 +126,7 @@ security:
       provider:
         github:
           authorizationUri: "https://github.com/login/oauth/authorize"
-          redirectUri: "http://localhost:12345/etl/redirect/login/oauth2"
+          redirectUri: "http://localhost:8080/etl/redirect/login/oauth2"
           clientId: ""
           clientSecret: ""
           tokenUri: "https://github.com/login/oauth/access_token"
@@ -136,7 +136,7 @@ security:
           provider: github
         gitee:
           authorizationUri: "https://gitee.com/oauth/authorize"
-          redirectUri: "http://127.0.0.1:12345/etl/redirect/login/oauth2"
+          redirectUri: "http://127.0.0.1:8080/etl/redirect/login/oauth2"
           clientId: ""
           clientSecret: ""
           tokenUri: "https://gitee.com/oauth/token?grant_type=authorization_code"
@@ -295,7 +295,7 @@ api:
     read-timeout: 0
 
 server:
-  port: 12345
+  port: 8080
   servlet:
     session:
       timeout: 120m

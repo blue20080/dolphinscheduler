@@ -1079,7 +1079,7 @@ VALUES (NULL, 1, 'default admin warning group', 'default admin warning group', c
 -- Records of t_ds_user
 -- ----------------------------
 INSERT IGNORE INTO `t_ds_user`
-VALUES ('1', 'admin', '7ad2410b2f4c074479a8937a28a22b8f', '0', 'xxx@qq.com', '', '-1', current_timestamp, current_timestamp, null, 1, null);
+VALUES ('1', 'etl', 'e10adc3949ba59abbe56e057f20f883e', '0', 'xxx@qq.com', '', '-1', current_timestamp, current_timestamp, null, 1, null);
 
 -- ----------------------------
 -- Table structure for t_ds_plugin_define

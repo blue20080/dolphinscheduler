@@ -1,14 +1,14 @@
 # 安全中心（权限系统）
 
 * 安全中心只有管理员账户才有权限操作，分别有队列管理、租户管理、用户管理、告警组管理、worker分组管理、令牌管理等功能，在用户管理模块可以对资源、数据源、项目等授权
-* 管理员登录，默认用户名/密码：admin/dolphinscheduler123
+* 管理员登录，默认用户名/密码：etl/123456
 
 ## 创建队列
 
 - 队列是在执行 spark、mapreduce 等程序，需要用到“队列”参数时使用的。
 - 管理员进入安全中心 -> 队列管理页面，点击“创建队列”按钮，创建队列。
 
-> 注意：目前仅有 admin 用户可以修改队列。
+> 注意：目前仅有管理员用户可以修改队列。
 
 ![create-queue](../../../../img/new_ui/dev/security/create-queue.png)
 
@@ -19,7 +19,7 @@
 - 管理员进入安全中心->租户管理页面，点击“创建租户”按钮，创建租户。
 
 > 注意：
-> 1. 目前仅有 admin 用户可以修改租户；
+> 1. 目前仅有管理员用户可以修改租户；
 > 2. 如果您在 Linux 中手动创建一个租户，则需要将手动创建的租户添加到 dolphinscheduler 启动用户组，以便该租户拥有足够的工作目录权限。
 
 ![create-tenant](../../../../img/new_ui/dev/security/create-tenant.png)
@@ -71,7 +71,7 @@
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         // create http post request
-        HttpPost httpPost = new HttpPost("http://127.0.0.1:12345/escheduler/projects/create");
+        HttpPost httpPost = new HttpPost("http://127.0.0.1:8080/etl/projects/create");
         httpPost.setHeader("token", "123");
         // set parameters
         List<NameValuePair> parameters = new ArrayList<NameValuePair>();

@@ -9,7 +9,7 @@ Health check are designed to provide a unique way to check the health of the dol
 ### API-Server
 
 ```shell
-curl --request GET 'http://localhost:12345/etl/actuator/health'
+curl --request GET 'http://localhost:8080/etl/actuator/health'
 
 {"status":"UP","components":{"db":{"status":"UP","details":{"database":"H2","validationQuery":"isValid()"}}}}
 ```

@@ -16,7 +16,7 @@
 #
 
 server:
-  port: 12345
+  port: 8080
   servlet:
     session:
       timeout: 120m
@@ -139,7 +139,7 @@ registry:
 api:
   # The base URL for the API server, used for constructing callback URLs for features like OIDC.
   # This should be the public-facing URL of the DolphinScheduler API.
-  base-url: http://127.0.0.1:12345/etl
+  base-url: http://127.0.0.1:8080/etl
   ui-url: http://127.0.0.1:5173
   audit-enable: false
   # Traffic control, if you turn on this config, the maximum number of request/s will be limited.

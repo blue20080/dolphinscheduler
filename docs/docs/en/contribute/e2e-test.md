@@ -149,7 +149,7 @@ The browser is loaded using the RemoteWebDriver provided with Selenium. Before e
 @BeforeAll
 public static void setup() {
     new LoginPage(browser)
-            .login("admin", "dolphinscheduler123") 
+            .login("etl", "123456")
             .goToNav(SecurityPage.class) 
             .goToTab(TenantPage.class)
     ;

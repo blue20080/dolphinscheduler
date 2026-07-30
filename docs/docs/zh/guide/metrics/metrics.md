@@ -6,8 +6,8 @@ ETL 通过向外透出指标来提高系统的监控告警能力。我们使用 
 ## 快速上手
 
 - ETL 的 `standalone` 模式支持采集并透出指标，便于快速验证监控能力。
-- 当您在 `standalone` 模式下触发任务后，可通过 `http://localhost:12345/etl/actuator/metrics` 访问指标列表。
-- 当您在 `standalone` 模式下触发任务后，可通过 `http://localhost:12345/etl/actuator/prometheus` 访问 Prometheus 格式指标。
+- 当您在 `standalone` 模式下触发任务后，可通过 `http://localhost:8080/etl/actuator/metrics` 访问指标列表。
+- 当您在 `standalone` 模式下触发任务后，可通过 `http://localhost:8080/etl/actuator/prometheus` 访问 Prometheus 格式指标。
 - 为了给您提供一个一站式的`Prometheus` + `Grafana`体验, 我们已经为您准备好了开箱即用的 `Grafana` 配置。您可在`dolphinscheduler-meter/resources/grafana`找到`Grafana`面板配置。
   您可直接将这些配置导入您的`Grafana`实例中。
 - 如果您想通过`docker`方式体验，可使用如下命令启动我们为您准备好的开箱即用的`Prometheus`和`Grafana`:
@@ -29,7 +29,7 @@ docker compose up
 
 您可通过链接`http://ip:port/actuator/prometheus`获取metrics。
 
-metrics exporter端口`server.port`是在application.yaml里定义的: master: `server.port: 5679`, worker: `server.port: 1235`, alert: `server.port: 50053`, api: `server.port: 12345`.
+metrics exporter端口`server.port`是在application.yaml里定义的: master: `server.port: 5679`, worker: `server.port: 1235`, alert: `server.port: 50053`, api: `server.port: 8080`.
 
 举例来说，您可通过访问链接获取`curl http://localhost:5679/actuator/prometheus`master metrics。
 
@@ -61,8 +61,8 @@ export MANAGEMENT_SECURITY_EXCLUDE="health,metrics"
 - 添加安全认证之后，您可通过链接如下访问`prometheus格式`指标。
 
 ```sh
-curl -u username:password 'http://localhost:12345/etl/actuator/prometheus'
-curl -H 'Authorization: Basic xxxxx' 'http://localhost:12345/etl/actuator/prometheus'
+curl -u username:password 'http://localhost:8080/etl/actuator/prometheus'
+curl -H 'Authorization: Basic xxxxx' 'http://localhost:8080/etl/actuator/prometheus'
 ```
 
 ## 命名规则 & 命名映射

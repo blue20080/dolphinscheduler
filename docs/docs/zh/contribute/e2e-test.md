@@ -149,7 +149,7 @@ public <T extends SecurityPage.Tab> T goToTab(Class<T> tab) {
 @BeforeAll
 public static void setup() {
     new LoginPage(browser)
-            .login("admin", "dolphinscheduler123") // 登录进入租户界面
+            .login("etl", "123456") // 登录进入租户界面
             .goToNav(SecurityPage.class) // 安全中心
             .goToTab(TenantPage.class)
     ;

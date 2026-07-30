@@ -81,7 +81,7 @@ A: 1, if it is node startup, check whether the .env API_BASE configuration under
 
 ​ 3, if the above configuration is correct, then please check if the Api Server service is normal,
 
-​ curl http://localhost:12345/etl/users/get-user-info, check the Api Server log,
+​ curl http://localhost:8080/etl/users/get-user-info, check the Api Server log,
 
 ​ if Prompt cn.dolphinscheduler.api.interceptor.LoginHandlerInterceptor:[76] - session info is null, which proves that the Api Server service is normal.
 
@@ -521,7 +521,7 @@ A: 1, DEPENDENT task node actually does not have script, it used for config data
 <p align="center">
    <img src="https://user-images.githubusercontent.com/8263441/62352160-0f3e9100-b53a-11e9-95ba-3ae3dde49c72.png" width="60%" />
  </p>
-A: 1, modify application_master.properties, for example: server.port=12345.
+A: 1, modify application_master.properties, for example: server.port=8080.
 
 ---
 

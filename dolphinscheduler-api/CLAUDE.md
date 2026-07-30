@@ -10,7 +10,7 @@ REST API server. Entry point for the UI and external clients (curl, Python SDK).
 
 `ApiApplicationServer` — `@SpringBootApplication`. On startup it:
 1. Loads `DataSourcePluginManager` and `TaskPluginManager` (plugin discovery).
-2. Binds to the port in `server.port` (default 12345).
+2. Binds to the port in `server.port` (default 8080).
 3. Starts the Py4J gateway used by the Python SDK.
 
 ## Key sub-packages

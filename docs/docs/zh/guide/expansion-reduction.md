@@ -41,17 +41,18 @@ mv etl-<version>-bin etl
 
 ### 1.3. 创建部署用户
 
-- 在**所有**扩容的机器上创建部署用户，并且一定要配置sudo免密。假如我们计划在ds1,ds2,ds3,ds4这四台扩容机器上部署调度，首先需要在每台机器上都创建部署用户
+- 在**所有**扩容机器上创建 `etl` 部署用户，并按需配置 sudo 免密。假如计划在 ds1、ds2、ds3、ds4 四台机器上部署调度，需要在每台机器上创建部署用户。
 
 ```shell
-# 创建用户需使用root登录，设置部署用户名，请自行修改，后面以dolphinscheduler为例
-useradd dolphinscheduler;
+# 创建用户需使用 root 登录
+useradd -m -s /bin/bash etl
 
-# 设置用户密码，请自行修改，后面以dolphinscheduler123为例
-echo "dolphinscheduler123" | passwd --stdin dolphinscheduler
+# 设置部署用户密码
+passwd etl
 
-# 配置sudo免密
-echo 'dolphinscheduler  ALL=(ALL)  NOPASSWD: NOPASSWD: ALL' >> /etc/sudoers
+# 配置 sudo 免密
+echo 'etl ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/etl
+chmod 440 /etc/sudoers.d/etl
 sed -i 's/Defaults    requirett/#Defaults    requirett/g' /etc/sudoers
 
 ```

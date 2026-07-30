@@ -186,7 +186,7 @@ pnpm install
 pnpm run dev
 ```
 
-截止目前，前后端已成功运行起来，浏览器访问[http://localhost:5173](http://localhost:5173)，并使用默认账户密码 **admin/dolphinscheduler123** 即可完成登录
+截止目前，前后端已成功运行起来，浏览器访问[http://localhost:5173](http://localhost:5173)，并使用默认账户密码 **etl/123456** 即可完成登录
 
 ## DolphinScheduler 普通开发模式
 
@@ -244,7 +244,7 @@ DolphinScheduler 的元数据存储在关系型数据库中，目前支持的关
 * MasterServer：在 IntelliJ IDEA 中执行 `org.apache.dolphinscheduler.server.master.MasterServer` 中的 `main` 方法，并配置 *VM Options* `-DDOCKER=true -Dspring.profiles.active=mysql`
 * WorkerServer：在 IntelliJ IDEA 中执行 `org.apache.dolphinscheduler.server.worker.WorkerServer` 中的 `main` 方法，并配置 *VM Options* `-DDOCKER=true`
 * AlertServer：在 IntelliJ IDEA 中执行 `org.apache.dolphinscheduler.alert.AlertServer` 中的 `main` 方法，并配置 *VM Options* `-DDOCKER=true -Dspring.profiles.active=mysql`
-* ApiApplicationServer：在 IntelliJ IDEA 中执行 `org.apache.dolphinscheduler.api.ApiApplicationServer` 中的 `main` 方法，并配置 *VM Options* `-DDOCKER=true -Dspring.profiles.active=mysql`。启动完成可以浏览 Open API 文档，地址为 http://localhost:12345/etl/swagger-ui/index.html
+* ApiApplicationServer：在 IntelliJ IDEA 中执行 `org.apache.dolphinscheduler.api.ApiApplicationServer` 中的 `main` 方法，并配置 *VM Options* `-DDOCKER=true -Dspring.profiles.active=mysql`。启动完成可以浏览 Open API 文档，地址为 http://localhost:8080/etl/swagger-ui/index.html
 
 > VM Options `-Dspring.profiles.active=mysql` 中 `mysql` 表示指定的配置文件
 
@@ -258,4 +258,4 @@ pnpm install
 pnpm run dev
 ```
 
-截止目前，前后端已成功运行起来，浏览器访问[http://localhost:5173](http://localhost:5173)，并使用默认账户密码 **admin/dolphinscheduler123** 即可完成登录
+截止目前，前后端已成功运行起来，浏览器访问[http://localhost:5173](http://localhost:5173)，并使用默认账户密码 **etl/123456** 即可完成登录

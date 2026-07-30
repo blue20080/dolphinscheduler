@@ -150,7 +150,7 @@ bash ./bin/dolphinscheduler-daemon.sh start alert-server
 
 ## Login to ETL
 
-Access `http://localhost:12345/etl/ui/` to log in to ETL. The default username and password are **admin/dolphinscheduler123**.
+Access `http://localhost:8080/etl/ui/` to log in to ETL. The default username and password are **etl/123456**.
 
 ## Start or Stop Server
 

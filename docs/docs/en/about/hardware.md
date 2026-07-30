@@ -38,7 +38,7 @@ DolphinScheduler provides the following network port configurations for normal o
 |----------------------|-------|----------------------------------------------------------------------|
 | MasterServer         | 5678  | not the communication port, require the native ports do not conflict |
 | WorkerServer         | 1234  | not the communication port, require the native ports do not conflict |
-| ApiApplicationServer | 12345 | backend communication port                                           |
+| ApiApplicationServer | 8080  | backend communication port                                           |
 
 > **Note:**
 > - MasterServer and WorkerServer do not need to enable communication between the networks. As long as the local ports do not conflict.

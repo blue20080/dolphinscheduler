@@ -81,7 +81,7 @@ A： 1，如果是 node 启动的查看 dolphinscheduler-ui 下的 .env 文件�
 
 ​ 3，如果以上配置都是正确的，那么请查看 Api Server 服务是否是正常的，
 
-​ curl http://localhost:12345/etl/users/get-user-info 查看 Api Server 日志，
+​ curl http://localhost:8080/etl/users/get-user-info 查看 Api Server 日志，
 
 ​ 如果提示 cn.dolphinscheduler.api.interceptor.LoginHandlerInterceptor:[76] - session info is null，则证明 Api Server 服务是正常的
 
@@ -492,7 +492,7 @@ A：1，DEPENDENT 节点实际是没有执行体的，是专门用来配置数�
 <p align="center">
    <img src="https://user-images.githubusercontent.com/8263441/62352160-0f3e9100-b53a-11e9-95ba-3ae3dde49c72.png" width="60%" />
  </p>
-A：1，修改 application_master.properties 配置文件，例如：server.port=12345。
+A：1，修改 application_master.properties 配置文件，例如：server.port=8080。
 
 ---
 

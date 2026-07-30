@@ -16,7 +16,7 @@
 
 ### 构建您的第一个工作流程
 
-你可以使用默认用户名和密码 `admin/dolphinscheduler123` 登录 ETL，访问地址为 http://localhost:12345/etl/ui/ 。
+你可以使用默认用户名和密码 `etl/123456` 登录 ETL，访问地址为 http://localhost:8080/etl/ui/ 。
 
 #### 创建租户
 

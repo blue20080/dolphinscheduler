@@ -27,7 +27,7 @@ This section describes the one-click deployment of high availability DolphinSche
 
 ![](../../../../img/rainbond/topology-dolphinscheduler.png)
 
-4. Click the `access` button in the application to access the DolphinScheduler-API components through the domain name provided by Rainbond by default. Default user password is **admin/dolphinscheduler123**.
+4. Click the `access` button in the application to access the ETL API through the domain name provided by Rainbond. The default username and password are **etl/123456**.
 
 ## API Master Worker Node Telescopic
 
@@ -62,4 +62,3 @@ Take `DataX` as an example:
    ![](../../../../img/rainbond/plugin.png)
 
 ---
-

@@ -20,8 +20,8 @@ Install and start ETL before continuing. For a first-time evaluation, use the st
 
 ### Build Your First Workflow
 
-You can log in to ETL through http://localhost:12345/etl/ui/ and the default username/password
-is `admin/dolphinscheduler123`.
+You can log in to ETL through http://localhost:8080/etl/ui/ and the default username/password
+is `etl/123456`.
 
 ![login](../../../../img/start/login.gif)
 

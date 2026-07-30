@@ -2537,8 +2537,8 @@
         "allFormat": "glob",
         "current": {
           "selected": false,
-          "text": "host.docker.internal:12345",
-          "value": "host.docker.internal:12345"
+          "text": "host.docker.internal:8080",
+          "value": "host.docker.internal:8080"
         },
         "datasource": {
           "type": "prometheus",

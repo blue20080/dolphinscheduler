@@ -6,8 +6,8 @@ Currently, we only support `Prometheus Exporter` but more are coming soon.
 ## Quick Start
 
 - ETL exports metrics in `standalone` mode for quick monitoring validation.
-- After triggering tasks in `standalone` mode, access the metrics list at `http://localhost:12345/etl/actuator/metrics`.
-- After triggering tasks in `standalone` mode, access Prometheus-format metrics at `http://localhost:12345/etl/actuator/prometheus`.
+- After triggering tasks in `standalone` mode, access the metrics list at `http://localhost:8080/etl/actuator/metrics`.
+- After triggering tasks in `standalone` mode, access Prometheus-format metrics at `http://localhost:8080/etl/actuator/prometheus`.
 - For a better experience with `Prometheus` and `Grafana`, we have prepared the out-of-the-box `Grafana` configurations for you, you could find the `Grafana` dashboards
   at `dolphinscheduler-meter/resources/grafana` and directly import these dashboards to your `Grafana` instance.
 - If you want to try with `docker`, you can use the following command to start the out-of-the-box `Prometheus` and `Grafana`:
@@ -29,7 +29,7 @@ then access the `Grafana` by the url: `http://localhost:3001` for dashboards.
 
 You could access the metrics by the url `http://ip:port/actuator/prometheus`.
 
-The exporter port is the `server.port` defined in application.yaml, e.g: master: `server.port: 5679`, worker: `server.port: 1235`, alert: `server.port: 50053`, api: `server.port: 12345`.
+The exporter port is the `server.port` defined in application.yaml, e.g: master: `server.port: 5679`, worker: `server.port: 1235`, alert: `server.port: 50053`, api: `server.port: 8080`.
 
 For example, you can get the master metrics by `curl http://localhost:5679/actuator/prometheus`.
 
@@ -62,8 +62,8 @@ export MANAGEMENT_SECURITY_EXCLUDE="health,metrics"
 - After enabling security authentication, you could access `prometheus-format` metrics using the following commands:
 
 ```sh
-curl -u username:password 'http://localhost:12345/etl/actuator/prometheus'
-curl -H 'Authorization: Basic xxxxx' 'http://localhost:12345/etl/actuator/prometheus'
+curl -u username:password 'http://localhost:8080/etl/actuator/prometheus'
+curl -H 'Authorization: Basic xxxxx' 'http://localhost:8080/etl/actuator/prometheus'
 ```
 
 ## Naming Convention & Mapping
