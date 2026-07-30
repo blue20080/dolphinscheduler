@@ -165,7 +165,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
 
         mockMvc.perform(get("/oauth2/authorization/{providerId}", providerId))
                 .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/dolphinscheduler/ui/#/login?error=oidc_authorization_url_null"));
+                .andExpect(redirectedUrl("/etl/ui/#/login?error=oidc_authorization_url_null"));
     }
 
     @Test
@@ -175,7 +175,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
 
         mockMvc.perform(get("/oauth2/authorization/{providerId}", invalidProviderId))
                 .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/dolphinscheduler/ui/#/login?error=invalid_provider"));
+                .andExpect(redirectedUrl("/etl/ui/#/login?error=invalid_provider"));
     }
 
     @Test
@@ -205,7 +205,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
     public void testHandleOidcCallback_withLoginErrorFromProvider() throws Exception {
         String error = "access_denied";
         String state = providerId + ":" + UUID.randomUUID();
-        String expectedRedirectUrl = "/dolphinscheduler/ui/#/login?error=oidc_login_failed";
+        String expectedRedirectUrl = "/etl/ui/#/login?error=oidc_login_failed";
 
         performOidcCallback(null, error, state)
                 .andExpect(status().isFound())
@@ -216,7 +216,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
     public void testHandleOidcCallback_withErrorContainingNewlinesTabs() throws Exception {
         String error = "access_denied\n\t";
         String state = providerId + ":" + UUID.randomUUID();
-        String expectedRedirectUrl = "/dolphinscheduler/ui/#/login?error=oidc_login_failed";
+        String expectedRedirectUrl = "/etl/ui/#/login?error=oidc_login_failed";
 
         performOidcCallback(null, error, state)
                 .andExpect(status().isFound())
@@ -226,7 +226,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
     @Test
     public void testHandleOidcCallback_withMissingCode() throws Exception {
         String state = providerId + ":" + UUID.randomUUID();
-        String expectedRedirectUrl = "/dolphinscheduler/ui/#/login?error=oidc_missing_code";
+        String expectedRedirectUrl = "/etl/ui/#/login?error=oidc_missing_code";
 
         performOidcCallback(null, null, state)
                 .andExpect(status().isFound())
@@ -237,7 +237,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
     public void testHandleOidcCallback_whenAuthenticatorFails() throws Exception {
         String code = "testCode";
         String state = providerId + ":" + UUID.randomUUID();
-        String expectedRedirectUrl = "/dolphinscheduler/ui/#/login?error=oidc_authentication_failed";
+        String expectedRedirectUrl = "/etl/ui/#/login?error=oidc_authentication_failed";
 
         when(oidcAuthenticator.login(state, code)).thenReturn(null);
 
@@ -250,7 +250,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
     public void testHandleOidcCallback_withCriticalException() throws Exception {
         String code = "testCode";
         String state = providerId + ":" + UUID.randomUUID();
-        String expectedRedirectUrl = "/dolphinscheduler/ui/#/login?error=oidc_critical_error";
+        String expectedRedirectUrl = "/etl/ui/#/login?error=oidc_critical_error";
 
         when(oidcAuthenticator.login(state, code)).thenThrow(new RuntimeException("Critical DB error"));
 
@@ -266,7 +266,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
 
         String code = "testCode";
         String state = providerId + ":" + UUID.randomUUID();
-        String expectedRedirectUrl = "/dolphinscheduler/ui/#/login?error=oidc_not_enabled";
+        String expectedRedirectUrl = "/etl/ui/#/login?error=oidc_not_enabled";
 
         performOidcCallback(code, null, state)
                 .andExpect(status().isFound())
@@ -283,7 +283,7 @@ public class LoginControllerOidcTest extends AbstractControllerTest {
                 .param("code", code)
                 .param("state", state))
                 .andExpect(status().isFound())
-                .andExpect(redirectedUrl("/dolphinscheduler/ui/#/login?error=oidc_invalid_state"));
+                .andExpect(redirectedUrl("/etl/ui/#/login?error=oidc_invalid_state"));
     }
 
     @Test

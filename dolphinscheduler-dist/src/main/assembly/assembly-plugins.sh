@@ -20,14 +20,14 @@ set -xeo pipefail
 PLUGINS_ASSEMBLY_SKIP=$1
 
 DIST_DIR="$(pwd)/target"
-BIN_TAR_FILE="$DIST_DIR/apache-dolphinscheduler-*-bin.tar.gz"
+BIN_TAR_FILE="$DIST_DIR/etl-*-bin.tar.gz"
 if [ ! -f $BIN_TAR_FILE ]; then
   echo "$BIN_TAR_FILE not found!!!"
   exit 1
 fi
 
-cd $DIST_DIR && tar -zxf apache-dolphinscheduler-*-bin.tar.gz
-cd $DIST_DIR/apache-dolphinscheduler-*-bin
+cd $DIST_DIR && tar -zxf etl-*-bin.tar.gz
+cd $DIST_DIR/etl-*-bin
 BIN_DIR=$(pwd)
 
 # move *-plugins/target/*-plugin/target/*.jar to *-plugins/
@@ -79,6 +79,6 @@ cd $BIN_DIR/standalone-server && ln -s ../tools/sql/sql sql
 
 # repack bin tar
 BIN_TAR_FILE_NAME=$(basename $BIN_TAR_FILE)
-cd $DIST_DIR && tar -zcf $BIN_TAR_FILE_NAME apache-dolphinscheduler-*-bin
+cd $DIST_DIR && tar -zcf $BIN_TAR_FILE_NAME etl-*-bin
 
 echo "assembly-plugins.sh done"

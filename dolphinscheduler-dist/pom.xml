@@ -59,7 +59,7 @@
     </dependencies>
 
     <build>
-        <finalName>apache-dolphinscheduler-${project.version}</finalName>
+        <finalName>etl-${project.version}</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>

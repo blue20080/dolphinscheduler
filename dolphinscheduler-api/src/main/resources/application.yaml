@@ -20,7 +20,7 @@ server:
   servlet:
     session:
       timeout: 120m
-    context-path: /dolphinscheduler/
+    context-path: /etl/
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json,application/xml
@@ -139,7 +139,7 @@ registry:
 api:
   # The base URL for the API server, used for constructing callback URLs for features like OIDC.
   # This should be the public-facing URL of the DolphinScheduler API.
-  base-url: http://127.0.0.1:12345/dolphinscheduler
+  base-url: http://127.0.0.1:12345/etl
   ui-url: http://127.0.0.1:5173
   audit-enable: false
   # Traffic control, if you turn on this config, the maximum number of request/s will be limited.

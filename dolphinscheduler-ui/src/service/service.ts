@@ -39,7 +39,7 @@ const uiSettingStore = useUISettingStore()
 const handleError = (res: AxiosResponse<any, any>) => {
   // Print to console
   if (import.meta.env.MODE === 'development') {
-    utils.log.capsule('DolphinScheduler', 'UI')
+    utils.log.capsule('ETL', 'UI')
     utils.log.error(res)
   }
   window.$message.error(res.data.msg)
@@ -48,8 +48,8 @@ const handleError = (res: AxiosResponse<any, any>) => {
 const baseRequestConfig: AxiosRequestConfig = {
   baseURL:
     import.meta.env.MODE === 'development'
-      ? '/dolphinscheduler'
-      : import.meta.env.VITE_APP_PROD_WEB_URL + '/dolphinscheduler',
+      ? '/etl'
+      : import.meta.env.VITE_APP_PROD_WEB_URL + '/etl',
   timeout: uiSettingStore.getApiTimer ? uiSettingStore.getApiTimer : 20000,
   transformRequest: (params) => {
     if (_.isPlainObject(params)) {
