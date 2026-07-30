@@ -175,6 +175,8 @@ export function useTaskEdit(options: Options) {
           }
 
           setNodeFillColor(task.code + '', fillColor)
+          const node = graph.value?.getCellById(String(task.code))
+          node?.setData({ ...node.getData(), flag: taskDef.flag })
 
           setNodeEdge(String(task.code), data.preTasks)
           updatePreTasks(data.preTasks, task.code)

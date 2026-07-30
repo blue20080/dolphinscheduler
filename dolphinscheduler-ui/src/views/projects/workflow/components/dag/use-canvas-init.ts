@@ -68,16 +68,21 @@ export function useCanvasInit(options: Options) {
       },
       scroller: true,
       grid: {
-        size: 10,
-        visible: true
+        size: 12,
+        visible: true,
+        type: 'mesh',
+        args: {
+          color: '#D7E0E8',
+          thickness: 1
+        }
       },
       snapline: true,
       minimap: {
         enabled: true,
         container: minimap.value,
         scalable: true,
-        width: 250,
-        height: 150
+        width: 210,
+        height: 124
       },
       interacting: {
         edgeLabelMovable: false,

@@ -17,13 +17,30 @@
 
 import { genTaskCodeList } from '@/service/modules/task-definition'
 import type { Cell } from '@antv/x6'
-import { defineComponent, onMounted, PropType, inject, ref } from 'vue'
+import {
+  defineComponent,
+  onMounted,
+  onBeforeUnmount,
+  PropType,
+  inject,
+  ref
+} from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import styles from './menu.module.scss'
 import { uuid } from '@/common/common'
 import { IWorkflowTaskInstance } from './types'
-import { NButton } from 'naive-ui'
+import { NButton, NIcon } from 'naive-ui'
+import {
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  CopyOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  FileSearchOutlined,
+  PlayCircleOutlined,
+  ThunderboltOutlined
+} from '@vicons/antd'
 import { useDependencies } from '@/views/projects/components/dependencies/use-dependencies'
 
 const props = {
@@ -160,11 +177,12 @@ export default defineComponent({
       }
     }
 
-    onMounted(() => {
-      document.addEventListener('click', () => {
-        hide()
-      })
-    })
+    const handleDocumentClick = () => hide()
+
+    onMounted(() => document.addEventListener('click', handleDocumentClick))
+    onBeforeUnmount(() =>
+      document.removeEventListener('click', handleDocumentClick)
+    )
 
     return {
       startRunning,
@@ -179,6 +197,23 @@ export default defineComponent({
   },
   render() {
     const { t } = useI18n()
+    const menuButton = (
+      icon: any,
+      label: string,
+      action: () => void,
+      danger = false
+    ) => (
+      <NButton
+        quaternary
+        class={[styles['menu-item'], danger ? styles.danger : '']}
+        onClick={action}
+      >
+        {{
+          icon: () => <NIcon>{icon}</NIcon>,
+          default: () => label
+        }}
+      </NButton>
+    )
 
     return (
       this.visible && (
@@ -186,66 +221,58 @@ export default defineComponent({
           class={styles['dag-context-menu']}
           style={{ left: `${this.left}px`, top: `${this.top}px` }}
         >
-          {this.startDisplay && (
-            <NButton
-              class={`${styles['menu-item']}`}
-              onClick={this.startRunning}
-            >
-              {t('project.node.start')}
-            </NButton>
-          )}
+          {this.startDisplay &&
+            menuButton(
+              <PlayCircleOutlined />,
+              t('project.node.start'),
+              this.startRunning
+            )}
           {this.menuDisplay && (
             <>
-              <NButton
-                class={`${styles['menu-item']}`}
-                onClick={this.handleEdit}
-              >
-                {t('project.node.edit')}
-              </NButton>
-              <NButton
-                class={`${styles['menu-item']}`}
-                onClick={this.handleCopy}
-              >
-                {t('project.node.copy')}
-              </NButton>
-              <NButton
-                class={`${styles['menu-item']}`}
-                onClick={this.handleDelete}
-              >
-                {t('project.node.delete')}
-              </NButton>
+              {menuButton(
+                <EditOutlined />,
+                t('project.node.edit'),
+                this.handleEdit
+              )}
+              {menuButton(
+                <CopyOutlined />,
+                t('project.node.copy'),
+                this.handleCopy
+              )}
+              {menuButton(
+                <DeleteOutlined />,
+                t('project.node.delete'),
+                this.handleDelete,
+                true
+              )}
             </>
           )}
           {this.taskInstance && (
             <>
-              <NButton
-                class={`${styles['menu-item']}`}
-                onClick={this.handleViewLog}
-              >
-                {t('project.node.view_log')}
-              </NButton>
+              {menuButton(
+                <FileSearchOutlined />,
+                t('project.node.view_log'),
+                this.handleViewLog
+              )}
             </>
           )}
           {this.executeTaskDisplay && (
             <>
-              <NButton
-                class={`${styles['menu-item']}`}
-                onClick={this.handleExecuteTaskOnly}
-              >
-                {t('project.workflow.current_node_execution_task')}
-              </NButton>
-              <NButton
-                class={`${styles['menu-item']}`}
-                onClick={this.handleExecuteTaskPOST}
-              >
-                {t('project.workflow.backward_execution_task')}
-              </NButton>
-              <NButton
-                class={`${styles['menu-item']}`}
-                onClick={this.handleExecuteTaskPRE}
-              >
-                {t('project.workflow.forward_execution_task')}
-              </NButton>
+              {menuButton(
+                <ThunderboltOutlined />,
+                t('project.workflow.current_node_execution_task'),
+                this.handleExecuteTaskOnly
+              )}
+              {menuButton(
+                <ArrowDownOutlined />,
+                t('project.workflow.backward_execution_task'),
+                this.handleExecuteTaskPOST
+              )}
+              {menuButton(
+                <ArrowUpOutlined />,
+                t('project.workflow.forward_execution_task'),
+                this.handleExecuteTaskPRE
+              )}
             </>
           )}
         </div>

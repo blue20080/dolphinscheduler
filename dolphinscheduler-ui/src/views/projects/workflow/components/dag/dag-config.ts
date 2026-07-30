@@ -19,14 +19,14 @@ export const X6_NODE_NAME = 'dag-task'
 export const X6_EDGE_NAME = 'dag-edge'
 export const X6_PORT_OUT_NAME = 'dag-port-out'
 
-const EDGE_COLOR = '#A2B1C3'
-const BG_BLUE = '#DFE9F7'
+const EDGE_COLOR = '#8DA2B4'
+const BG_BLUE = '#EAF4FA'
 const BG_WHITE = '#FFFFFF'
-const NODE_BORDER = '#CCCCCC'
-const TITLE = '#333333'
-const STROKE_BLUE = '#288FFF'
-const NODE_SHADOW = 'drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.2))'
-const EDGE_SHADOW = 'drop-shadow(3px 3px 2px rgba(0, 0, 0, 0.2))'
+const NODE_BORDER = '#CBD6DF'
+const TITLE = '#172B3A'
+const STROKE_BLUE = '#1F6F9F'
+const NODE_SHADOW = 'drop-shadow(0 6px 10px rgba(16, 42, 67, 0.18))'
+const EDGE_SHADOW = 'drop-shadow(0 2px 3px rgba(16, 42, 67, 0.18))'
 
 export const PORT = {
   groups: {
@@ -34,8 +34,8 @@ export const PORT = {
       position: {
         name: 'absolute',
         args: {
-          x: 200,
-          y: 24
+          x: 224,
+          y: 28
         }
       },
       markup: [
@@ -131,20 +131,24 @@ export const NODE_STATUS_MARKUP = [
       }
     ],
     style: {
-      width: 20,
-      height: 20
+      width: 22,
+      height: 22
     }
   }
 ]
 
 export const NODE = {
-  width: 220,
-  height: 48,
+  width: 224,
+  height: 56,
   markup: [
     {
       tagName: 'rect',
       selector: 'body',
       className: 'dag-task-body'
+    },
+    {
+      tagName: 'rect',
+      selector: 'accent'
     },
     {
       tagName: 'image',
@@ -153,6 +157,10 @@ export const NODE = {
     {
       tagName: 'text',
       selector: 'title'
+    },
+    {
+      tagName: 'text',
+      selector: 'meta'
     }
   ],
   attrs: {
@@ -164,28 +172,46 @@ export const NODE = {
       pointerEvents: 'visiblePainted',
       fill: BG_WHITE,
       stroke: NODE_BORDER,
-      strokeWidth: 2,
+      strokeWidth: 1,
       strokeDasharray: 'none',
       filter: 'none'
     },
+    accent: {
+      x: 0,
+      y: 0,
+      width: 4,
+      height: 56,
+      rx: 3,
+      ry: 3,
+      fill: STROKE_BLUE
+    },
     image: {
-      width: 30,
-      height: 30,
-      refX: 12,
-      refY: 9
+      width: 28,
+      height: 28,
+      refX: 14,
+      refY: 14
     },
     title: {
-      refX: 45,
-      refY: 18,
-      fontFamily: 'Microsoft Yahei',
-      fontSize: 15,
-      fontWeight: 'bold',
+      refX: 52,
+      refY: 21,
+      fontFamily: "Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif",
+      fontSize: 14,
+      fontWeight: 600,
       fill: TITLE,
       strokeWidth: 0
     },
+    meta: {
+      refX: 52,
+      refY: 40,
+      fontFamily: "Inter, 'PingFang SC', 'Microsoft YaHei', sans-serif",
+      fontSize: 10,
+      fontWeight: 500,
+      fill: '#6B7D8D',
+      strokeWidth: 0
+    },
     fo: {
-      refX: '46%',
-      refY: -25
+      refX: '90%',
+      refY: -12
     }
   },
   ports: {
@@ -213,6 +239,9 @@ export const NODE_HOVER = {
     },
     title: {
       fill: STROKE_BLUE
+    },
+    meta: {
+      fill: STROKE_BLUE
     }
   }
 }
@@ -223,10 +252,13 @@ export const NODE_SELECTED = {
       filter: NODE_SHADOW,
       fill: BG_WHITE,
       stroke: STROKE_BLUE,
-      strokeDasharray: '5,2',
-      strokeWidth: '1.5'
+      strokeDasharray: 'none',
+      strokeWidth: 2
     },
     title: {
+      fill: STROKE_BLUE
+    },
+    meta: {
       fill: STROKE_BLUE
     }
   }

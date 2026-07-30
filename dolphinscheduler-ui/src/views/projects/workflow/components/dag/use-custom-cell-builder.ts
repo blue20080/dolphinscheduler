@@ -78,6 +78,17 @@ export function useCustomCellBuilder() {
     coordinate: Coordinate = { x: 100, y: 100 }
   ): Node.Metadata {
     const truncation = taskName ? utils.truncateText(taskName, 18) : id
+    const isLogicTask = [
+      'CONDITIONS',
+      'SWITCH',
+      'DEPENDENT',
+      'SUB_WORKFLOW'
+    ].includes(type)
+    const accentColor = isLogicTask
+      ? '#D79A2B'
+      : TASK_TYPES_MAP[type].taskExecuteType === 'STREAM'
+      ? '#2EA7B8'
+      : '#1F6F9F'
     return {
       id: id,
       shape: X6_NODE_NAME,
@@ -87,6 +98,7 @@ export function useCustomCellBuilder() {
         taskType: type,
         taskName: taskName || id,
         flag: flag,
+        accentColor,
         taskExecuteType: TASK_TYPES_MAP[type].taskExecuteType
       },
       attrs: {
@@ -102,7 +114,13 @@ export function useCustomCellBuilder() {
         title: {
           text: truncation
         },
-        rect: {
+        meta: {
+          text: type.replace(/_/g, ' ')
+        },
+        accent: {
+          fill: accentColor
+        },
+        body: {
           fill: flag === 'NO' ? 'var(--custom-disable-bg)' : '#ffffff'
         }
       }

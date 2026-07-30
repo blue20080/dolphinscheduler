@@ -15,7 +15,16 @@
  * limitations under the License.
  */
 
-import { defineComponent, ref, inject, PropType, Ref } from 'vue'
+import {
+  defineComponent,
+  ref,
+  inject,
+  PropType,
+  Ref,
+  reactive,
+  watch,
+  onBeforeUnmount
+} from 'vue'
 import { useI18n } from 'vue-i18n'
 import Styles from './dag.module.scss'
 import {
@@ -28,7 +37,6 @@ import {
   NTag
 } from 'naive-ui'
 import {
-  SearchOutlined,
   DownloadOutlined,
   FullscreenOutlined,
   FullscreenExitOutlined,
@@ -38,7 +46,10 @@ import {
   DeleteOutlined,
   RightCircleOutlined,
   FundViewOutlined,
-  SyncOutlined
+  SyncOutlined,
+  AppstoreOutlined,
+  SaveOutlined,
+  CloseOutlined
 } from '@vicons/antd'
 import { useNodeSearch, useTextCopy } from './dag-hooks'
 import { DataUri } from '@antv/x6'
@@ -69,13 +80,27 @@ const props = {
   dependenciesData: {
     type: Object as PropType<any>,
     require: false
+  },
+  readonly: {
+    type: Boolean as PropType<boolean>,
+    default: false
+  },
+  libraryVisible: {
+    type: Boolean as PropType<boolean>,
+    default: true
   }
 }
 
 export default defineComponent({
   name: 'workflow-dag-toolbar',
   props,
-  emits: ['versionToggle', 'saveModelToggle', 'removeTasks', 'refresh'],
+  emits: [
+    'versionToggle',
+    'saveModelToggle',
+    'removeTasks',
+    'refresh',
+    'libraryToggle'
+  ],
   setup(props, context) {
     const { t } = useI18n()
 
@@ -93,14 +118,8 @@ export default defineComponent({
     /**
      * Node search and navigate
      */
-    const {
-      searchSelectValue,
-      navigateTo,
-      toggleSearchInput,
-      searchInputVisible,
-      reQueryNodes,
-      nodesDropdown
-    } = useNodeSearch({ graph })
+    const { searchSelectValue, navigateTo, reQueryNodes, nodesDropdown } =
+      useNodeSearch({ graph })
 
     /**
      * Download Workflow Image
@@ -128,7 +147,35 @@ export default defineComponent({
     /**
      * Toggle fullscreen
      */
-    const { isFullscreen, toggle } = useFullscreen()
+    const dagRoot = inject<Ref<HTMLElement | undefined>>('dagRoot', ref())
+    const { isFullscreen, toggle } = useFullscreen(dagRoot)
+
+    const metrics = reactive({ nodes: 0, edges: 0 })
+    const updateMetrics = () => {
+      metrics.nodes = graph.value?.getNodes().length || 0
+      metrics.edges = graph.value?.getEdges().length || 0
+    }
+    const graphEvents = [
+      'node:added',
+      'node:removed',
+      'edge:added',
+      'edge:removed',
+      'reseted'
+    ]
+
+    watch(
+      graph,
+      (current, previous) => {
+        graphEvents.forEach((event) => previous?.off(event, updateMetrics))
+        graphEvents.forEach((event) => current?.on(event, updateMetrics))
+        updateMetrics()
+      },
+      { immediate: true }
+    )
+
+    onBeforeUnmount(() => {
+      graphEvents.forEach((event) => graph.value?.off(event, updateMetrics))
+    })
 
     /**
      * Open workflow version modal
@@ -202,98 +249,124 @@ export default defineComponent({
       }
     }
 
-    return () => (
-      <div
-        class={[
-          Styles.toolbar,
-          Styles[themeStore.darkTheme ? 'toolbar-dark' : 'toolbar-light']
-        ]}
-      >
-        <span class={Styles['workflow-name']}>
-          {route.name === 'workflow-instance-detail'
-            ? props.instance?.name
-            : props.definition?.workflowDefinition?.name ||
-              t('project.dag.create')}
-        </span>
-        {props.definition?.workflowDefinition?.name && (
-          <NTooltip
-            v-slots={{
-              trigger: () => (
-                <NButton
-                  quaternary
-                  circle
-                  onClick={() => {
-                    const name =
-                      route.name === 'workflow-instance-detail'
-                        ? props.instance?.name
-                        : props.definition?.workflowDefinition?.name
-                    copy(name)
-                  }}
-                  class={Styles['toolbar-btn']}
-                >
-                  <NIcon>
-                    <CopyOutlined />
-                  </NIcon>
-                </NButton>
-              ),
-              default: () => t('project.dag.copy_name')
-            }}
-          ></NTooltip>
-        )}
-        {props.definition?.workflowDefinition?.name && (
-          <NTooltip
-            v-slots={{
-              trigger: () => (
-                <NPopover
-                  placement='bottom'
-                  trigger='click'
-                  scrollable
-                  style={{ maxWidth: '50vw', maxHeight: '70vh' }}
-                >
-                  {{
-                    trigger: () => (
-                      <NButton quaternary circle class={Styles['toolbar-btn']}>
-                        <NIcon>
-                          <FundViewOutlined />
-                        </NIcon>
-                      </NButton>
-                    ),
-                    header: () => (
-                      <NText strong depth={1}>
-                        {t('project.workflow.parameters_variables')}
-                      </NText>
-                    ),
-                    default: () => <VariablesView onCopy={copy} />
-                  }}
-                </NPopover>
-              ),
-              default: () => t('project.dag.view_variables')
-            }}
-          ></NTooltip>
-        )}
-        <div class={Styles['toolbar-left-part']}>
-          {route.name !== 'workflow-instance-detail' &&
-            props.definition?.workflowDefinition?.releaseState === 'ONLINE' && (
-              <NTag round size='small' type='info'>
-                {t('project.dag.online')}
+    const iconButton = (
+      icon: any,
+      label: string,
+      action: () => void,
+      className: any = Styles['toolbar-tool']
+    ) => (
+      <NTooltip>
+        {{
+          trigger: () => (
+            <NButton
+              class={className}
+              secondary
+              circle
+              type='info'
+              aria-label={label}
+              onClick={action}
+            >
+              {{ icon: () => <NIcon>{icon}</NIcon> }}
+            </NButton>
+          ),
+          default: () => label
+        }}
+      </NTooltip>
+    )
+
+    return () => {
+      const workflowName =
+        route.name === 'workflow-instance-detail'
+          ? props.instance?.name
+          : props.definition?.workflowDefinition?.name ||
+            t('project.dag.create')
+
+      return (
+        <header class={Styles.toolbar}>
+          <div class={Styles['workflow-identity']}>
+            {!props.readonly &&
+              iconButton(
+                <AppstoreOutlined />,
+                t('project.dag.task_library'),
+                () => context.emit('libraryToggle'),
+                [
+                  Styles['library-toggle'],
+                  props.libraryVisible ? Styles.active : ''
+                ]
+              )}
+            <div class={Styles['workflow-copy']}>
+              <span>{t('project.dag.workbench')}</span>
+              <strong title={workflowName}>{workflowName}</strong>
+            </div>
+            <div class={Styles['workflow-meta']}>
+              <NTag size='small' type='info'>
+                {t('project.dag.node_count', { count: metrics.nodes })}
               </NTag>
+              <NTag size='small'>
+                {t('project.dag.edge_count', { count: metrics.edges })}
+              </NTag>
+              {route.name !== 'workflow-instance-detail' &&
+                props.definition?.workflowDefinition?.releaseState ===
+                  'ONLINE' && (
+                  <NTag size='small' type='success'>
+                    {t('project.dag.online')}
+                  </NTag>
+                )}
+            </div>
+            {props.definition?.workflowDefinition?.name &&
+              iconButton(<CopyOutlined />, t('project.dag.copy_name'), () =>
+                copy(workflowName)
+              )}
+            {props.definition?.workflowDefinition?.name && (
+              <NTooltip>
+                {{
+                  trigger: () => (
+                    <NPopover
+                      placement='bottom'
+                      trigger='click'
+                      scrollable
+                      style={{ maxWidth: '50vw', maxHeight: '70vh' }}
+                    >
+                      {{
+                        trigger: () => (
+                          <NButton secondary circle type='info'>
+                            {{
+                              icon: () => (
+                                <NIcon>
+                                  <FundViewOutlined />
+                                </NIcon>
+                              )
+                            }}
+                          </NButton>
+                        ),
+                        header: () => (
+                          <NText strong depth={1}>
+                            {t('project.workflow.parameters_variables')}
+                          </NText>
+                        ),
+                        default: () => <VariablesView onCopy={copy} />
+                      }}
+                    </NPopover>
+                  ),
+                  default: () => t('project.dag.view_variables')
+                }}
+              </NTooltip>
             )}
-          {route.name === 'workflow-instance-detail' && (
-            <>
-              <NTooltip
-                v-slots={{
+            {route.name === 'workflow-instance-detail' && (
+              <NTooltip>
+                {{
                   trigger: () => (
                     <NPopover placement='bottom' trigger='click'>
                       {{
                         trigger: () => (
-                          <NButton
-                            quaternary
-                            circle
-                            class={Styles['toolbar-btn']}
-                          >
-                            <NIcon>
-                              <RightCircleOutlined />
-                            </NIcon>
+                          <NButton secondary circle type='info'>
+                            {{
+                              icon: () => (
+                                <NIcon>
+                                  <RightCircleOutlined />
+                                </NIcon>
+                              )
+                            }}
                           </NButton>
                         ),
                         header: () => (
@@ -309,221 +382,101 @@ export default defineComponent({
                   ),
                   default: () => t('project.dag.startup_parameter')
                 }}
-              ></NTooltip>
-            </>
-          )}
-        </div>
-        <div class={Styles['toolbar-right-part']}>
-          {/* Search node */}
-          <NTooltip
-            v-slots={{
-              trigger: () => (
-                <NButton
-                  class={Styles['toolbar-right-item']}
-                  strong
-                  secondary
-                  circle
-                  type='info'
-                  onClick={toggleSearchInput}
-                  v-slots={{
-                    icon: () => (
-                      <NIcon>
-                        <SearchOutlined />
-                      </NIcon>
-                    )
-                  }}
-                />
-              ),
-              default: () => t('project.dag.search')
-            }}
-          ></NTooltip>
-          <div
-            class={`${Styles['toolbar-right-item']} ${
-              Styles['node-selector']
-            } ${searchInputVisible.value ? Styles['visible'] : ''}`}
-          >
-            <NSelect
-              size='small'
-              value={searchSelectValue.value}
-              options={nodesDropdown.value}
-              onFocus={reQueryNodes}
-              onUpdateValue={navigateTo}
-              filterable
-            />
+              </NTooltip>
+            )}
           </div>
-          {/* Download workflow PNG */}
-          <NTooltip
-            v-slots={{
-              trigger: () => (
-                <NButton
-                  class={Styles['toolbar-right-item']}
-                  strong
-                  secondary
-                  circle
-                  type='info'
-                  onClick={() => downloadPNG()}
-                  v-slots={{
-                    icon: () => (
-                      <NIcon>
-                        <DownloadOutlined />
-                      </NIcon>
-                    )
-                  }}
-                />
-              ),
-              default: () => t('project.dag.download_png')
-            }}
-          ></NTooltip>
-          {/* Refresh */}
-          {props.instance && (
-            <NTooltip
-              v-slots={{
-                trigger: () => (
-                  <NButton
-                    class={Styles['toolbar-right-item']}
-                    strong
-                    secondary
-                    circle
-                    type='info'
-                    onClick={() => {
-                      context.emit('refresh')
-                    }}
-                    v-slots={{
-                      icon: () => (
-                        <NIcon>
-                          <SyncOutlined />
-                        </NIcon>
-                      )
-                    }}
-                  />
+
+          <div class={Styles['toolbar-actions']}>
+            {metrics.nodes > 0 && (
+              <NSelect
+                class={Styles['node-selector']}
+                size='small'
+                value={searchSelectValue.value || null}
+                options={nodesDropdown.value}
+                placeholder={t('project.dag.search_node')}
+                onFocus={reQueryNodes}
+                onUpdateValue={navigateTo}
+                filterable
+                clearable
+              />
+            )}
+            <div class={Styles['toolbar-secondary']}>
+              {iconButton(
+                <DownloadOutlined />,
+                t('project.dag.download_png'),
+                () =>
+                  downloadPNG({
+                    fileName: 'dag',
+                    bgColor: themeStore.darkTheme ? '#11171b' : '#f2f5f8'
+                  })
+              )}
+              {props.instance &&
+                iconButton(
+                  <SyncOutlined />,
+                  t('project.dag.refresh_dag_status'),
+                  () => context.emit('refresh')
+                )}
+              {!props.readonly &&
+                iconButton(
+                  <DeleteOutlined />,
+                  t('project.dag.delete_cell'),
+                  () => removeCells()
+                )}
+              {iconButton(
+                isFullscreen.value ? (
+                  <FullscreenExitOutlined />
+                ) : (
+                  <FullscreenOutlined />
                 ),
-                default: () => t('project.dag.refresh_dag_status')
-              }}
-            ></NTooltip>
-          )}
-          {/* Delete */}
-          <NTooltip
-            v-slots={{
-              trigger: () => (
-                <NButton
-                  class={Styles['toolbar-right-item']}
-                  strong
-                  secondary
-                  circle
-                  type='info'
-                  onClick={() => removeCells()}
-                  v-slots={{
-                    icon: () => (
-                      <NIcon>
-                        <DeleteOutlined />
-                      </NIcon>
-                    )
-                  }}
-                />
-              ),
-              default: () => t('project.dag.delete_cell')
-            }}
-          ></NTooltip>
-          {/* Toggle fullscreen */}
-          <NTooltip
-            v-slots={{
-              trigger: () => (
-                <NButton
-                  class={Styles['toolbar-right-item']}
-                  strong
-                  secondary
-                  circle
-                  type='info'
-                  onClick={toggle}
-                  v-slots={{
-                    icon: () => (
-                      <NIcon>
-                        {isFullscreen.value ? (
-                          <FullscreenExitOutlined />
-                        ) : (
-                          <FullscreenOutlined />
-                        )}
-                      </NIcon>
-                    )
-                  }}
-                />
-              ),
-              default: () =>
                 isFullscreen.value
                   ? t('project.dag.fullscreen_close')
-                  : t('project.dag.fullscreen_open')
-            }}
-          ></NTooltip>
-          {/* DAG Format */}
-          <NTooltip
-            v-slots={{
-              trigger: () => (
-                <NButton
-                  class={Styles['toolbar-right-item']}
-                  strong
-                  secondary
-                  circle
-                  type='info'
-                  onClick={onFormat}
-                  v-slots={{
-                    icon: () => (
-                      <NIcon>
-                        <FormatPainterOutlined />
-                      </NIcon>
-                    )
-                  }}
-                />
-              ),
-              default: () => t('project.dag.format')
-            }}
-          ></NTooltip>
-          {/* Version info */}
-          {!!props.definition && (
-            <NTooltip
-              v-slots={{
-                trigger: () => (
-                  <NButton
-                    class={Styles['toolbar-right-item']}
-                    strong
-                    secondary
-                    circle
-                    type='info'
-                    onClick={openVersionModal}
-                    v-slots={{
-                      icon: () => (
-                        <NIcon>
-                          <InfoCircleOutlined />
-                        </NIcon>
-                      )
-                    }}
-                  />
-                ),
-                default: () => t('project.workflow.version_info')
-              }}
-            ></NTooltip>
-          )}
-          {/* Save workflow */}
-          <NButton
-            class={[Styles['toolbar-right-item'], 'btn-save']}
-            type='info'
-            secondary
-            round
-            disabled={
-              props.definition?.workflowDefinition?.releaseState === 'ONLINE' &&
-              !props.instance
-            }
-            onClick={() => {
-              context.emit('saveModelToggle', true)
-            }}
-          >
-            {t('project.dag.save')}
-          </NButton>
-          {/* Return to previous page */}
-          <NButton secondary round onClick={onClose} class='btn-close'>
-            {t('project.dag.close')}
-          </NButton>
-        </div>
-      </div>
-    )
+                  : t('project.dag.fullscreen_open'),
+                toggle
+              )}
+              {!props.readonly &&
+                iconButton(
+                  <FormatPainterOutlined />,
+                  t('project.dag.format'),
+                  onFormat
+                )}
+              {!!props.definition &&
+                iconButton(
+                  <InfoCircleOutlined />,
+                  t('project.workflow.version_info'),
+                  openVersionModal
+                )}
+            </div>
+            {(!props.readonly || props.instance) && (
+              <NButton
+                class={[Styles['save-button'], 'btn-save']}
+                type='primary'
+                size='small'
+                aria-label={t('project.dag.save')}
+                disabled={
+                  props.definition?.workflowDefinition?.releaseState ===
+                  'ONLINE' && !props.instance
+                }
+                onClick={() => context.emit('saveModelToggle', true)}
+              >
+                {{
+                  icon: () => (
+                    <NIcon>
+                      <SaveOutlined />
+                    </NIcon>
+                  ),
+                  default: () => t('project.dag.save')
+                }}
+              </NButton>
+            )}
+            {iconButton(
+              <CloseOutlined />,
+              t('project.dag.close'),
+              onClose,
+              'btn-close'
+            )}
+          </div>
+        </header>
+      )
+    }
   }
 })

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-$STROKE_BLUE: #288fff;
+$STROKE_BLUE: #1f6f9f;
 $BG_WHITE: #ffffff;
 
 .x6-node[data-shape='dag-task'] {
@@ -33,10 +33,45 @@ $BG_WHITE: #ffffff;
   }
 }
 
-[class*="dag-light"] {
-  --custom-disable-bg: #f3f3f5
+.etl-dag-light {
+  --custom-disable-bg: #edf2f6;
 }
 
-[class*="dag-dark"] {
-  --custom-disable-bg: #d3d3d3
+.etl-dag-dark {
+  --custom-disable-bg: #263138;
+
+  .x6-node[data-shape='dag-task'] {
+    .dag-task-body {
+      fill: #202a30;
+      stroke: #45545e;
+    }
+
+    > text:first-of-type {
+      fill: #edf4f8;
+    }
+
+    > text:nth-of-type(2) {
+      fill: #9eb0bd;
+    }
+
+    &:hover .dag-task-body {
+      fill: #243640;
+    }
+  }
+
+  .x6-edge [data-selector='line'] {
+    stroke: #647984;
+  }
+
+  .x6-graph-grid {
+    opacity: 0.34;
+  }
+}
+
+.x6-widget-minimap {
+  background: var(--etl-surface);
+}
+
+.x6-widget-minimap-viewport {
+  border-color: var(--etl-cyan-500) !important;
 }

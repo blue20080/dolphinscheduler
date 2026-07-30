@@ -61,7 +61,7 @@ export function useCellUpdate(options: Options) {
     if (!node) {
       return false
     }
-    node.attr('rect/fill', color)
+    node.attr('body/fill', color)
   }
 
   /**

@@ -113,6 +113,10 @@ export function useCellActive(options: Options) {
     }
     node.setAttrByPath('image/xlink:href', img)
     node.setAttrs(nodeAttrs)
+    node.setAttrByPath('accent/fill', node.data.accentColor || '#1F6F9F')
+    if (node.data.flag === 'NO') {
+      node.setAttrByPath('body/fill', 'var(--custom-disable-bg)')
+    }
     node.setPortProp(X6_PORT_OUT_NAME, 'attrs', portAttrs)
   }
 

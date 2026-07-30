@@ -94,6 +94,13 @@ export default defineComponent({
     provide('graph', graph)
     context.expose(graph)
 
+    const dagRoot = ref<HTMLElement>()
+    const libraryVisible = ref(
+      !props.readonly &&
+        (typeof window === 'undefined' || window.innerWidth > 900)
+    )
+    provide('dagRoot', dagRoot)
+
     // Auto layout modal
     const {
       visible: layoutVisible,
@@ -151,7 +158,7 @@ export default defineComponent({
       } else if (props.definition) {
         return props.definition!.workflowDefinition.releaseState === 'OFFLINE'
       } else {
-        return false
+        return !props.readonly
       }
     })
 
@@ -345,9 +352,11 @@ export default defineComponent({
 
     return () => (
       <div
+        ref={dagRoot}
         class={[
           Styles.dag,
-          Styles[`dag-${theme.darkTheme ? 'dark' : 'light'}`]
+          Styles[`dag-${theme.darkTheme ? 'dark' : 'light'}`],
+          `etl-dag-${theme.darkTheme ? 'dark' : 'light'}`
         ]}
       >
         <DagToolbar
@@ -358,10 +367,17 @@ export default defineComponent({
           onSaveModelToggle={saveModelToggle}
           onRemoveTasks={removeTasks}
           onRefresh={refreshTaskStatus}
+          readonly={props.readonly}
+          libraryVisible={libraryVisible.value}
+          onLibraryToggle={() =>
+            void (libraryVisible.value = !libraryVisible.value)
+          }
           v-model:dependenciesData={dependenciesData}
         />
         <div class={Styles.content}>
-          <DagSidebar onDragStart={onDragStart} />
+          {!props.readonly && libraryVisible.value && (
+            <DagSidebar onDragStart={onDragStart} />
+          )}
           <DagCanvas onDrop={onDrop} />
         </div>
         <DagAutoLayoutModal

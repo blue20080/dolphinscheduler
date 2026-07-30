@@ -179,7 +179,14 @@ export default defineComponent({
         onCancel={onCancel}
         autoFocus={false}
       >
-        <NForm model={formValue.value} rules={rule} ref={formRef}>
+        <NForm
+          class='etl-standard-form'
+          model={formValue.value}
+          rules={rule}
+          ref={formRef}
+          labelPlacement='top'
+          size='medium'
+        >
           <NFormItem label={t('project.node.workflow_name')} path='name'>
             <NInput
               allowInput={trim}
@@ -191,6 +198,7 @@ export default defineComponent({
             <NInput
               allowInput={trim}
               type='textarea'
+              rows={3}
               v-model:value={formValue.value.description}
               class='input-description'
             />
