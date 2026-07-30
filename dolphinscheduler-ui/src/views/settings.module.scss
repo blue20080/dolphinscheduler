@@ -1,0 +1,146 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0.
+ */
+
+.form-wrap {
+  width: min(520px, 100%);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+
+.settings {
+  display: grid;
+  gap: 20px;
+}
+
+.setting-section {
+  display: grid;
+  gap: 4px;
+}
+
+.setting-section h2 {
+  margin: 0 0 6px;
+  color: var(--etl-text);
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+.setting-row {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--etl-border);
+}
+
+.setting-row:last-child {
+  border-bottom: 0;
+}
+
+.setting-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.setting-copy strong {
+  color: var(--etl-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.setting-copy span {
+  color: var(--etl-text-secondary);
+  font-size: 12px;
+}
+
+.setting-control {
+  width: min(220px, 46%);
+  flex: 0 0 auto;
+}
+
+.about-hero {
+  display: flex;
+  min-height: 180px;
+  align-items: center;
+  gap: 22px;
+  padding: 20px;
+  border-left: 3px solid var(--etl-blue-700);
+  background: var(--etl-surface-subtle);
+}
+
+.about-logo {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+}
+
+.about-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.about-copy h2 {
+  margin: 0;
+  color: var(--etl-text);
+  font-size: 24px;
+  font-weight: 680;
+  letter-spacing: 0;
+}
+
+.about-copy p {
+  color: var(--etl-text-secondary);
+  font-size: 13px;
+}
+
+.version {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--etl-border);
+  border-radius: 5px;
+  color: var(--etl-text);
+  background: var(--etl-surface);
+  font-size: 12px;
+}
+
+@media (max-width: 700px) {
+  .form-actions {
+    justify-content: stretch;
+  }
+
+  .form-actions > * {
+    width: 100%;
+  }
+
+  .setting-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .setting-control {
+    width: 100%;
+  }
+
+  .about-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 16px;
+  }
+}

@@ -32,6 +32,7 @@ import type { RowData } from 'naive-ui/es/data-table/src/interface'
 import type { MasterNode } from '@/service/modules/monitor/types'
 import type { UserInfoRes } from '@/service/modules/users/types'
 import { capitalize } from 'lodash'
+import { Page, PageHeader } from '@/components/workspace'
 
 const master = defineComponent({
   name: 'master',
@@ -124,110 +125,109 @@ const master = defineComponent({
       )
     }
 
-    return this.data.length < 1 ? (
-      <Result
-        title={t('monitor.master.master_no_data_result_title')}
-        description={t('monitor.master.master_no_data_result_desc')}
-        status={'info'}
-        size={'medium'}
-      />
-    ) : (
-      <>
-        <NSpace vertical size={25}>
-          {this.data.map((item: MasterNode) => {
-            return (
-              <NSpace vertical>
-                <NCard>
-                  <NSpace
-                    justify='space-between'
-                    style={{
-                      'line-height': '28px'
-                    }}
+    return (
+      <Page>
+        <PageHeader
+          title={t('menu.master')}
+          description={t('monitor.master.page_description')}
+        />
+        {this.data.length < 1 ? (
+          <Result
+            title={t('monitor.master.master_no_data_result_title')}
+            description={t('monitor.master.master_no_data_result_desc')}
+            status={'info'}
+            size={'medium'}
+          />
+        ) : (
+          <NSpace vertical size={16}>
+            {this.data.map((item: MasterNode) => {
+              return (
+                <NSpace key={`${item.host}:${item.port}`} vertical size={12}>
+                  <NCard class={styles['node-summary']}>
+                    <div class={styles['summary-row']}>
+                      <div class={styles['summary-group']}>
+                        {renderNodeServerStatusTag(item)}
+                        <span>{`${t('monitor.master.host')}: ${
+                          item ? item.host : ' - '
+                        }`}</span>
+                        <span
+                          class={styles['link-btn']}
+                          onClick={() => clickDetails(item.serverDirectory)}
+                        >
+                          {t('monitor.master.directory_detail')}
+                        </span>
+                        {IS_ADMIN && (
+                          <span
+                            class={styles['link-btn']}
+                            onClick={() => clickRunningWorkflows(item)}
+                          >
+                            {t('monitor.master.running_workflows')}
+                          </span>
+                        )}
+                        {IS_ADMIN && (
+                          <span
+                            class={styles['link-btn']}
+                            onClick={() => clickRunningTasks(item)}
+                          >
+                            {t('monitor.master.running_tasks')}
+                          </span>
+                        )}
+                      </div>
+                      <div class={styles['summary-group']}>
+                        <span>{`${t('monitor.master.create_time')}: ${
+                          item ? item.createTime : ' - '
+                        }`}</span>
+                        <span>{`${t('monitor.master.last_heartbeat_time')}: ${
+                          item ? item.lastHeartbeatTime : ' - '
+                        }`}</span>
+                      </div>
+                    </div>
+                  </NCard>
+                  <NGrid
+                    x-gap='12'
+                    y-gap='12'
+                    cols='1 s:2 xl:3'
+                    responsive='screen'
                   >
-                    <NSpace>
-                      {renderNodeServerStatusTag(item)}
-
-                      <span>{`${t('monitor.master.host')}: ${
-                        item ? item.host : ' - '
-                      }`}</span>
-                      <span
-                        class={styles['link-btn']}
-                        onClick={() => clickDetails(item.serverDirectory)}
-                      >
-                        {t('monitor.master.directory_detail')}
-                      </span>
-                      {IS_ADMIN && (
-                        <span
-                          class={styles['link-btn']}
-                          onClick={() => clickRunningWorkflows(item)}
-                        >
-                          {t('monitor.master.running_workflows')}
-                        </span>
-                      )}
-                      {IS_ADMIN && (
-                        <span
-                          class={styles['link-btn']}
-                          onClick={() => clickRunningTasks(item)}
-                        >
-                          {t('monitor.master.running_tasks')}
-                        </span>
-                      )}
-                    </NSpace>
-                    <NSpace>
-                      <span>{`${t('monitor.master.create_time')}: ${
-                        item ? item.createTime : ' - '
-                      }`}</span>
-                      <span>{`${t('monitor.master.last_heartbeat_time')}: ${
-                        item ? item.lastHeartbeatTime : ' - '
-                      }`}</span>
-                    </NSpace>
-                  </NSpace>
-                </NCard>
-                <NGrid x-gap='12' cols='4'>
-                  <NGi>
-                    <Card title={t('monitor.master.cpu_usage')}>
-                      <div class={styles.card}>
-                        {item && (
+                    <NGi>
+                      <Card title={t('monitor.master.cpu_usage')}>
+                        <div class={styles.card}>
                           <Gauge
                             data={(
                               JSON.parse(item.heartBeatInfo).cpuUsage * 100
                             ).toFixed(2)}
                           />
-                        )}
-                      </div>
-                    </Card>
-                  </NGi>
-                  <NGi>
-                    <Card title={t('monitor.master.memory_usage')}>
-                      <div class={styles.card}>
-                        {item && (
+                        </div>
+                      </Card>
+                    </NGi>
+                    <NGi>
+                      <Card title={t('monitor.master.memory_usage')}>
+                        <div class={styles.card}>
                           <Gauge
                             data={(
                               JSON.parse(item.heartBeatInfo).memoryUsage * 100
                             ).toFixed(2)}
                           />
-                        )}
-                      </div>
-                    </Card>
-                  </NGi>
-                  <NGi>
-                    <Card title={t('monitor.master.disk_usage')}>
-                      <div class={[styles.card]}>
-                        {item && (
+                        </div>
+                      </Card>
+                    </NGi>
+                    <NGi>
+                      <Card title={t('monitor.master.disk_usage')}>
+                        <div class={styles.card}>
                           <Gauge
                             data={(
                               JSON.parse(item.heartBeatInfo).diskUsage * 100
                             ).toFixed(2)}
                           />
-                        )}
-                      </div>
-                    </Card>
-                  </NGi>
-                </NGrid>
-              </NSpace>
-            )
-          })}
-        </NSpace>
+                        </div>
+                      </Card>
+                    </NGi>
+                  </NGrid>
+                </NSpace>
+              )
+            })}
+          </NSpace>
+        )}
         <MasterModal
           showModal={showModalRef}
           data={zkDirectoryRef}
@@ -242,8 +242,8 @@ const master = defineComponent({
           showModal={showRunningTasksRef}
           serverAddress={selectedMasterAddressRef}
           onConfirmModal={onConfirmRunningTasksModal}
-        ></RunningTasksModal>
-      </>
+        />
+      </Page>
     )
   }
 })

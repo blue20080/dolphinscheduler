@@ -25,6 +25,7 @@ import Result from '@/components/result'
 import styles from './index.module.scss'
 import type { Ref } from 'vue'
 import type { DatabaseRes } from '@/service/modules/monitor/types'
+import { Page, PageHeader } from '@/components/workspace'
 
 const db = defineComponent({
   name: 'db',
@@ -38,69 +39,80 @@ const db = defineComponent({
   render() {
     const { t, databaseRef } = this
 
-    return databaseRef.length < 1 ? (
-      <Result
-        title={t('monitor.db.db_no_data_result_title')}
-        description={t('monitor.db.db_no_data_result_desc')}
-        status={'info'}
-        size={'medium'}
-      />
-    ) : (
-      <NGrid x-gap='12' y-gap='8' cols='2 2xl:4' responsive='screen'>
-        <NGi>
-          <Card title={t('monitor.db.health_state')}>
-            <div class={styles.health}>
-              {databaseRef[0] &&
-                (databaseRef[0].state ? (
-                  <NIcon class={styles['health-success']}>
-                    <CheckCircleOutlined />
-                  </NIcon>
-                ) : (
-                  <NIcon class={styles['health-error']}>
-                    <CloseCircleOutlined />
-                  </NIcon>
-                ))}
-            </div>
-          </Card>
-        </NGi>
-        <NGi>
-          <Card
-            title={`${t('monitor.db.max_connections')}${
-              databaseRef[0] ? ' - ' + databaseRef[0].date : ''
-            }`}
-          >
-            <div class={styles.connections}>
-              {databaseRef[0] && (
-                <NNumberAnimation from={0} to={databaseRef[0].maxConnections} />
-              )}
-            </div>
-          </Card>
-        </NGi>
-        <NGi>
-          <Card title={t('monitor.db.threads_connections')}>
-            <div class={styles.connections}>
-              {databaseRef[0] && (
-                <NNumberAnimation
-                  from={0}
-                  to={databaseRef[0].threadsConnections}
-                />
-              )}
-            </div>
-          </Card>
-        </NGi>
-        <NGi>
-          <Card title={t('monitor.db.threads_running_connections')}>
-            <div class={styles.connections}>
-              {databaseRef[0] && (
-                <NNumberAnimation
-                  from={0}
-                  to={databaseRef[0].threadsRunningConnections}
-                />
-              )}
-            </div>
-          </Card>
-        </NGi>
-      </NGrid>
+    return (
+      <Page>
+        <PageHeader
+          title={t('menu.db')}
+          description={t('monitor.db.page_description')}
+        />
+        {databaseRef.length < 1 ? (
+          <Result
+            title={t('monitor.db.db_no_data_result_title')}
+            description={t('monitor.db.db_no_data_result_desc')}
+            status={'info'}
+            size={'medium'}
+          />
+        ) : (
+          <NGrid x-gap='12' y-gap='12' cols='1 s:2 2xl:4' responsive='screen'>
+            <NGi>
+              <Card title={t('monitor.db.health_state')}>
+                <div class={styles.health}>
+                  {databaseRef[0] &&
+                    (databaseRef[0].state ? (
+                      <NIcon class={styles['health-success']}>
+                        <CheckCircleOutlined />
+                      </NIcon>
+                    ) : (
+                      <NIcon class={styles['health-error']}>
+                        <CloseCircleOutlined />
+                      </NIcon>
+                    ))}
+                </div>
+              </Card>
+            </NGi>
+            <NGi>
+              <Card
+                title={`${t('monitor.db.max_connections')}${
+                  databaseRef[0] ? ' - ' + databaseRef[0].date : ''
+                }`}
+              >
+                <div class={styles.connections}>
+                  {databaseRef[0] && (
+                    <NNumberAnimation
+                      from={0}
+                      to={databaseRef[0].maxConnections}
+                    />
+                  )}
+                </div>
+              </Card>
+            </NGi>
+            <NGi>
+              <Card title={t('monitor.db.threads_connections')}>
+                <div class={styles.connections}>
+                  {databaseRef[0] && (
+                    <NNumberAnimation
+                      from={0}
+                      to={databaseRef[0].threadsConnections}
+                    />
+                  )}
+                </div>
+              </Card>
+            </NGi>
+            <NGi>
+              <Card title={t('monitor.db.threads_running_connections')}>
+                <div class={styles.connections}>
+                  {databaseRef[0] && (
+                    <NNumberAnimation
+                      from={0}
+                      to={databaseRef[0].threadsRunningConnections}
+                    />
+                  )}
+                </div>
+              </Card>
+            </NGi>
+          </NGrid>
+        )}
+      </Page>
     )
   }
 })

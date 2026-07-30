@@ -17,6 +17,7 @@
 
 export default {
   profile: '用户信息',
+  description: '查看并维护当前账号的基础资料',
   edit: '编辑',
   username: '用户名',
   email: '邮箱',

@@ -17,6 +17,7 @@
 
 export default {
   edit_password: '修改密码',
+  description: '更新当前账号的登录密码',
   password: '密码',
   confirm_password: '确认密码',
   password_tips: '请输入密码',

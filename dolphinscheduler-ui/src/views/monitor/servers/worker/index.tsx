@@ -31,6 +31,7 @@ import type { RowData } from 'naive-ui/es/data-table/src/interface'
 import type { WorkerNode } from '@/service/modules/monitor/types'
 import type { UserInfoRes } from '@/service/modules/users/types'
 import { capitalize } from 'lodash'
+import { Page, PageHeader } from '@/components/workspace'
 
 const worker = defineComponent({
   name: 'worker',
@@ -107,116 +108,113 @@ const worker = defineComponent({
       )
     }
 
-    return this.data.length < 1 ? (
-      <Result
-        title={t('monitor.worker.worker_no_data_result_title')}
-        description={t('monitor.worker.worker_no_data_result_desc')}
-        status={'info'}
-        size={'medium'}
-      />
-    ) : (
-      <>
-        <NSpace vertical size={25}>
-          {this.data.map((item: WorkerNode) => {
-            return (
-              <NSpace vertical>
-                <NCard>
-                  <NSpace
-                    justify='space-between'
-                    style={{
-                      'line-height': '28px'
-                    }}
-                  >
-                    <NSpace>
-                      {renderNodeServerStatusTag(item)}
-
-                      <span>{`${t('monitor.worker.host')}: ${
-                        item ? item.host : ' - '
-                      }`}</span>
-                      <span
-                        class={styles['link-btn']}
-                        onClick={() => clickDetails(item.serverDirectory)}
-                      >
-                        {t('monitor.worker.directory_detail')}
-                      </span>
-                      {IS_ADMIN && (
+    return (
+      <Page>
+        <PageHeader
+          title={t('menu.worker')}
+          description={t('monitor.worker.page_description')}
+        />
+        {this.data.length < 1 ? (
+          <Result
+            title={t('monitor.worker.worker_no_data_result_title')}
+            description={t('monitor.worker.worker_no_data_result_desc')}
+            status={'info'}
+            size={'medium'}
+          />
+        ) : (
+          <NSpace vertical size={16}>
+            {this.data.map((item: WorkerNode) => {
+              return (
+                <NSpace key={`${item.host}:${item.port}`} vertical size={12}>
+                  <NCard class={styles['node-summary']}>
+                    <div class={styles['summary-row']}>
+                      <div class={styles['summary-group']}>
+                        {renderNodeServerStatusTag(item)}
+                        <span>{`${t('monitor.worker.host')}: ${
+                          item ? item.host : ' - '
+                        }`}</span>
                         <span
                           class={styles['link-btn']}
-                          onClick={() => clickRunningTasks(item)}
+                          onClick={() => clickDetails(item.serverDirectory)}
                         >
-                          {t('monitor.worker.running_tasks')}
+                          {t('monitor.worker.directory_detail')}
                         </span>
-                      )}
-                    </NSpace>
-                    <NSpace>
-                      <span>{`${t('monitor.worker.create_time')}: ${
-                        item ? item.createTime : ' - '
-                      }`}</span>
-                      <span>{`${t('monitor.worker.last_heartbeat_time')}: ${
-                        item ? item.lastHeartbeatTime : ' - '
-                      }`}</span>
-                    </NSpace>
-                  </NSpace>
-                </NCard>
-                <NGrid x-gap='12' cols='4'>
-                  <NGi>
-                    <Card title={t('monitor.worker.cpu_usage')}>
-                      <div class={styles.card}>
-                        {item && (
+                        {IS_ADMIN && (
+                          <span
+                            class={styles['link-btn']}
+                            onClick={() => clickRunningTasks(item)}
+                          >
+                            {t('monitor.worker.running_tasks')}
+                          </span>
+                        )}
+                      </div>
+                      <div class={styles['summary-group']}>
+                        <span>{`${t('monitor.worker.create_time')}: ${
+                          item ? item.createTime : ' - '
+                        }`}</span>
+                        <span>{`${t('monitor.worker.last_heartbeat_time')}: ${
+                          item ? item.lastHeartbeatTime : ' - '
+                        }`}</span>
+                      </div>
+                    </div>
+                  </NCard>
+                  <NGrid
+                    x-gap='12'
+                    y-gap='12'
+                    cols='1 s:2 2xl:4'
+                    responsive='screen'
+                  >
+                    <NGi>
+                      <Card title={t('monitor.worker.cpu_usage')}>
+                        <div class={styles.card}>
                           <Gauge
                             data={(
                               JSON.parse(item.heartBeatInfo).cpuUsage * 100
                             ).toFixed(2)}
                           />
-                        )}
-                      </div>
-                    </Card>
-                  </NGi>
-                  <NGi>
-                    <Card title={t('monitor.worker.memory_usage')}>
-                      <div class={styles.card}>
-                        {item && (
+                        </div>
+                      </Card>
+                    </NGi>
+                    <NGi>
+                      <Card title={t('monitor.worker.memory_usage')}>
+                        <div class={styles.card}>
                           <Gauge
                             data={(
                               JSON.parse(item.heartBeatInfo).memoryUsage * 100
                             ).toFixed(2)}
                           />
-                        )}
-                      </div>
-                    </Card>
-                  </NGi>
-                  <NGi>
-                    <Card title={t('monitor.worker.disk_usage')}>
-                      <div class={[styles.card]}>
-                        {item && (
+                        </div>
+                      </Card>
+                    </NGi>
+                    <NGi>
+                      <Card title={t('monitor.worker.disk_usage')}>
+                        <div class={styles.card}>
                           <Gauge
                             data={(
                               JSON.parse(item.heartBeatInfo).diskUsage * 100
                             ).toFixed(2)}
                           />
-                        )}
-                      </div>
-                    </Card>
-                  </NGi>
-                  <NGi>
-                    <Card title={t('monitor.worker.thread_pool_usage')}>
-                      <div class={[styles.card]}>
-                        {item && (
+                        </div>
+                      </Card>
+                    </NGi>
+                    <NGi>
+                      <Card title={t('monitor.worker.thread_pool_usage')}>
+                        <div class={styles.card}>
                           <Gauge
                             data={(
                               JSON.parse(item.heartBeatInfo).threadPoolUsage *
                               100
                             ).toFixed(2)}
                           />
-                        )}
-                      </div>
-                    </Card>
-                  </NGi>
-                </NGrid>
-              </NSpace>
-            )
-          })}
-        </NSpace>
+                        </div>
+                      </Card>
+                    </NGi>
+                  </NGrid>
+                </NSpace>
+              )
+            })}
+          </NSpace>
+        )}
         <WorkerModal
           showModal={showModalRef}
           data={zkDirectoryRef}
@@ -227,7 +225,7 @@ const worker = defineComponent({
           serverAddress={selectedWorkerAddressRef}
           onConfirmModal={onConfirmRunningModal}
         />
-      </>
+      </Page>
     )
   }
 })

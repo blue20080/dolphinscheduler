@@ -16,10 +16,11 @@
  */
 
 import { defineComponent } from 'vue'
-import { NGrid, NGi, NTabs, NTabPane, NCard } from 'naive-ui'
+import { NTabs, NTabPane } from 'naive-ui'
 import ListCommandTable from './list-command-table'
 import ListErrorCommandTable from './list-error-command-table'
 import { useI18n } from 'vue-i18n'
+import { DataPanel, Page, PageHeader } from '@/components/workspace'
 
 const statistics = defineComponent({
   name: 'statistics',
@@ -28,35 +29,37 @@ const statistics = defineComponent({
   render() {
     const { t } = useI18n()
     return (
-      <NGrid x-gap='12' y-gap='8' cols='1' responsive='screen'>
-        <NGi>
-          <NCard>
-            <NTabs
-              type='card'
-              animated
-              pane-style={{
-                padding: '0px',
-                border: 'none'
-              }}
+      <Page>
+        <PageHeader
+          title={t('menu.statistics')}
+          description={t('monitor.statistics.page_description')}
+        />
+        <DataPanel>
+          <NTabs
+            type='line'
+            animated
+            pane-style={{
+              padding: '0px',
+              border: 'none'
+            }}
+          >
+            <NTabPane
+              name='command'
+              tab={t('monitor.statistics.command_statistics_list')}
+              display-directiv='show'
             >
-              <NTabPane
-                name='command'
-                tab={t('monitor.statistics.command_statistics_list')}
-                display-directiv='show'
-              >
-                <ListCommandTable></ListCommandTable>
-              </NTabPane>
-              <NTabPane
-                name='command-error'
-                tab={t('monitor.statistics.failure_command_statistics_list')}
-                display-directiv='show'
-              >
-                <ListErrorCommandTable></ListErrorCommandTable>
-              </NTabPane>
-            </NTabs>
-          </NCard>
-        </NGi>
-      </NGrid>
+              <ListCommandTable></ListCommandTable>
+            </NTabPane>
+            <NTabPane
+              name='command-error'
+              tab={t('monitor.statistics.failure_command_statistics_list')}
+              display-directiv='show'
+            >
+              <ListErrorCommandTable></ListErrorCommandTable>
+            </NTabPane>
+          </NTabs>
+        </DataPanel>
+      </Page>
     )
   }
 })

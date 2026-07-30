@@ -16,10 +16,17 @@
  */
 
 export default {
+  description: '配置接口、日志刷新和实验性功能',
   refresh_time: '自动刷新时间',
+  refresh_time_description: '设置日志和运行状态的自动刷新间隔',
   experimental_feature: '实验性功能',
   request_settings: '请求设置',
   dynamic_task_component: '动态任务组件',
+  dynamic_task_description: '启用动态任务创建入口和相关实验能力',
   api_timeout: '接口超时时间',
-  millisecond: '毫秒'
+  api_timeout_description: '设置前端等待接口响应的最长时间',
+  millisecond: '毫秒',
+  second: '秒',
+  minute: '分钟',
+  off: '关闭'
 }

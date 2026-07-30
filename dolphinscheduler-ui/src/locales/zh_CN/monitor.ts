@@ -17,6 +17,7 @@
 
 export default {
   master: {
+    page_description: '查看 Master 节点状态、心跳与资源使用情况',
     cpu_usage: '处理器使用量',
     memory_usage: '内存使用量',
     disk_usage: '磁盘使用量',
@@ -36,6 +37,7 @@ export default {
       '目前没有任何Master节点，请先创建Master节点，再访问该页面'
   },
   worker: {
+    page_description: '查看 Worker 节点状态、心跳与执行资源情况',
     cpu_usage: '处理器使用量',
     memory_usage: '内存使用量',
     disk_usage: '磁盘使用量',
@@ -55,11 +57,13 @@ export default {
       '目前没有任何Worker节点，请先创建Worker节点，再访问该页面'
   },
   alert_server: {
+    page_description: '查看告警服务节点状态与运行资源情况',
     alert_server_no_data_result_title: 'Alert Server节点不存在',
     alert_server_no_data_result_desc:
       '目前没有任何Alert Server节点，请先创建Alert Server节点，再访问该页面'
   },
   db: {
+    page_description: '查看元数据库健康状态与连接使用情况',
     health_state: '健康状态',
     max_connections: '最大连接数',
     threads_connections: '当前连接数',
@@ -68,6 +72,7 @@ export default {
     db_no_data_result_desc: '目前没有任何DB节点，请先创建DB节点，再访问该页面'
   },
   statistics: {
+    page_description: '汇总调度命令与失败命令执行情况',
     command_statistics_list: '命令统计列表',
     failure_command_statistics_list: '失败命令统计列表',
     command_type: '命令类型',
@@ -81,6 +86,7 @@ export default {
     time: '时间'
   },
   audit_log: {
+    page_description: '查询用户在平台中的关键操作记录',
     user_name: '用户名称',
     operation_type: '操作类型',
     model_type: '模型类型',

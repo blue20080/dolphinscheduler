@@ -17,6 +17,7 @@
 
 export default {
   edit_password: 'Edit Password',
+  description: 'Update the sign-in password for the current account',
   password: 'Password',
   confirm_password: 'Confirm Password',
   password_tips: 'Please enter your password',

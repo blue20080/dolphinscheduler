@@ -17,13 +17,20 @@
 
 import { CSSProperties, defineComponent, PropType } from 'vue'
 import { NCard } from 'naive-ui'
+import styles from './index.module.scss'
 
 const headerStyle = {
-  borderBottom: '1px solid var(--n-border-color)'
+  minHeight: '54px',
+  padding: '11px 16px',
+  borderBottom: '1px solid var(--etl-border)'
 }
 
 const contentStyle = {
-  padding: '8px 10px'
+  padding: '14px 16px'
+}
+
+const filterContentStyle = {
+  padding: '10px 14px'
 }
 
 const headerExtraStyle = {}
@@ -50,13 +57,20 @@ const Card = defineComponent({
     const { title, $slots } = this
     return (
       <NCard
+        class={[styles.card, title ? styles.panel : styles.filter]}
         title={title}
         size='small'
         headerStyle={this.headerStyle ? this.headerStyle : headerStyle}
         headerExtraStyle={
           this.headerExtraStyle ? this.headerExtraStyle : headerExtraStyle
         }
-        contentStyle={this.contentStyle ? this.contentStyle : contentStyle}
+        contentStyle={
+          this.contentStyle
+            ? this.contentStyle
+            : title
+            ? contentStyle
+            : filterContentStyle
+        }
       >
         {$slots}
       </NCard>

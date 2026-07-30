@@ -17,6 +17,7 @@
 
 export default {
   profile: 'Profile',
+  description: 'Review and maintain the current account profile',
   edit: 'Edit',
   username: 'Username',
   email: 'Email',

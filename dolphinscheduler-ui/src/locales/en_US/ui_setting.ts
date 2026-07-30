@@ -16,10 +16,20 @@
  */
 
 export default {
+  description: 'Configure API, log refresh and experimental capabilities',
   refresh_time: 'Log Auto Refresh Time',
+  refresh_time_description:
+    'Set the automatic refresh interval for logs and runtime state',
   experimental_feature: 'Experimental Feature',
   request_settings: 'Request Settings',
   dynamic_task_component: 'Dynamic Task Component',
+  dynamic_task_description:
+    'Enable dynamic task entry points and experimental capabilities',
   api_timeout: 'API Timeout',
-  millisecond: 'Millisecond'
+  api_timeout_description:
+    'Set the maximum time the UI waits for an API response',
+  millisecond: 'Millisecond',
+  second: 'Seconds',
+  minute: 'Minutes',
+  off: 'Off'
 }

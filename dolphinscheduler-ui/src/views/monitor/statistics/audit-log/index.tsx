@@ -36,7 +36,7 @@ import {
 import { SearchOutlined } from '@vicons/antd'
 import { useTable } from './use-table'
 import { useI18n } from 'vue-i18n'
-import Card from '@/components/card'
+import { DataPanel, FilterBar, Page, PageHeader } from '@/components/workspace'
 
 const AuditLog = defineComponent({
   name: 'audit-log',
@@ -98,75 +98,81 @@ const AuditLog = defineComponent({
     const { t, requestTableData, onUpdatePageSize, onSearch, loadingRef } = this
 
     return (
-      <NSpace vertical>
-        <Card>
-          <NSpace justify='end'>
-            <NInput
-              allowInput={this.trim}
-              v-model={[this.userName, 'value']}
-              size='small'
-              placeholder={t('monitor.audit_log.user_name')}
-              clearable
-            />
-            <NInput
-              allowInput={this.trim}
-              v-model={[this.modelName, 'value']}
-              size='small'
-              placeholder={t('monitor.audit_log.model_name')}
-              clearable
-            />
-            <NCascader
-              v-model={[this.modelType, 'value']}
-              multiple
-              cascade={false}
-              size='small'
-              options={this.ModelTypeData}
-              placeholder={t('monitor.audit_log.model_type')}
-              style={{ width: '180px' }}
-              clearable
-              filterable
-              value-field='name'
-              label-field='name'
-              children-field='child'
-              show-path={false}
-              maxTagCount={1}
-            />
-            <NSelect
-              v-model={[this.operationType, 'value']}
-              size='small'
-              options={this.OperationTypeData}
-              placeholder={t('monitor.audit_log.operation_type')}
-              style={{ width: '180px' }}
-              clearable
-              filterable
-              value-field='name'
-              label-field='name'
-            />
+      <Page>
+        <PageHeader
+          title={t('menu.audit_log')}
+          description={t('monitor.audit_log.page_description')}
+        />
+        <FilterBar>
+          <NInput
+            allowInput={this.trim}
+            v-model={[this.userName, 'value']}
+            size='small'
+            placeholder={t('monitor.audit_log.user_name')}
+            clearable
+          />
+          <NInput
+            allowInput={this.trim}
+            v-model={[this.modelName, 'value']}
+            size='small'
+            placeholder={t('monitor.audit_log.model_name')}
+            clearable
+          />
+          <NCascader
+            v-model={[this.modelType, 'value']}
+            multiple
+            cascade={false}
+            size='small'
+            options={this.ModelTypeData}
+            placeholder={t('monitor.audit_log.model_type')}
+            style={{ width: '180px' }}
+            clearable
+            filterable
+            value-field='name'
+            label-field='name'
+            children-field='child'
+            show-path={false}
+            maxTagCount={1}
+          />
+          <NSelect
+            v-model={[this.operationType, 'value']}
+            size='small'
+            options={this.OperationTypeData}
+            placeholder={t('monitor.audit_log.operation_type')}
+            style={{ width: '180px' }}
+            clearable
+            filterable
+            value-field='name'
+            label-field='name'
+          />
 
-            <NDatePicker
-              v-model={[this.datePickerRange, 'value']}
-              type='datetimerange'
-              size='small'
-              start-placeholder={t('monitor.audit_log.start_time')}
-              end-placeholder={t('monitor.audit_log.end_time')}
-              clearable
-            />
-            <NButton size='small' type='primary' onClick={onSearch}>
-              <NIcon>
-                <SearchOutlined />
-              </NIcon>
-            </NButton>
-          </NSpace>
-        </Card>
-        <Card title={t('menu.audit_log')}>
-          <NSpace vertical>
-            <NDataTable
-              loading={loadingRef}
-              columns={this.columns}
-              scrollX={this.tableWidth}
-              data={this.tableData}
-            />
-            <NSpace justify='center'>
+          <NDatePicker
+            v-model={[this.datePickerRange, 'value']}
+            type='datetimerange'
+            size='small'
+            start-placeholder={t('monitor.audit_log.start_time')}
+            end-placeholder={t('monitor.audit_log.end_time')}
+            clearable
+          />
+          <NButton size='small' type='primary' onClick={onSearch}>
+            <NIcon>
+              <SearchOutlined />
+            </NIcon>
+          </NButton>
+        </FilterBar>
+        <DataPanel title={t('menu.audit_log')}>
+          {{
+            default: () => (
+              <NDataTable
+                loading={loadingRef}
+                columns={this.columns}
+                scrollX={this.tableWidth}
+                data={this.tableData}
+                striped
+                size='small'
+              />
+            ),
+            footer: () => (
               <NPagination
                 v-model:page={this.page}
                 v-model:page-size={this.pageSize}
@@ -177,10 +183,10 @@ const AuditLog = defineComponent({
                 onUpdatePage={requestTableData}
                 onUpdatePageSize={onUpdatePageSize}
               />
-            </NSpace>
-          </NSpace>
-        </Card>
-      </NSpace>
+            )
+          }}
+        </DataPanel>
+      </Page>
     )
   }
 })

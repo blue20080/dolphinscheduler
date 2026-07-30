@@ -94,7 +94,7 @@ const NodeDetailModal = defineComponent({
   props,
   emits: ['cancel', 'submit', 'viewLog'],
   setup(props, { emit }) {
-    const { t, locale } = useI18n()
+    const { t } = useI18n()
     const router: Router = useRouter()
     const taskStore = useTaskNodeStore()
 
@@ -154,20 +154,17 @@ const NodeDetailModal = defineComponent({
     }
 
     const initHeaderLinks = (workflowInstance: any, taskType?: ITaskType) => {
+      const helpUrl = import.meta.env.VITE_APP_HELP_URL
       headerLinks.value = [
         {
           text: t('project.node.instructions'),
-          show: !!(taskType && !TASK_TYPES_MAP[taskType]?.helperLinkDisable),
+          show: !!(
+            helpUrl &&
+            taskType &&
+            !TASK_TYPES_MAP[taskType]?.helperLinkDisable
+          ),
           action: () => {
-            let linkedTaskType = taskType?.toLowerCase().replace('_', '-')
-            if (taskType === 'PROCEDURE') linkedTaskType = 'stored-procedure'
-            const helpUrl =
-              'https://dolphinscheduler.apache.org/' +
-              locale.value.toLowerCase().replace('_', '-') +
-              '/docs/latest/user_doc/guide/task/' +
-              linkedTaskType +
-              '.html'
-            window.open(helpUrl)
+            if (helpUrl) window.open(helpUrl)
           },
           icon: renderIcon(QuestionCircleTwotone)
         },

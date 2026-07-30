@@ -16,11 +16,10 @@
  */
 
 @mixin base {
-  font-size: 100px;
   display: flex;
-  justify-content: center;
+  min-height: 220px;
   align-items: center;
-  min-height: 240px;
+  justify-content: center;
 }
 
 .health {
@@ -28,14 +27,26 @@
 }
 
 .health-success {
-  color: limegreen;
+  color: #2f855a;
+  font-size: 56px;
 }
 
 .health-error {
-  color: indianred;
+  color: #c2413a;
+  font-size: 56px;
 }
 
 .connections {
   @include base;
-  color: var(--n-color-target);
+  color: var(--etl-blue-700);
+  font-size: 46px;
+  font-weight: 680;
+  letter-spacing: 0;
+}
+
+@media (max-width: 700px) {
+  .health,
+  .connections {
+    min-height: 180px;
+  }
 }

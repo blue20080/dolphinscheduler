@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 
- @mixin base {
-  font-size: 5vw;
+@mixin base {
   display: flex;
-  justify-content: center;
+  min-height: 260px;
   align-items: center;
-  min-height: 400px;
+  justify-content: center;
 }
 
 .card {
@@ -28,11 +27,50 @@
 }
 
 .link-btn {
-  color: var(--n-color-target);
+  color: var(--etl-blue-700);
   cursor: pointer;
+  font-weight: 600;
 
   &:hover {
-    color: var(--n-color-target);
+    color: var(--etl-blue-600);
     opacity: 0.8;
+  }
+}
+
+.node-summary {
+  border: 1px solid var(--etl-border);
+  border-left: 3px solid var(--etl-blue-700);
+  border-radius: 6px;
+  background: var(--etl-surface);
+  box-shadow: var(--etl-shadow-sm);
+}
+
+.summary-row,
+.summary-group {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.summary-row {
+  justify-content: space-between;
+  color: var(--etl-text-secondary);
+  font-size: 12px;
+}
+
+.summary-group:first-child {
+  color: var(--etl-text);
+}
+
+@media (max-width: 700px) {
+  .card {
+    min-height: 220px;
+  }
+
+  .summary-row {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

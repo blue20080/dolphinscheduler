@@ -1,0 +1,105 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0.
+ */
+
+.card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--etl-border);
+  border-radius: 6px;
+  background: var(--etl-surface);
+  box-shadow: var(--etl-shadow-sm);
+}
+
+.panel {
+  :global(.n-card-header__main) {
+    color: var(--etl-text);
+    font-size: 15px;
+    font-weight: 650;
+    letter-spacing: 0;
+  }
+
+  :global(.n-card__content) > :global(.n-space) {
+    width: 100%;
+  }
+}
+
+.filter {
+  :global(.n-card__content) > :global(.n-space) {
+    width: 100%;
+    flex-wrap: wrap !important;
+    row-gap: 8px !important;
+  }
+
+  :global(.n-card__content)
+    > :global(.n-space)
+    > div:has(> :global(.n-input), > :global(.n-select), > :global(.n-cascader)) {
+    min-width: 150px;
+    flex: 1 0 150px;
+  }
+
+  :global(.n-card__content)
+    > :global(.n-space)
+    > div:has(> :global(.n-date-picker)) {
+    min-width: 260px;
+    flex: 1 0 260px;
+  }
+
+  :global(.n-card__content)
+    > :global(.n-space)
+    > div:has(> :global(.n-button)) {
+    flex: 0 0 auto;
+  }
+
+  :global(.n-space) > div:has(> :global(.etl-input-search)) + div {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .filter {
+    :global(.n-card__content) > :global(.n-space) {
+      align-items: stretch !important;
+      flex-direction: column !important;
+    }
+
+    :global(.n-card__content) > :global(.n-space) > div {
+      width: 100% !important;
+      min-width: 0 !important;
+      flex: none !important;
+    }
+
+    :global(.n-card__content)
+      > :global(.n-space)
+      > div:has(> :global(.n-button)) {
+      width: 40px !important;
+      align-self: flex-end;
+    }
+
+    :global(.n-card__content) :global(.n-space) {
+      max-width: 100%;
+      flex-wrap: wrap;
+    }
+
+    :global(.etl-input-search),
+    :global(.n-input),
+    :global(.n-select),
+    :global(.n-date-picker),
+    :global(.n-cascader) {
+      width: 100% !important;
+    }
+  }
+
+  .panel {
+    :global(.n-card__content) {
+      overflow-x: auto;
+    }
+
+    :global(.n-pagination) {
+      min-width: max-content;
+    }
+  }
+}

@@ -17,9 +17,9 @@
 
 import { useI18n } from 'vue-i18n'
 import { defineComponent, onMounted, ref } from 'vue'
-import Card from '@/components/card'
-import { NSpace } from 'naive-ui'
 import { queryProductInfo } from '@/service/modules/ui-plugins'
+import { DataPanel, Page, PageHeader } from '@/components/workspace'
+import styles from '@/views/settings.module.scss'
 
 const about = defineComponent({
   name: 'about',
@@ -40,16 +40,29 @@ const about = defineComponent({
     const { t } = useI18n()
     const { info } = this
     return (
-      <div>
-        <Card title={t('about.about')}>
-          <NSpace vertical>
-            <NSpace align='center'>
-              <span>{t('about.about_version')}</span>
-              <div>{info}</div>
-            </NSpace>
-          </NSpace>
-        </Card>
-      </div>
+      <Page>
+        <PageHeader
+          title={t('about.about')}
+          description={t('about.description')}
+        />
+        <DataPanel>
+          <section class={styles['about-hero']}>
+            <img
+              class={styles['about-logo']}
+              src={`${import.meta.env.BASE_URL}favicon.svg`}
+              alt='ETL'
+            />
+            <div class={styles['about-copy']}>
+              <h2>{t('about.product_name')}</h2>
+              <p>{t('about.product_description')}</p>
+              <div class={styles.version}>
+                <span>{t('about.about_version')}</span>
+                <strong>{info || '-'}</strong>
+              </div>
+            </div>
+          </section>
+        </DataPanel>
+      </Page>
     )
   }
 })

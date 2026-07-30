@@ -17,5 +17,8 @@
 
 export default {
   about: '关于产品',
+  description: '查看 ETL 平台产品与版本信息',
+  product_name: 'ETL PLATFORM',
+  product_description: '企业级数据编排、调度与运行管理平台',
   about_version: '产品版本'
 }

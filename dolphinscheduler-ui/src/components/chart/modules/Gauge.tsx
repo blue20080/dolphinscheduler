@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-import { defineComponent, onMounted, onBeforeUnmount, PropType, ref } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import initChart from '@/components/chart'
 import type { Ref } from 'vue'
 
 const props = {
   height: {
     type: [String, Number] as PropType<string | number>,
-    default: 400
+    default: 260
   },
   width: {
     type: [String, Number] as PropType<string | number>,
-    default: 400
+    default: '100%'
   },
   data: {
     type: [String, Number] as PropType<string | number>
@@ -40,7 +40,10 @@ const GaugeChart = defineComponent({
     const gaugeChartRef: Ref<HTMLDivElement | null> = ref(null)
     const windowWidth = window.innerWidth
     // The original size was based on the screen width of 2560
-    const defaultFontSize = windowWidth > 2560 ? 20 : (windowWidth / 2560) * 20
+    const defaultFontSize = Math.max(
+      8,
+      Math.min(12, windowWidth > 2560 ? 20 : (windowWidth / 2560) * 20)
+    )
 
     const option = {
       series: [
@@ -75,7 +78,9 @@ const GaugeChart = defineComponent({
           axisLabel: {
             color: 'auto',
             distance: 40,
-            fontSize: defaultFontSize
+            fontSize: defaultFontSize,
+            formatter: (value: number) =>
+              value === 0 || value === 100 ? '' : value
           },
           detail: {
             valueAnimation: true,
@@ -94,15 +99,30 @@ const GaugeChart = defineComponent({
 
     const resize = (chart: any) => {
       const clientWidth = gaugeChartRef.value?.clientWidth || 400
-      const axisLabelFontSize =
-        clientWidth > 400
-          ? defaultFontSize
-          : (clientWidth / 400) * defaultFontSize
+      const compact = clientWidth < 300
+      const axisLabelFontSize = Math.max(
+        8,
+        Math.min(defaultFontSize, (clientWidth / 400) * defaultFontSize)
+      )
       chart &&
         chart.setOption({
           series: [
             {
+              axisLine: {
+                lineStyle: {
+                  width: compact ? 20 : 30
+                }
+              },
+              axisTick: {
+                distance: compact ? -20 : -30,
+                length: compact ? 6 : 8
+              },
+              splitLine: {
+                distance: compact ? -20 : -30,
+                length: compact ? 20 : 30
+              },
               axisLabel: {
+                distance: compact ? 28 : 40,
                 fontSize: axisLabelFontSize
               },
               detail: {
@@ -115,14 +135,6 @@ const GaugeChart = defineComponent({
     }
 
     initChart(gaugeChartRef, option, resize)
-
-    onMounted(() => {
-      addEventListener('resize', resize)
-    })
-
-    onBeforeUnmount(() => {
-      removeEventListener('resize', resize)
-    })
 
     return { gaugeChartRef }
   },

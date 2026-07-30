@@ -17,6 +17,7 @@
 
 export default {
   master: {
+    page_description: 'Review Master node status, heartbeat and resource usage',
     cpu_usage: 'CPU Usage',
     memory_usage: 'Memory Usage',
     disk_usage: 'Disk Usage',
@@ -36,6 +37,8 @@ export default {
       'Currently, there are no master nodes exist, please create a master node and refresh this page'
   },
   worker: {
+    page_description:
+      'Review Worker node status, heartbeat and execution capacity',
     cpu_usage: 'CPU Usage',
     memory_usage: 'Memory Usage',
     disk_usage: 'Disk Usage',
@@ -55,11 +58,13 @@ export default {
       'Currently, there are no worker nodes exist, please create a worker node and refresh this page'
   },
   alert_server: {
+    page_description: 'Review alert service node status and resource usage',
     alert_server_no_data_result_title: 'No Alert Server Nodes Exist',
     alert_server_no_data_result_desc:
       'Currently, there are no alert server nodes exist, please create a alert server node and refresh this page'
   },
   db: {
+    page_description: 'Review metadata database health and connection usage',
     health_state: 'Health State',
     max_connections: 'Max Connections',
     threads_connections: 'Threads Connections',
@@ -69,6 +74,8 @@ export default {
       'Currently, there are no DB nodes exist, please create a DB node and refresh this page'
   },
   statistics: {
+    page_description:
+      'Summarize scheduling commands and failed command execution',
     command_statistics_list: 'Command Statistics List',
     failure_command_statistics_list: 'Failure Command Statistics List',
     command_type: 'Command Type',
@@ -82,6 +89,7 @@ export default {
     time: 'Time'
   },
   audit_log: {
+    page_description: 'Search key user operations performed in the platform',
     user_name: 'User Name',
     operation_type: 'Operation Type',
     model_type: 'Model Type',

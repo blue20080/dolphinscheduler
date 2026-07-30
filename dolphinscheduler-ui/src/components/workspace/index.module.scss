@@ -70,6 +70,27 @@
   gap: 10px;
 }
 
+.filter-fields {
+  flex-wrap: wrap;
+}
+
+.filter-fields > :global(.n-input),
+.filter-fields > :global(.n-select),
+.filter-fields > :global(.n-cascader) {
+  min-width: 150px;
+  flex: 1 0 150px;
+}
+
+.filter-fields > :global(.n-date-picker) {
+  min-width: 260px;
+  flex: 1 0 260px;
+}
+
+.filter-fields > :global(.n-button) {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
 .filter-extra {
   justify-content: flex-end;
 }
@@ -236,10 +257,39 @@
     width: 100%;
   }
 
-  .page-actions > *,
-  .filter-fields > * {
+  .page-actions > * {
     min-width: 0;
     flex: 1;
+  }
+
+  .page-actions > :global(.n-button-group) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .page-actions
+    > :global(.n-button-group)
+    > :global(.n-button) {
+    width: 100%;
+    margin-left: 0 !important;
+    border-radius: 4px !important;
+  }
+
+  .filter-fields {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .filter-fields > * {
+    width: 100% !important;
+    min-width: 0;
+    flex: none !important;
+  }
+
+  .filter-fields > :global(.n-button:last-child) {
+    width: 40px !important;
+    align-self: flex-end;
   }
 
   .filter-extra {

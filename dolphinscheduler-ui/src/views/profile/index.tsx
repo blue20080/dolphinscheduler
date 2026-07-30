@@ -26,12 +26,12 @@ import { useForm } from './use-form'
 import { NButton, NForm, NFormItem, NInput } from 'naive-ui'
 import { useUserinfo } from './use-userinfo'
 import { useUpdate } from './use-update'
-import Card from '@/components/card'
 import Modal from '@/components/modal'
 import Info from './components/info'
 import utils from '@/utils'
 import { useUserStore } from '@/store/user/user'
 import type { UserInfoRes } from '@/service/modules/users/types'
+import { DataPanel, Page, PageHeader } from '@/components/workspace'
 
 const profile = defineComponent({
   name: 'profile',
@@ -67,21 +67,28 @@ const profile = defineComponent({
     const { t, onCancel, onConfirm } = this
 
     return (
-      <div>
-        <Card title={t('profile.profile')}>
-          {{
-            default: () => <Info />,
-            'header-extra': () => (
-              <NButton
-                type='info'
-                size='small'
-                onClick={() => (this.showModalRef = !this.showModalRef)}
-              >
-                {t('profile.edit')}
-              </NButton>
-            )
-          }}
-        </Card>
+      <>
+        <Page>
+          <PageHeader
+            title={t('profile.profile')}
+            description={t('profile.description')}
+          >
+            {{
+              actions: () => (
+                <NButton
+                  type='primary'
+                  size='small'
+                  onClick={() => (this.showModalRef = !this.showModalRef)}
+                >
+                  {t('profile.edit')}
+                </NButton>
+              )
+            }}
+          </PageHeader>
+          <DataPanel>
+            <Info />
+          </DataPanel>
+        </Page>
         <Modal
           title={t('profile.edit_profile')}
           show={this.showModalRef}
@@ -122,7 +129,7 @@ const profile = defineComponent({
             )
           }}
         </Modal>
-      </div>
+      </>
     )
   }
 })

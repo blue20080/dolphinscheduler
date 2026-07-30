@@ -19,7 +19,8 @@ import { defineComponent, getCurrentInstance, toRefs } from 'vue'
 import { NForm, NFormItem, NButton, NInput } from 'naive-ui'
 import { useForm } from './use-form'
 import { useUpdate } from './use-update'
-import Card from '@/components/card'
+import { DataPanel, Page, PageHeader } from '@/components/workspace'
+import styles from '@/views/settings.module.scss'
 
 const password = defineComponent({
   name: 'password',
@@ -34,42 +35,47 @@ const password = defineComponent({
     const { t } = this
 
     return (
-      <Card title={t('password.edit_password')}>
-        {{
-          default: () => (
-            <div>
-              <NForm
-                rules={this.rules}
-                ref='passwordFormRef'
-                model={this.passwordForm}
+      <Page>
+        <PageHeader
+          title={t('password.edit_password')}
+          description={t('password.description')}
+        />
+        <DataPanel>
+          <div class={styles['form-wrap']}>
+            <NForm
+              class='etl-standard-form'
+              rules={this.rules}
+              ref='passwordFormRef'
+              model={this.passwordForm}
+            >
+              <NFormItem label={t('password.password')} path='password'>
+                <NInput
+                  allowInput={this.trim}
+                  type='password'
+                  placeholder={t('password.password_tips')}
+                  v-model={[this.passwordForm.password, 'value']}
+                  onInput={() => {
+                    this.rPasswordFormItemRef.validate({
+                      trigger: 'password-input'
+                    })
+                  }}
+                />
+              </NFormItem>
+              <NFormItem
+                ref='rPasswordFormItemRef'
+                label={t('password.confirm_password')}
+                path='confirmPassword'
+                first
               >
-                <NFormItem label={t('password.password')} path='password'>
-                  <NInput
-                    allowInput={this.trim}
-                    type='password'
-                    placeholder={t('password.password_tips')}
-                    v-model={[this.passwordForm.password, 'value']}
-                    onInput={() => {
-                      this.rPasswordFormItemRef.validate({
-                        trigger: 'password-input'
-                      })
-                    }}
-                  />
-                </NFormItem>
-                <NFormItem
-                  ref='rPasswordFormItemRef'
-                  label={t('password.confirm_password')}
-                  path='confirmPassword'
-                  first
-                >
-                  <NInput
-                    allowInput={this.trim}
-                    type='password'
-                    placeholder={t('password.confirm_password_tips')}
-                    v-model={[this.passwordForm.confirmPassword, 'value']}
-                  />
-                </NFormItem>
-              </NForm>
+                <NInput
+                  allowInput={this.trim}
+                  type='password'
+                  placeholder={t('password.confirm_password_tips')}
+                  v-model={[this.passwordForm.confirmPassword, 'value']}
+                />
+              </NFormItem>
+            </NForm>
+            <div class={styles['form-actions']}>
               <NButton
                 disabled={
                   !this.passwordForm.password ||
@@ -77,15 +83,15 @@ const password = defineComponent({
                   this.passwordForm.password !==
                     this.passwordForm.confirmPassword
                 }
-                type='info'
+                type='primary'
                 onClick={this.handleUpdate}
               >
                 {t('password.submit')}
               </NButton>
             </div>
-          )
-        }}
-      </Card>
+          </div>
+        </DataPanel>
+      </Page>
     )
   }
 })

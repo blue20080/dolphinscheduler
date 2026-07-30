@@ -20,20 +20,26 @@ import { useI18n } from 'vue-i18n'
 import { NTabPane, NTabs } from 'naive-ui'
 import BatchTaskInstance from './batch-task'
 import StreamTaskInstance from './stream-task'
+import { DataPanel, Page, PageHeader } from '@/components/workspace'
 
 const TaskDefinition = defineComponent({
   name: 'task-instance',
   setup() {
     const { t } = useI18n()
     return () => (
-      <NTabs type='line' animated>
-        <NTabPane name='Batch' tab={t('project.task.batch_task')}>
-          <BatchTaskInstance />
-        </NTabPane>
-        <NTabPane name='Stream' tab={t('project.task.stream_task')}>
-          <StreamTaskInstance />
-        </NTabPane>
-      </NTabs>
+      <Page>
+        <PageHeader title={t('menu.task_instance')} />
+        <DataPanel>
+          <NTabs type='line' animated>
+            <NTabPane name='Batch' tab={t('project.task.batch_task')}>
+              <BatchTaskInstance />
+            </NTabPane>
+            <NTabPane name='Stream' tab={t('project.task.stream_task')}>
+              <StreamTaskInstance />
+            </NTabPane>
+          </NTabs>
+        </DataPanel>
+      </Page>
     )
   }
 })

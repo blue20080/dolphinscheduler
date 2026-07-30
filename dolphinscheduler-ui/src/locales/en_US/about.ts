@@ -17,5 +17,9 @@
 
 export default {
   about: 'About',
+  description: 'View ETL platform product and version information',
+  product_name: 'ETL PLATFORM',
+  product_description:
+    'Enterprise data orchestration, scheduling and operations',
   about_version: 'Product Version'
 }

@@ -117,6 +117,18 @@ select {
   vertical-align: middle;
 }
 
+.n-data-table {
+  border-radius: 5px;
+}
+
+.n-data-table .n-data-table-th {
+  background: var(--etl-surface-subtle);
+}
+
+.n-tabs-tab-wrapper .n-tabs-tab {
+  letter-spacing: 0;
+}
+
 .n-pagination {
   max-width: 100%;
 }
