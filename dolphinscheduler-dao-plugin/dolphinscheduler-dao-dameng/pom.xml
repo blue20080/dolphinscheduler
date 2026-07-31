@@ -24,39 +24,18 @@
         <version>dev-SNAPSHOT</version>
     </parent>
 
-    <artifactId>dolphinscheduler-dao-plugin-all</artifactId>
+    <artifactId>dolphinscheduler-dao-dameng</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.dolphinscheduler</groupId>
             <artifactId>dolphinscheduler-dao-api</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.dolphinscheduler</groupId>
-            <artifactId>dolphinscheduler-dao-h2</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.dameng</groupId>
+            <artifactId>DmJdbcDriver18</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.dolphinscheduler</groupId>
-            <artifactId>dolphinscheduler-dao-postgresql</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dolphinscheduler</groupId>
-            <artifactId>dolphinscheduler-dao-mysql</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dolphinscheduler</groupId>
-            <artifactId>dolphinscheduler-dao-dameng</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
     </dependencies>
 
 </project>

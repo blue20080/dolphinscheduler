@@ -72,7 +72,7 @@ public class TaskInstanceContextDaoImpl extends BaseDao<TaskInstanceContext, Tas
                 mybatisMapper.queryListByTaskInstanceIdAndContextType(taskInstanceContext.getTaskInstanceId(),
                         taskInstanceContext.getContextType()).stream().findFirst().orElse(null);
         if (dbTaskInstanceContext == null) {
-            return mybatisMapper.insert(taskInstanceContext);
+            return mybatisMapper.insertTaskInstanceContext(taskInstanceContext);
         } else {
             List<AbstractTaskInstanceContext> dbDependentResultTaskInstanceContextList =
                     dbTaskInstanceContext.getTaskInstanceContext();
@@ -88,7 +88,7 @@ public class TaskInstanceContextDaoImpl extends BaseDao<TaskInstanceContext, Tas
                                                     + o.getDateCycle()))),
                                     ArrayList::new));
             taskInstanceContext.setTaskInstanceContext(deduplicatedDependentResultTaskInstanceContextList);
-            return mybatisMapper.updateById(taskInstanceContext);
+            return mybatisMapper.updateTaskInstanceContext(taskInstanceContext);
         }
     }
 

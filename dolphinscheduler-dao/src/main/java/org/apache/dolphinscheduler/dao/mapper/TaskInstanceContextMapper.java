@@ -28,6 +28,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 public interface TaskInstanceContextMapper extends BaseMapper<TaskInstanceContext> {
 
+    int insertTaskInstanceContext(TaskInstanceContext taskInstanceContext);
+
+    int updateTaskInstanceContext(TaskInstanceContext taskInstanceContext);
+
     List<TaskInstanceContext> queryListByTaskInstanceIdAndContextType(@Param("taskInstanceId") int taskInstanceId,
                                                                       @Param("contextType") ContextType contextType);
 

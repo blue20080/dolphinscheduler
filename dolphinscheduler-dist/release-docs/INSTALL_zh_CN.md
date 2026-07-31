@@ -26,7 +26,7 @@ limitations under the License.
 - 64 位 Linux；macOS 可用于本机验证，不建议作为生产服务器。
 - JDK 8 或 JDK 11，并正确配置 `JAVA_HOME`。
 - Standalone 验证环境建议至少 8 GB 内存。
-- 生产部署需要 PostgreSQL 8.2.15+ 和 ZooKeeper 3.8.x。
+- 生产部署支持 PostgreSQL 或达梦 DM8 元数据库，并需要 ZooKeeper 3.8.x。
 - 确保服务器的 `8080` 端口可被需要访问 ETL 的客户端连接。
 
 检查 Java：
@@ -116,7 +116,11 @@ cd /实际安装路径/etl-*-bin
 
 ETL 的多租户任务会切换到对应 Linux 租户执行。生产环境应按照公司的权限规范，为 ETL 部署用户配置所需的 sudo 权限。
 
-### 2. 创建 PostgreSQL 元数据库
+### 2. 创建元数据库
+
+PostgreSQL 和达梦 DM8 二选一即可。
+
+#### PostgreSQL
 
 使用 PostgreSQL 管理员账号执行：
 
@@ -126,6 +130,27 @@ CREATE DATABASE etl OWNER etl ENCODING 'UTF8';
 ```
 
 同时确认 PostgreSQL 的 `pg_hba.conf` 允许 ETL 服务器使用该账号连接数据库。
+
+#### 达梦 DM8
+
+使用达梦管理员账号通过 `disql` 执行。ETL 平台必须使用独立 Schema，不应直接使用 `SYSDBA`：
+
+```sql
+CREATE USER ETL IDENTIFIED BY "Etl123456" DEFAULT TABLESPACE MAIN;
+GRANT RESOURCE TO ETL;
+GRANT SELECT ON SYS.V$SESSIONS TO ETL;
+GRANT SELECT ON SYS.V$DM_INI TO ETL;
+```
+
+后两项只读权限用于监控中心采集当前会话数和实例最大会话数，不会授予 ETL 用户修改系统参数的权限。
+
+达梦 JDBC URL 末尾路径表示 Schema 名，不是数据库实例名。因此 ETL 专用账号使用：
+
+```text
+jdbc:dm://达梦服务器地址:5236/ETL
+```
+
+不要把实例名 `DMSERVER` 直接追加到 JDBC URL，除非数据库中确实存在同名 Schema。
 
 ### 3. 启动 ZooKeeper
 
@@ -137,7 +162,7 @@ zk01.example.com:2181
 
 ### 4. 配置运行环境
 
-编辑 `bin/env/dolphinscheduler_env.sh`，添加或修改以下内容：
+编辑 `bin/env/dolphinscheduler_env.sh`，添加或修改以下内容。以下先给出 PostgreSQL 配置：
 
 ```shell
 export JAVA_HOME=/实际的/JDK目录
@@ -155,6 +180,18 @@ export SPRING_CACHE_TYPE=none
 export SPRING_JACKSON_TIME_ZONE=Asia/Shanghai
 ```
 
+使用达梦 DM8 时，将数据库部分替换为：
+
+```shell
+export DATABASE=dameng
+export SPRING_PROFILES_ACTIVE=dameng
+export SPRING_DATASOURCE_URL="jdbc:dm://达梦服务器地址:5236/ETL"
+export SPRING_DATASOURCE_USERNAME=ETL
+export SPRING_DATASOURCE_PASSWORD='Etl123456'
+```
+
+发行包已经包含达梦 JDBC 驱动，不需要从 `/opt/dm8/drivers/jdbc/` 手工复制 JAR。
+
 配置文件中的值会被复制到各服务目录。修改后应重新执行服务启动命令，不要只修改某一个服务目录中的临时副本。
 
 ### 5. 初始化数据库
@@ -166,6 +203,14 @@ bash tools/bin/upgrade-schema.sh
 ```
 
 脚本成功结束后，数据库中应生成 ETL 所需的表结构和初始管理员账号。
+
+达梦初始化完成后可以使用管理员账号检查：
+
+```sql
+SELECT COUNT(*) FROM ALL_TABLES WHERE OWNER = 'ETL';
+SELECT VERSION FROM ETL.T_DS_VERSION;
+SELECT USER_NAME FROM ETL.T_DS_USER;
+```
 
 ### 6. 启动服务
 

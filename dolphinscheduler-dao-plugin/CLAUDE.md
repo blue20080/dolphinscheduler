@@ -11,6 +11,7 @@ Plugin family for **database dialects** supporting the core DolphinScheduler met
 - Concrete dialects:
   - `dolphinscheduler-dao-mysql` — MySQL 5.7+ (production).
   - `dolphinscheduler-dao-postgresql` — PostgreSQL 9.6+ (production).
+  - `dolphinscheduler-dao-dameng` — Dameng DM8 (production, fresh-install baseline).
   - `dolphinscheduler-dao-h2` — H2 (dev / tests / standalone server).
 
 ## How the right dialect is picked
@@ -21,7 +22,7 @@ Switching the DB type therefore only requires changing the driver + URL in `appl
 
 ## Gotchas
 
-- **This is not a user-facing SPI**. There are exactly three supported internal DBs; adding a fourth (e.g. MariaDB, OceanBase for the metadata DB) requires coordinated changes in `dolphinscheduler-dao` SQL scripts and `dolphinscheduler-tools` upgraders.
+- **This is not a user-facing SPI**. Internal database support requires coordinated DAO, SQL schema and tool changes; do not treat external datasource plugins as metadata database support.
 - **MyBatis-Plus `DbType` (`com.baomidou.mybatisplus.annotation.DbType`) is NOT the same enum as `dolphinscheduler-spi`'s `DbType`**. Internal DB uses the MyBatis-Plus one; external datasources use the spi one. When editing code here, make sure you're importing the right one.
 - **Dialect-specific SQL**: pagination (MySQL `LIMIT` vs PostgreSQL `OFFSET … LIMIT`), upsert behavior, JSON column handling. The `DatabaseDialect` interface is the authoritative place to vary SQL between backends — don't add `if (dbType == X)` branches in mappers.
 - **H2 is only for dev/test**. Production deployments should not run on H2. The standalone server is the only shipping configuration that uses it.
