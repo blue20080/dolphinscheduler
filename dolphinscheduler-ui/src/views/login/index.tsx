@@ -76,9 +76,7 @@ const login = defineComponent({
     const localesStore = useLocalesStore()
     const themeStore = useThemeStore()
 
-    if (themeStore.getTheme) {
-      themeStore.setDarkTheme()
-    }
+    themeStore.setLightTheme()
 
     const trim = getCurrentInstance()?.appContext.config.globalProperties.trim
 
@@ -133,7 +131,7 @@ const login = defineComponent({
       <div class={styles.container}>
         <section class={styles['brand-panel']}>
           <div class={styles['brand-header']}>
-            <img src={this.logoDark} alt='ETL' />
+            <img src={this.logoLight} alt='ETL' />
           </div>
           <div class={styles['brand-content']}>
             <div class={styles['brand-kicker']}>ETL CONTROL PLANE</div>
@@ -170,6 +168,12 @@ const login = defineComponent({
                   <i />
                 </span>
               </div>
+            </div>
+            <div class={styles['brand-readout']}>
+              <span>
+                <i /> DATA FABRIC ONLINE
+              </span>
+              <strong>99.98% SIGNAL</strong>
             </div>
           </div>
           <div class={styles['brand-footer']}>ETL PLATFORM</div>

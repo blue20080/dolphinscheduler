@@ -28,6 +28,7 @@ import {
   PageHeader,
   StatCard
 } from '@/components/workspace'
+import styles from './index.module.scss'
 
 export default defineComponent({
   name: 'home',
@@ -88,6 +89,14 @@ export default defineComponent({
           title={t('home.operations_overview')}
           description={t('home.operations_overview_description')}
         />
+        <div class={styles['overview-signal']}>
+          <div class={styles['signal-label']}>
+            <span class={styles['signal-dot']} />
+            <span>ETL DATA FABRIC</span>
+            <strong>OPERATIONAL</strong>
+          </div>
+          <span class={styles['signal-meta']}>LIVE CONTROL PLANE / UTC+08</span>
+        </div>
         <FilterBar>
           <NDatePicker
             value={dateRef}

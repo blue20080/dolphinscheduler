@@ -18,7 +18,7 @@ const light = {
   common: {
     fontFamily:
       "Inter, 'IBM Plex Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif",
-    bodyColor: '#f2f5f8',
+    bodyColor: '#f5f9fc',
     cardColor: '#ffffff',
     modalColor: '#ffffff',
     popoverColor: '#ffffff',
@@ -32,13 +32,13 @@ const light = {
     borderRadiusSmall: '4px',
 
     /**************** Brand color */
-    primaryColor: '#1f6f9f',
-    primaryColorHover: '#2d82b5',
-    primaryColorPressed: '#155a82',
-    primaryColorSuppl: '#1f6f9f',
+    primaryColor: '#1677c8',
+    primaryColorHover: '#2a8bd7',
+    primaryColorPressed: '#0f5fa3',
+    primaryColorSuppl: '#1677c8',
 
     /**************** Function of color */
-    infoColor: '#2b7ba7',
+    infoColor: '#138da8',
     successColor: '#2f855a',
     warningColor: '#c27c0e',
     errorColor: '#c2413a'

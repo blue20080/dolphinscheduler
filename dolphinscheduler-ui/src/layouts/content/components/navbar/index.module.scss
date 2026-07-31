@@ -23,6 +23,7 @@
   padding: 0 22px;
   gap: 18px;
   background: var(--etl-surface);
+  border-top: 2px solid #dceff5;
   border-bottom: 1px solid var(--etl-border);
 
   .identity {
@@ -36,7 +37,8 @@
     width: 4px;
     height: 32px;
     flex: none;
-    background: #2ea7b8;
+    background: var(--etl-signal);
+    box-shadow: 0 0 12px rgb(0 166 199 / 28%);
     border-radius: 1px;
   }
 
