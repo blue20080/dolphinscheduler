@@ -22,8 +22,6 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import i18n from '@/locales'
 import * as echarts from 'echarts'
-import 'echarts/theme/macarons'
-import 'echarts/theme/dark-bold'
 import './assets/styles/default.scss'
 import trim from './utils/trim'
 

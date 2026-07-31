@@ -22,6 +22,14 @@ import { useI18n } from 'vue-i18n'
 import type { Ref } from 'vue'
 import type { ECharts } from 'echarts'
 import type { ECBasicOption } from 'echarts/types/dist/shared'
+import { chartThemes } from './theme'
+
+const themeNames = {
+  light: 'etl-light',
+  dark: 'etl-dark'
+}
+
+let themesRegistered = false
 
 function initChart<Opt extends ECBasicOption>(
   domRef: Ref<HTMLDivElement | null>,
@@ -34,12 +42,20 @@ function initChart<Opt extends ECBasicOption>(
   const globalProperties =
     getCurrentInstance()?.appContext.config.globalProperties
 
+  const chartEngine = globalProperties?.echarts
+
+  if (!themesRegistered && chartEngine) {
+    chartEngine.registerTheme(themeNames.light, chartThemes.light)
+    chartEngine.registerTheme(themeNames.dark, chartThemes.dark)
+    themesRegistered = true
+  }
+
   option['backgroundColor'] = ''
 
   const init = () => {
     chart = globalProperties?.echarts.init(
       domRef.value,
-      themeStore.darkTheme ? 'dark-bold' : 'macarons'
+      themeStore.darkTheme ? themeNames.dark : themeNames.light
     )
     chart && chart.setOption(option)
   }

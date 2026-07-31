@@ -38,21 +38,48 @@ const PieChart = defineComponent({
   props,
   setup(props) {
     const pieChartRef: Ref<HTMLDivElement | null> = ref(null)
+    const nonZeroData = (props.data || []).filter(
+      (item) => Number(item?.value) > 0
+    )
+    const chartData = nonZeroData.length > 0 ? nonZeroData : props.data
 
     const option = {
       tooltip: {
         trigger: 'item'
       },
       legend: {
-        bottom: '0%',
-        left: 'center'
+        bottom: 0,
+        left: 'center',
+        type: 'scroll',
+        icon: 'circle',
+        itemWidth: 8,
+        itemHeight: 8,
+        itemGap: 14,
+        textStyle: {
+          fontSize: 11
+        }
       },
       series: [
         {
           type: 'pie',
-          radius: ['35%', '60%'],
-          center: ['50%', '40%'],
+          radius: ['48%', '70%'],
+          center: ['50%', '43%'],
           avoidLabelOverlap: false,
+          padAngle: 2,
+          itemStyle: {
+            borderColor: 'transparent',
+            borderWidth: 2,
+            borderRadius: 4
+          },
+          emphasis: {
+            scale: true,
+            scaleSize: 5,
+            itemStyle: {
+              shadowBlur: 14,
+              shadowOffsetY: 4,
+              shadowColor: 'rgb(19 50 69 / 18%)'
+            }
+          },
           label: {
             show: false,
             position: 'center'
@@ -60,7 +87,7 @@ const PieChart = defineComponent({
           labelLine: {
             show: false
           },
-          data: props.data
+          data: chartData
         }
       ]
     }

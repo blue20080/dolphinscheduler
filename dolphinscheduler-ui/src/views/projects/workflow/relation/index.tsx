@@ -122,7 +122,7 @@ const workflowRelation = defineComponent({
               <NSpace>
                 {h(NSelect, {
                   style: {
-                    width: '300px'
+                    width: 'clamp(84px, calc(100vw - 380px), 300px)'
                   },
                   clearable: true,
                   filterable: true,

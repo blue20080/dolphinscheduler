@@ -42,8 +42,7 @@ const TreeChart = defineComponent({
 
     const option = reactive({
       tooltip: {
-        trigger: 'item',
-        backgroundColor: '#fff'
+        trigger: 'item'
       },
       textStyle: {
         fontSize: 14
@@ -59,15 +58,14 @@ const TreeChart = defineComponent({
           bottom: '10%',
           right: '15%',
           symbol: 'circle',
-          symbolSize: 18,
+          symbolSize: 14,
           edgeShape: 'polyline',
           edgeForkPosition: '63%',
           initialTreeDepth: 'auto',
           lineStyle: {
-            width: 3
+            width: 2
           },
           label: {
-            backgroundColor: '#fff',
             position: 'left',
             verticalAlign: 'middle',
             align: 'right'

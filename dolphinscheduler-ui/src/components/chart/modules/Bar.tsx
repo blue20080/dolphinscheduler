@@ -48,21 +48,26 @@ const BarChart = defineComponent({
       tooltip: {
         trigger: 'axis',
         axisPointer: {
-          type: 'shadow'
+          type: 'line'
         }
       },
       grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
+        top: 20,
+        left: 18,
+        right: 18,
+        bottom: 30,
         containLabel: true
       },
       xAxis: [
         {
           type: 'category',
           data: props.xAxisData,
+          axisLabel: {
+            hideOverlap: true,
+            interval: 'auto'
+          },
           axisTick: {
-            alignWithLabel: true
+            show: false
           }
         }
       ],
@@ -74,7 +79,20 @@ const BarChart = defineComponent({
       series: [
         {
           type: 'bar',
-          barWidth: '60%',
+          barMaxWidth: 28,
+          barCategoryGap: '42%',
+          itemStyle: {
+            borderRadius: [4, 4, 0, 0]
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          label: {
+            show: true,
+            position: 'top',
+            color: 'inherit',
+            fontSize: 11
+          },
           data: props.seriesData
         }
       ]

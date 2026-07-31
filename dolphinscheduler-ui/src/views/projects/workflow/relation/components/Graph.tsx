@@ -17,6 +17,7 @@
 
 import { defineComponent, PropType, ref } from 'vue'
 import initChart from '@/components/chart'
+import { chartColors } from '@/components/chart/theme'
 import { useI18n } from 'vue-i18n'
 import type { Ref } from 'vue'
 
@@ -50,9 +51,15 @@ const GraphChart = defineComponent({
     const { t } = useI18n()
 
     const legendData = [
-      { color: '#2D8DF0', name: t('project.workflow.online') },
-      { color: '#f37373', name: t('project.workflow.workflow_offline') },
-      { color: '#ba3e3e', name: t('project.workflow.schedule_offline') }
+      { color: chartColors.light.accent, name: t('project.workflow.online') },
+      {
+        color: chartColors.light.warning,
+        name: t('project.workflow.workflow_offline')
+      },
+      {
+        color: chartColors.light.danger,
+        name: t('project.workflow.schedule_offline')
+      }
     ]
 
     const getCategory = (schedulerStatus: number, workflowStatus: number) => {
@@ -103,6 +110,11 @@ const GraphChart = defineComponent({
         }
       },
       legend: {
+        top: 8,
+        left: 'center',
+        itemWidth: 10,
+        itemHeight: 10,
+        itemGap: 18,
         data: legendData?.map((item) => {
           return {
             name: item.name,
@@ -118,28 +130,24 @@ const GraphChart = defineComponent({
           layout: 'force',
           draggable: true,
           force: {
-            repulsion: 300,
-            edgeLength: 200
+            repulsion: 220,
+            edgeLength: 140
           },
           symbol: 'roundRect',
-          symbolSize: 70,
+          symbolSize: [112, 42],
           roam: true,
           label: {
             show: props.labelShow,
-            formatter: (val: any) => {
-              let newStr = ''
-              const str = val.data.name.split('')
-
-              for (let i = 0, s; (s = str[i++]); ) {
-                newStr += s
-                if (!(i % 10)) newStr += '\n'
-              }
-
-              return newStr.length > 60 ? newStr.slice(0, 60) + '...' : newStr
-            }
+            color: '#ffffff',
+            fontSize: 11,
+            fontWeight: 600,
+            width: 92,
+            overflow: 'truncate',
+            ellipsis: '...',
+            formatter: (val: any) => val.data.name
           },
           edgeSymbol: ['circle', 'arrow'],
-          edgeSymbolSize: [4, 10],
+          edgeSymbolSize: [3, 8],
           edgeLabel: {
             fontSize: 20
           },
@@ -149,15 +157,11 @@ const GraphChart = defineComponent({
               Number(item.workFlowPublishStatus)
             )
             const itemStyle = {
-              color: ''
-            }
-
-            if (category === 1) {
-              itemStyle.color = '#f37373'
-            } else if (category === 2) {
-              itemStyle.color = '#ba3e3e'
-            } else if (category === 0) {
-              itemStyle.color = '#2D8DF0'
+              color: legendData[category].color,
+              borderColor: 'rgb(255 255 255 / 38%)',
+              borderWidth: 1,
+              shadowBlur: 10,
+              shadowColor: 'rgb(19 50 69 / 16%)'
             }
 
             return {

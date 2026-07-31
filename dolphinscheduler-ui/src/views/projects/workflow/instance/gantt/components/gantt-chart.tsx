@@ -21,8 +21,22 @@ import * as echarts from 'echarts'
 import type { Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import initChart from '@/components/chart'
+import { chartColors } from '@/components/chart/theme'
 import { tasksState } from '@/common/common'
 import type { ISeriesData, ITaskState } from '../type'
+
+const ganttStateColors: Partial<Record<ITaskState, string>> = {
+  SUBMITTED_SUCCESS: '#748896',
+  RUNNING_EXECUTION: chartColors.light.accent,
+  PAUSE: chartColors.light.cyan,
+  FAILURE: chartColors.light.danger,
+  SUCCESS: chartColors.light.success,
+  NEED_FAULT_TOLERANCE: chartColors.light.warning,
+  KILL: '#923c3c',
+  DELAY_EXECUTION: chartColors.light.purple,
+  FORCED_SUCCESS: '#497a68',
+  DISPATCH: '#365f89'
+}
 
 const props = {
   height: {
@@ -51,6 +65,8 @@ const GanttChart = defineComponent({
     const { t } = useI18n()
 
     const state = tasksState(t)
+    const getStateColor = (key: ITaskState) =>
+      ganttStateColors[key] || state[key].color
 
     const data: ISeriesData = {}
     Object.keys(state).forEach((key) => (data[key] = []))
@@ -60,9 +76,10 @@ const GanttChart = defineComponent({
       name: state[key as ITaskState].desc,
       renderItem: renderItem,
       itemStyle: {
-        opacity: 0.8,
-        color: state[key as ITaskState].color,
-        color0: state[key as ITaskState].color
+        opacity: 0.94,
+        color: getStateColor(key as ITaskState),
+        color0: getStateColor(key as ITaskState),
+        borderRadius: 4
       },
       encode: {
         x: [1, 2],
@@ -83,7 +100,7 @@ const GanttChart = defineComponent({
         name: task.taskName,
         value: [index, start, end, end - start],
         itemStyle: {
-          color: state[task.status as ITaskState].color
+          color: getStateColor(task.status as ITaskState)
         }
       })
     })
@@ -93,7 +110,7 @@ const GanttChart = defineComponent({
       const taskIndex = api.value(0)
       const start = api.coord([api.value(1), taskIndex])
       const end = api.coord([api.value(2), taskIndex])
-      const height = api.size([0, 1])[1] * 0.6
+      const height = Math.max(10, Math.min(28, api.size([0, 1])[1] * 0.52))
       const rectShape = echarts.graphic.clipRectByRect(
         {
           x: start[0],
@@ -112,8 +129,11 @@ const GanttChart = defineComponent({
         rectShape && {
           type: 'rect',
           transition: ['shape'],
-          shape: rectShape,
-          style: api.style()
+          shape: { ...rectShape, r: 4 },
+          style: {
+            fill: getStateColor(params.seriesId as ITaskState),
+            opacity: 0.94
+          }
         }
       )
     }
@@ -122,10 +142,11 @@ const GanttChart = defineComponent({
       title: {
         text: t('project.workflow.task_state'),
         textStyle: {
-          fontWeight: 'normal',
-          fontSize: 14
+          fontWeight: 650,
+          fontSize: 13
         },
-        left: 50
+        top: 8,
+        left: 20
       },
       tooltip: {
         formatter: function (params: any) {
@@ -144,21 +165,43 @@ const GanttChart = defineComponent({
         }
       },
       legend: {
-        left: 150,
-        padding: [5, 5, 5, 5]
+        top: 8,
+        left: 140,
+        icon: 'circle',
+        itemWidth: 8,
+        itemHeight: 8,
+        itemGap: 14,
+        padding: [5, 5, 5, 5],
+        textStyle: {
+          fontSize: 11
+        }
       },
       dataZoom: [
         {
           type: 'slider',
           xAxisIndex: 0,
           filterMode: 'weakFilter',
-          height: 20,
-          bottom: 0,
+          height: 14,
+          bottom: 12,
           start: 0,
           end: 100,
-          handleSize: '80%',
+          handleSize: '110%',
           showDetail: false,
-          top: '85%'
+          backgroundColor: 'transparent',
+          fillerColor: 'rgb(31 111 159 / 18%)',
+          borderColor: 'transparent',
+          handleStyle: {
+            color: chartColors.light.accent,
+            borderColor: chartColors.light.accent
+          },
+          dataBackground: {
+            lineStyle: {
+              opacity: 0
+            },
+            areaStyle: {
+              opacity: 0
+            }
+          }
         },
         {
           type: 'inside',
@@ -166,15 +209,18 @@ const GanttChart = defineComponent({
         }
       ],
       grid: {
-        height: '70%',
-        top: 80
+        top: 72,
+        right: 24,
+        bottom: 48,
+        left: 24,
+        containLabel: true
       },
       xAxis: {
         type: 'time',
         min: minTime,
         max: maxTime - minTime > 5000 ? maxTime + 1000 : minTime + 5000,
         position: 'top',
-        axisTick: { show: true },
+        axisTick: { show: false },
         splitLine: { show: false },
         axisLabel: {
           formatter: '{HH}:{mm}:{ss}',
@@ -197,7 +243,7 @@ const GanttChart = defineComponent({
           }
         })
       },
-      series: series
+      series: series.filter((item) => item.data.length > 0)
     }
 
     initChart(graphChartRef, option)

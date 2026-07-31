@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 
-import { defineComponent, PropType, ref } from 'vue'
+import { defineComponent, PropType, reactive, ref, watch } from 'vue'
 import initChart from '@/components/chart'
 import type { Ref } from 'vue'
+import { useThemeStore } from '@/store/theme/theme'
+import { chartColors } from '../theme'
 
 const props = {
   height: {
@@ -38,95 +40,88 @@ const GaugeChart = defineComponent({
   props,
   setup(props) {
     const gaugeChartRef: Ref<HTMLDivElement | null> = ref(null)
-    const windowWidth = window.innerWidth
-    // The original size was based on the screen width of 2560
-    const defaultFontSize = Math.max(
-      8,
-      Math.min(12, windowWidth > 2560 ? 20 : (windowWidth / 2560) * 20)
-    )
+    const themeStore = useThemeStore()
+    const value = Math.min(100, Math.max(0, Number(props.data) || 0))
 
-    const option = {
+    const getColors = () =>
+      themeStore.darkTheme ? chartColors.dark : chartColors.light
+
+    const option = reactive({
       series: [
         {
           type: 'gauge',
+          startAngle: 210,
+          endAngle: -30,
+          min: 0,
+          max: 100,
+          splitNumber: 4,
+          radius: '78%',
+          center: ['50%', '56%'],
           axisLine: {
             lineStyle: {
-              width: 30
+              width: 20,
+              roundCap: true,
+              color: [[1, getColors().gaugeTrack]]
+            }
+          },
+          progress: {
+            show: true,
+            roundCap: true,
+            width: 20,
+            itemStyle: {
+              color: getColors().accent
             }
           },
           pointer: {
-            itemStyle: {
-              color: 'auto'
-            }
+            show: false
+          },
+          anchor: {
+            show: false
           },
           axisTick: {
-            distance: -30,
-            length: 8,
-            lineStyle: {
-              color: '#fff',
-              width: 2
-            }
+            show: false
           },
           splitLine: {
-            distance: -30,
-            length: 30,
-            lineStyle: {
-              color: '#fff',
-              width: 4
-            }
+            show: false
           },
           axisLabel: {
-            color: 'auto',
-            distance: 40,
-            fontSize: defaultFontSize,
-            formatter: (value: number) =>
-              value === 0 || value === 100 ? '' : value
+            show: false
           },
           detail: {
             valueAnimation: true,
-            formatter: '{value} %',
-            color: 'auto',
-            fontSize: defaultFontSize * 1.5
+            formatter: '{value}%',
+            offsetCenter: [0, '8%'],
+            color: getColors().accent,
+            fontSize: 23,
+            fontWeight: 700
           },
           data: [
             {
-              value: props.data
+              value
             }
           ]
         }
       ]
+    })
+
+    const updateTheme = () => {
+      const colors = getColors()
+      const series = option.series[0]
+      series.axisLine.lineStyle.color = [[1, colors.gaugeTrack]]
+      series.progress.itemStyle.color = colors.accent
+      series.detail.color = colors.accent
     }
+
+    watch(() => themeStore.darkTheme, updateTheme)
 
     const resize = (chart: any) => {
       const clientWidth = gaugeChartRef.value?.clientWidth || 400
-      const compact = clientWidth < 300
-      const axisLabelFontSize = Math.max(
-        8,
-        Math.min(defaultFontSize, (clientWidth / 400) * defaultFontSize)
-      )
       chart &&
         chart.setOption({
           series: [
             {
-              axisLine: {
-                lineStyle: {
-                  width: compact ? 20 : 30
-                }
-              },
-              axisTick: {
-                distance: compact ? -20 : -30,
-                length: compact ? 6 : 8
-              },
-              splitLine: {
-                distance: compact ? -20 : -30,
-                length: compact ? 20 : 30
-              },
-              axisLabel: {
-                distance: compact ? 28 : 40,
-                fontSize: axisLabelFontSize
-              },
               detail: {
-                fontSize: axisLabelFontSize * 1.5
+                fontSize: Math.max(18, Math.min(24, clientWidth / 14))
               }
             }
           ]
