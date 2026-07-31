@@ -39,7 +39,6 @@ import { useForm } from './use-form'
 import { useTranslate } from './use-translate'
 import { useLogin } from './use-login'
 import { useLocalesStore } from '@/store/locales/locales'
-import { useThemeStore } from '@/store/theme/theme'
 import cookies from 'js-cookie'
 import { ssoLoginUrl } from '@/service/modules/login'
 import type {
@@ -74,10 +73,6 @@ const login = defineComponent({
       handleRedirect
     } = useLogin(state)
     const localesStore = useLocalesStore()
-    const themeStore = useThemeStore()
-
-    themeStore.setLightTheme()
-
     const trim = getCurrentInstance()?.appContext.config.globalProperties.trim
 
     const languageOptions = [
@@ -131,7 +126,7 @@ const login = defineComponent({
       <div class={styles.container}>
         <section class={styles['brand-panel']}>
           <div class={styles['brand-header']}>
-            <img src={this.logoLight} alt='ETL' />
+            <img src={this.logoDark} alt='ETL' />
           </div>
           <div class={styles['brand-content']}>
             <div class={styles['brand-kicker']}>ETL CONTROL PLANE</div>
